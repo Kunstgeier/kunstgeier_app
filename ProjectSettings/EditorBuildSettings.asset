@@ -5,7 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/menu.unity
+    guid: c872e17b52d734526ba2351d7d6da596
   - enabled: 1
     path: Assets/Scenes/dark.unity
-    guid: c33170684c587442e81384a91e78b85a
+    guid: 5fe43e7823ecd4310a4dd69a8b2627b6
+  - enabled: 1
+    path: Assets/Scenes/scifi.unity
+    guid: e5be56f8014eb498c96fa9b76cc22294
+  - enabled: 1
+    path: Assets/Scenes/tiles.unity
+    guid: 3b886db2df2a04736848a2942d6f7af3
   m_configObjects: {}

@@ -31,12 +31,15 @@ public class SnapPlayer : MonoBehaviour
     //private void OnMouseEnter()
     //{
     //    Debug.Log("Mouse over detected!!");
+    //    Cursor.lockState = CursorLockMode.None;
     //    transform.localScale *= -10f;
     //}
     //private void OnMouseExit()
     //{
+        
     //    Debug.Log("Mouse over detected!!");
     //    transform.localScale *= 10f;
+    //    Cursor.lockState = CursorLockMode.Locked;
     //}
 
     void OnTriggerEnter(Collider other) 
