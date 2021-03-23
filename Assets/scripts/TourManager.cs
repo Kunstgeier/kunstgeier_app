@@ -9,7 +9,7 @@ public class TourManager : MonoBehaviour
     public GameObject artParent;
     private Button nextButton;
     private Button previousButton;
-    private int tourIndex;
+    public int tourIndex;
     private GameObject player;
     // private var playerMovement;
 
@@ -44,25 +44,27 @@ public class TourManager : MonoBehaviour
         previousButton.RegisterCallback<ClickEvent>(ev => previous());
     }
 
-    void next(){
-        if (tourIndex >= (artWorks.Count-1))
+    void next()
+    {
+        if (tourIndex >= (artWorks.Count - 1))
         {
             Debug.Log("End of art list reached");
             return;
         }
-        var playerMovement = player.GetComponent<PlayerMovement>();
+        var playerMovement = player.GetComponent<FirstPersonMovement>();
         tourIndex += 1;
-        playerMovement.snapToObject(artWorks[tourIndex]);
+        playerMovement.moveToTarget(artWorks[tourIndex]);
     }
-    void previous(){
+    void previous()
+    {
         if (tourIndex <= 0)
         {
             Debug.Log("Start of art list reached");
             return;
         }
-        var playerMovement = player.GetComponent<PlayerMovement>();
+        var playerMovement = player.GetComponent<FirstPersonMovement>();
         tourIndex -= 1;
-        playerMovement.snapToObject(artWorks[tourIndex]);
+        playerMovement.moveToTarget(artWorks[tourIndex]);
     }
     public void setTourIndex(GameObject targetObject)
     {

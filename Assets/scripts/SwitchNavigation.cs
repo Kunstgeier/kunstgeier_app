@@ -5,19 +5,18 @@ using UnityEngine.UIElements;
 
 public class SwitchNavigation : MonoBehaviour
 {
-    private Button switchTFButton;
+    private Button navModeButton;
 
 
     private void OnEnable() 
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        switchTFButton = rootVisualElement.Q<Button>("navModeButton");
+        navModeButton = rootVisualElement.Q<Button>("navModeButton");
         GameObject player = GameObject.FindWithTag("Player");
         
         var playerMovement = player.GetComponent<PlayerMovement>();
 
-        switchTFButton.RegisterCallback<ClickEvent>(ev => playerMovement.switchNavMode());
-        // playerMovement.switchNavMode();
+        navModeButton.RegisterCallback<ClickEvent>(ev => playerMovement.SwitchNavMode());
     }
 }
 

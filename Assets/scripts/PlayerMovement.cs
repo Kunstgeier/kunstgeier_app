@@ -10,34 +10,20 @@ public class PlayerMovement : MonoBehaviour
     public float smoothFactor = 0.8f;
     private float hor = 0.0f;
     public bool snapped = false;
+    public bool playerMoves = false;
     private Vector3 motion;
     private Rigidbody rb;
     CharacterController characterController;
     public GameObject targetCam;
     public GameObject mainCamera;
     public GameObject cameraController;
+    public GameObject sceneUI;
     public enum navEnum 
         {
-            wasd, 
-            click,
-            paused,
-            tour
+           tour,
+           free
         };
-    public navEnum navMode = navEnum.click;
-    public navEnum navState = navEnum.click;
-    // private bool isDragging = false;
-    // private Vector3 dragOrigin;
-
-    // void OnMouseDrag(){
-    //     isDragging = true;
-        
-    //     //Your code
-    // }haracter
-    
-    // void OnMouseUp(){
-    //     isDragging = false;
-    // }
-
+    public navEnum navMode = navEnum.free;
 
 
     // Start is called before the first frame update
@@ -48,134 +34,129 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mainCamera =  GameObject.Find("mainCamera");
         cameraController = GameObject.Find("cameraController");
+        sceneUI = GameObject.Find("sceneUI");
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (navState)
+        switch (navMode)
         {
-            case navEnum.wasd:
+            case navEnum.free:
                 hor += rotationSpeed * Input.GetAxis("Mouse X");
-                transform.eulerAngles = new Vector3(0, hor, 0.0f);
-                Vector3 motion =  transform.right * Input.GetAxisRaw("Horizontal") + transform.forward * Input.GetAxisRaw("Vertical");
+                transform.eulerAngles = new Vector3(0.0f, hor, 0.0f);
+                Vector3 motion =  transform.right * Input.GetAxisRaw("Horizontal");
                 motion *= speed * Time.deltaTime;
                 characterController.Move(motion);
                 break;
-            case navEnum.click:
-                // if (Input.GetMouseButtonDown(0))
-                // {
-                //     dragOrigin = Input.mousePosition;
-                //     return;
-                // }
-        
-                // if (!Input.GetMouseButton(0)) return;
-        
-                // Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - dragOrigin);
-                if (Input.GetMouseButtonUp(0))
-                {
-                    // hor = -(Input.mousePosition - dragOrigin).x * 0.2f;
-                    Vector3 move = new Vector3(0, hor, 0);
-                    // transform.eulerAngles += new Vector3(0, hor, 0.0f);
-                    transform.Translate(move, Space.World);
-                }
-
-                if(Input.GetMouseButtonUp(0))
-                {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hitInfo;
-                    if(Physics.Raycast(ray, out hitInfo))
-                    {
-                        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(hitInfo.point);
-                    }
-                }
-                break;
             case navEnum.tour:
-                Debug.Log("tour Mode.");
                 break;
-            case navEnum.paused:
-                // if(targetCam)
-                // {
-                //     transform.position = Vector3.Lerp(transform.position, targetPoint.transform.position, Time.deltaTime * smoothFactor);
-                //     transform.rotation = Quaternion.Slerp(transform.rotation, targetPoint.transform.rotation, Time.deltaTime * smoothFactor);
-                // }
-                break;
-            default:
-                Debug.Log("Default Case.");
-                break;
+        }
+
+        //check if player moves
+        if (rb.velocity.magnitude >= 0.2f)
+        {
+            playerMoves = true;
+        }
+        else
+        {
+            playerMoves = false;
         }
     }
 
-    public void switchNavMode(string targetMode = null) 
+    public void SwitchNavMode(string targetMode = null) 
     {
-        switch(targetMode)
+
+        Debug.Log("SwitchNavMode called.");
+        var TourManager = sceneUI.GetComponent<TourManager>();
+        switch (targetMode)
         {
-            case "wasd":
-                navMode = navEnum.wasd;
-                navState = navEnum.wasd;
-                break;
-            case "click":
-                navMode = navEnum.click;
-                navState = navEnum.click;
+            case "free":
+                Debug.Log("case free");
+                navMode = navEnum.free;
                 break;
             case "tour":
+                Debug.Log("case tour");
                 navMode = navEnum.tour;
+
+                //Get target camera
+                
+                targetCam = TourManager.artWorks[TourManager.tourIndex];
+
+                //Blend camera
+                SnapToObject(TourManager.artWorks[TourManager.tourIndex]);
+
                 break;
-            case "paused":
-                navState = navEnum.paused;
-                switchToTargetCamera();
-                // CinemachineVirtualCamera activeCam;
-                // activeCam = targetCam.GetComponent<CinemachineVirtualCamera>();
-                // activeCam.Priority = 11;
-                // // Main camera lower priority
-                // CinemachineVirtualCamera mainCameraCM;
-                // mainCameraCM = mainCamera.GetComponent<CinemachineVirtualCamera>();
-                // mainCameraCM.Priority = 1;
-                break;
-            default:
-                if(navState == navEnum.paused)
+            case null:
+                Debug.Log("case ELSE");
+                if (navMode == navEnum.free)
                 {
-                    navState = navMode;
-                    switchToMainCamera();
+                    navMode = navEnum.tour;
+                    //Get target camera
+                    targetCam = TourManager.artWorks[TourManager.tourIndex];
+
+                    //Blend camera
+                    SnapToObject(TourManager.artWorks[TourManager.tourIndex]);
+                    break;
                 }
-                else if(navState == navEnum.wasd)
+                else
                 {
-                    navMode = navEnum.click;
-                    navState = navEnum.click;
+                    navMode = navEnum.free;
+                    SwitchToMainCamera();
+                    break;
                 }
-                else if (navState == navEnum.click)
-                {
-                    navMode = navEnum.wasd;
-                    navState = navEnum.wasd;
-                }
-                else 
-                {
-                    navMode = navEnum.wasd;
-                    navState = navEnum.wasd;
-                }
-                break;
         }
+      
     }
+
+
     // snap to objext
-    public void snapToObject(GameObject targetCamTemp)
+    public void SnapToObject(GameObject targetCamTemp)
     {
         if (targetCamTemp)
         {
+            // always switch to main camera
+            SwitchToMainCamera();
+
+            //Movement of player
+            GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(targetCamTemp.transform.position);
+
+            // wait for player to arrive
+            while (playerMoves)
+            {
+            }
+
             targetCam = targetCamTemp;
             Debug.Log("target Cam set to: " + targetCam.transform.parent.name);
+
+            SwitchCamera();
         }
-        
-
-        switchNavMode("paused");
-        
-        // show exit mode button
-
-        // show information
-
-        // track players time  for this artwork and so on !
+        SwitchNavMode("tour");
+   
     }
 
-    private void switchToMainCamera(){
+
+    private void SwitchCamera()
+    {
+        // switch to target 
+        CinemachineVirtualCamera activeCam;
+        activeCam = targetCam.GetComponent<CinemachineVirtualCamera>();
+        activeCam.Priority = 2;
+
+        // Main camera lower priority
+        CinemachineVirtualCamera mainCameraCM;
+        mainCameraCM = mainCamera.GetComponent<CinemachineVirtualCamera>();
+        mainCameraCM.Priority = 1;
+
+        // set tour index to be correct
+        GameObject sceneUI = GameObject.Find("sceneUI");
+        var TourManager = sceneUI.GetComponent<TourManager>();
+        TourManager.setTourIndex(targetCam);
+        targetCam = null;
+    }
+
+
+    private void SwitchToMainCamera(){
         // Main camera higher priority
         CinemachineVirtualCamera mainCameraCM;
         mainCameraCM = mainCamera.GetComponent<CinemachineVirtualCamera>();
@@ -192,9 +173,9 @@ public class PlayerMovement : MonoBehaviour
         activeCam.Priority = 1;
     }
 
-    private void switchToTargetCamera(){
+    private void SwitchToTargetCamera(){
         // switch to main camrea
-        switchToMainCamera();
+        SwitchToMainCamera();
 
         //move player
         GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(targetCam.transform.position);

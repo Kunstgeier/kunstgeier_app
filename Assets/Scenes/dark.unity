@@ -138,7 +138,7 @@ GameObject:
   m_Name: light2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &209827737
@@ -231,7 +231,7 @@ GameObject:
   m_Name: post proessing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &370326794
@@ -281,7 +281,7 @@ GameObject:
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &427200284
@@ -494,7 +494,7 @@ GameObject:
   m_Name: ArtWork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &631589230
@@ -533,7 +533,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 9
   m_IsActive: 1
 --- !u!65 &631855217
 BoxCollider:
@@ -567,7 +567,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3ca405ec313bb489dbc2e980a370d650, type: 2}
+  - {fileID: 2100000, guid: 98a161e66cbf0428984bbe59345026db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -624,7 +624,7 @@ GameObject:
   m_Name: snapTarget
   m_TagString: snapTarget
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &743860374
@@ -656,8 +656,8 @@ GameObject:
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &875906855
 Transform:
@@ -936,7 +936,7 @@ GameObject:
   m_Name: sceneUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &1332513998
@@ -995,6 +995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   artWorks: []
   artParent: {fileID: 0}
+  tourIndex: 0
 --- !u!54 &1429449972
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1040,9 +1041,9 @@ GameObject:
   m_Name: Sun.001 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1478384875
 Transform:
   m_ObjectHideFlags: 0
@@ -1236,7 +1237,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 4380
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0.140625, y: 39, z: 14, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 2.3509887e-38, z: 2.7107536e-20, w: 7.737127e+25}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1257,12 +1258,13 @@ GameObject:
   - component: {fileID: 1605461269}
   - component: {fileID: 1605461275}
   - component: {fileID: 1605461276}
+  - component: {fileID: 1605461277}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!114 &1605461269
 MonoBehaviour:
@@ -1271,7 +1273,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605461268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24c79d1d0c52b47bea14f605829ae677, type: 3}
   m_Name: 
@@ -1280,11 +1282,12 @@ MonoBehaviour:
   rotationSpeed: 4
   smoothFactor: 2
   snapped: 0
+  playerMoves: 0
   targetCam: {fileID: 0}
   mainCamera: {fileID: 0}
   cameraController: {fileID: 0}
+  sceneUI: {fileID: 0}
   navMode: 1
-  navState: 1
 --- !u!54 &1605461270
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1322,7 +1325,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605461268}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 0
@@ -1372,7 +1375,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605461268}
   m_LocalRotation: {x: 0, y: 0.8910065, z: 0, w: 0.4539906}
-  m_LocalPosition: {x: -8.76, y: 0.625, z: 1.28}
+  m_LocalPosition: {x: -8.12, y: 0.625, z: -0.02}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1417,7 +1420,25 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 3
+--- !u!114 &1605461277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605461268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10257402357314539ab4ca20539484ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSpeed: 1
+  shiftAdd: 2
+  maxShift: 3
+  camSens: 0.15
+  speedH: 2
+  speedV: 2
 --- !u!54 &1624078193
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1449,8 +1470,8 @@ GameObject:
   m_Name: virtualCam
   m_TagString: artCam
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1671697961
 Transform:
@@ -1459,7 +1480,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1671697960}
-  m_LocalRotation: {x: -3.5527137e-15, y: 1, z: 0.000000017300943, w: 0.000000059604645}
+  m_LocalRotation: {x: -7.1054274e-15, y: 1, z: 0.00000001730094, w: 0.000000059604645}
   m_LocalPosition: {x: 0, y: -4.1522172e-10, z: 0.011999973}
   m_LocalScale: {x: 0.010952418, y: 0.009183716, z: 0.00855173}
   m_Children:
@@ -1750,7 +1771,7 @@ GameObject:
   m_Name: mainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &1948244982
@@ -1803,7 +1824,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948244981}
   m_LocalRotation: {x: 1.7128567e-15, y: 0.8761018, z: -3.1125392e-15, w: 0.48212624}
-  m_LocalPosition: {x: -8.76, y: 1.375, z: 1.28}
+  m_LocalPosition: {x: -8.12, y: 1.375, z: -0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 427200284}
@@ -1945,7 +1966,7 @@ GameObject:
   m_Name: blue_tiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!33 &1020627780847061446
@@ -2056,7 +2077,7 @@ GameObject:
   m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!108 &2382799221637496063
@@ -2116,7 +2137,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 4088
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 2.7e-44, w: 2.6584619e+28}
+  m_BoundingSphereOverride: {x: 0, y: 2.3509887e-38, z: -2.306054e+18, w: 2.1175824e-22}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2134,7 +2155,7 @@ GameObject:
   m_Name: Window_Group.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2581736947905507310
@@ -2208,7 +2229,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 4380
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: NaN, y: 223692160, z: 223692160, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 2.3509887e-38, z: -2.306054e+18, w: 2.1175824e-22}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -2343,9 +2364,9 @@ GameObject:
   m_Name: Sun.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3810151981186932513
 Transform:
   m_ObjectHideFlags: 0
@@ -2353,8 +2374,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6650404045638123417}
-  m_LocalRotation: {x: 1.7128567e-15, y: 0.8761018, z: -3.1125392e-15, w: 0.48212624}
-  m_LocalPosition: {x: -8.76, y: 1.375, z: 1.28}
+  m_LocalRotation: {x: -0.000000027687927, y: 0.7071068, z: 0.000000027687923, w: 0.7071068}
+  m_LocalPosition: {x: -1.558251, y: 1.3468199, z: -0.93626916}
   m_LocalScale: {x: 36.12459, y: 36.124588, z: 36.124588}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2417,8 +2438,8 @@ GameObject:
   m_Name: virtualCam
   m_TagString: artCam
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 9
   m_IsActive: 1
 --- !u!4 &3998655908963894923
 Transform:
@@ -2519,7 +2540,7 @@ GameObject:
   m_Name: snapTarget
   m_TagString: snapTarget
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &3998655910416095108
@@ -2537,8 +2558,8 @@ GameObject:
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 9
   m_IsActive: 1
 --- !u!4 &3998655910416095109
 Transform:
@@ -2686,7 +2707,7 @@ GameObject:
   m_Name: light2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &5303319747179175267
@@ -2747,7 +2768,7 @@ GameObject:
   m_Name: blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!33 &5496042588562186085
@@ -2773,7 +2794,7 @@ GameObject:
   m_Name: green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &5520457268385591948
@@ -2794,7 +2815,7 @@ GameObject:
   m_Name: red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &5859685449716033444
@@ -2937,7 +2958,7 @@ GameObject:
   m_Name: cameraController
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &6716386484956644196
@@ -3143,7 +3164,7 @@ GameObject:
   m_Name: light1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!33 &7729737220444174190
@@ -3185,7 +3206,7 @@ GameObject:
   m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!33 &7903419610483800450
@@ -3254,7 +3275,7 @@ GameObject:
   m_Name: Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &8479098137305315505
@@ -3270,7 +3291,7 @@ GameObject:
   m_Name: Window_Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &8871237889950720320
@@ -3288,7 +3309,7 @@ GameObject:
   m_Name: grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &8926854634664092206
@@ -3309,7 +3330,7 @@ GameObject:
   m_Name: blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &8999299554822045277
@@ -3328,7 +3349,7 @@ GameObject:
   m_Name: Window.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!33 &9118341946406570443

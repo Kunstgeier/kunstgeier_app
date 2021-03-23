@@ -21,11 +21,24 @@ public class SnapPlayer : MonoBehaviour
         Debug.Log("Picture clicked");
         GameObject player = GameObject.FindWithTag("Player");
         Debug.Log("triggered Art trigger.");
-        var playerMovement = player.GetComponent<PlayerMovement>();
+        var playerMovement = player.GetComponent<FirstPersonMovement>();
 
         // snap to object
-        playerMovement.snapToObject(transform.Find("virtualCam").gameObject);
+        //playerMovement.SwitchNavMode("tour");
+        playerMovement.moveToTarget(transform.Find("snapTarget").gameObject);
     }
+
+    //private void OnMouseEnter()
+    //{
+    //    Debug.Log("Mouse over detected!!");
+    //    transform.localScale *= -10f;
+    //}
+    //private void OnMouseExit()
+    //{
+    //    Debug.Log("Mouse over detected!!");
+    //    transform.localScale *= 10f;
+    //}
+
     void OnTriggerEnter(Collider other) 
     {
         if (other.gameObject.tag == "Player")
@@ -35,7 +48,8 @@ public class SnapPlayer : MonoBehaviour
             var playerMovement = player.GetComponent<PlayerMovement>();
 
             // snap to object
-            playerMovement.snapToObject(transform.Find("virtualCam").gameObject);
+            playerMovement.SwitchNavMode("tour");
+            playerMovement.SnapToObject(transform.Find("virtualCam").gameObject);
         }
 
     }
