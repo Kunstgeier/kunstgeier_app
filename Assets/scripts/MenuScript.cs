@@ -13,6 +13,7 @@ public class MenuScript : MonoBehaviour
 
     private void OnEnable()
     {
+
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         marbleButton = rootVisualElement.Q<Button>("marbleButton");
         tilesButton = rootVisualElement.Q<Button>("tilesButton");
