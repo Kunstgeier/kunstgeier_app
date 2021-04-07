@@ -19,21 +19,20 @@ public class MenuScript : MonoBehaviour
         tilesButton = rootVisualElement.Q<Button>("tilesButton");
         scifiButton = rootVisualElement.Q<Button>("scifiButton");
 
-        marbleButton.RegisterCallback<ClickEvent>(ev => marble());
-        tilesButton.RegisterCallback<ClickEvent>(ev => tiles());
-        scifiButton.RegisterCallback<ClickEvent>(ev => scifi());
-
+        marbleButton.RegisterCallback<PointerUpEvent>(ev => marble());
+        tilesButton.RegisterCallback<PointerUpEvent>(ev => tiles());
+        scifiButton.RegisterCallback<PointerUpEvent>(ev => scifi());
     }
 
-    void marble()
+    public void marble()
     {
         SceneManager.LoadSceneAsync("dark");
     }
-    void tiles()
+    public void tiles()
     {
         SceneManager.LoadSceneAsync("tiles");
     }
-    void scifi()
+    public void scifi()
     {
         SceneManager.LoadSceneAsync("scifi");
     }

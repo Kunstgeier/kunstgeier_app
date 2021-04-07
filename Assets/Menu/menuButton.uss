@@ -1,3 +1,42 @@
-hover {
-    opacity: 0.67;
+.menuButton:hover {
+    color: rgba(161, 159, 159, 255);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.menuButton {
+    color: rgba(255, 0, 0, 255);
+    opacity: 1;
+    width: 50%;
+    height: 20%;
+    font-size: 40px;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    flex-basis: initial;
+    overflow: visible;
+    visibility: visible;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    -unity-font-definition: resource('Fonts & Materials/LiberationSans SDF');
+    -unity-font-style: normal;
+    -unity-font: resource('FlatSkin/Font/Roboto-Bold');
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    top: auto;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }

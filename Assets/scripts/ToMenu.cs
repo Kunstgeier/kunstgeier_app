@@ -21,5 +21,7 @@ public class ToMenu : MonoBehaviour
     void menu()
     {
         SceneManager.LoadSceneAsync("menu");
+        Debug.Log("CLICKEVENT works");
     }
+
 }
