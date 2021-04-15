@@ -25,6 +25,11 @@ public class fps : MonoBehaviour
     private Vector2 moveTouchStartPosition;
     private Vector2 moveInput;
 
+    //move to postion
+    private bool getsMoved = false;
+    private Transform moveToTarget;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,19 +50,25 @@ public class fps : MonoBehaviour
         // Handles input
         GetTouchInput();
 
-
-        if (rightFingerId != -1)
+        if(!getsMoved)
         {
-            // Ony look around if the right finger is being tracked
-            Debug.Log("Rotating");
-            LookAround();
+            if (rightFingerId != -1)
+            {
+                // Ony look around if the right finger is being tracked
+                //Debug.Log("Rotating");
+                LookAround();
+            }
+
+            if (leftFingerId != -1)
+            {
+                // Ony move if the left finger is being tracked
+                //Debug.Log("Moving");
+                Move();
+            }
         }
-
-        if (leftFingerId != -1)
-        {
-            // Ony move if the left finger is being tracked
-            Debug.Log("Moving");
-            Move();
+        else
+        { 
+            MoveTo();
         }
     }
 
@@ -96,7 +107,7 @@ public class fps : MonoBehaviour
                     {
                         // Stop tracking the left finger
                         leftFingerId = -1;
-                        Debug.Log("Stopped tracking left finger");
+                        //Debug.Log("Stopped tracking left finger");
                     }
                     else if (t.fingerId == rightFingerId)
                     {
@@ -137,10 +148,10 @@ public class fps : MonoBehaviour
 
         // vertical (pitch) rotation
         cameraPitch = Mathf.Clamp(cameraPitch - lookInput.y, -90f, 90f);
-        cameraTransform.localRotation = Quaternion.Euler(cameraPitch, 0, 0);
+        cameraTransform.localRotation = Quaternion.Euler(-cameraPitch, 0, 0);
 
         // horizontal (yaw) rotation
-        transform.Rotate(transform.up, lookInput.x);
+        transform.Rotate(transform.up, -lookInput.x);
     }
 
     void Move()
@@ -155,4 +166,32 @@ public class fps : MonoBehaviour
         characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
     }
 
+
+    public void ActivateMoveTo(Transform target)
+    {
+        getsMoved = true;
+        moveToTarget = target;
+        Debug.Log(target.parent.name);
+    }
+
+    void MoveTo()
+    {
+        if ( Mathf.Abs(moveToTarget.position.x - transform.position.x) < 0.1f &&
+            Mathf.Abs(moveToTarget.position.z - transform.position.z) <0.1f )
+        {
+            GameObject sceneUI = GameObject.Find("sceneUI");
+            var TourManager = sceneUI.GetComponent<TourManager>();
+            TourManager.SetTourIndex(moveToTarget.gameObject);
+            getsMoved = false;
+            // moveToTarget.position = Vector3.zero;
+            Debug.Log("Target reached.");
+            return;
+        }
+        // Movement
+        Vector3 moveToVector = (moveToTarget.position - transform.position);
+        moveToVector = new Vector3(moveToVector.x, 0.0f, moveToVector.z);
+        characterController.Move(Time.deltaTime * moveToVector);
+        // Rotation
+        transform.rotation = Quaternion.Lerp(transform.rotation, moveToTarget.rotation, 0.1f);
+    }
 }

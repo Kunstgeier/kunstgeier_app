@@ -8,8 +8,8 @@
     padding-top: 5px;
     padding-bottom: 5px;
     -unity-font-style: normal;
-    -unity-text-align: upper-center;
-    white-space: normal;
+    -unity-text-align: middle-center;
+    white-space: nowrap;
     -unity-background-scale-mode: stretch-to-fill;
     cursor: initial;
     -unity-slice-left: 0;
@@ -23,13 +23,15 @@
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: stretch;
-    color: rgb(255, 0, 0);
-    font-size: 29px;
+    color: rgba(0, 0, 0, 255);
+    font-size: 34px;
     width: 30%;
-    height: 50px;
+    height: 100px;
+    -unity-font: resource('');
+    -unity-text-outline-color: rgba(0, 0, 0, 255);
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
 .button:hover {
-    -unity-font-style: bold;
     font-size: 29px;
 }

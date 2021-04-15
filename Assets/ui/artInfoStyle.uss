@@ -1,0 +1,74 @@
+.button {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    flex-direction: column;
+}
+
+.artistName {
+}
+
+.artistPicture {
+}
+
+.title {
+    align-items: center;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    -unity-font-style: bold;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+.year {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 255);
+    -unity-text-align: middle-left;
+    -unity-text-outline-color: rgba(255, 255, 255, 255);
+}
+
+.button:hover {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(142, 142, 142);
+}
+
+.description {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
+    -unity-text-outline-color: rgb(255, 255, 255);
+    white-space: normal;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 255);
+}

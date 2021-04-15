@@ -104,6 +104,6 @@ public class FirstPersonMovement : MonoBehaviour
         GetComponent<UnityEngine.AI.NavMeshAgent>().Warp(target.transform.position);
         GameObject sceneUI = GameObject.Find("sceneUI");
         var TourManager = sceneUI.GetComponent<TourManager>();
-        TourManager.setTourIndex(target);
+        TourManager.SetTourIndex(target);
     }
 }

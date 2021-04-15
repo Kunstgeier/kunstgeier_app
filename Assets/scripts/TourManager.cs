@@ -26,7 +26,7 @@ public class TourManager : MonoBehaviour
          {
              foreach(Transform grandchild in child)
              {
-                if (grandchild.tag == "artCam")
+                if (grandchild.tag == "snapTarget")
                     {
                         artWorks.Add(grandchild.gameObject);
                     }
@@ -42,44 +42,46 @@ public class TourManager : MonoBehaviour
         nextButton = rootVisualElement.Q<Button>("nextButton");
         previousButton = rootVisualElement.Q<Button>("previousButton");
 
-        //nextButton.RegisterCallback<ClickEvent>(ev => next());
-        //previousButton.RegisterCallback<ClickEvent>(ev => previous());
+        nextButton.RegisterCallback<ClickEvent>(ev => Next());
+        previousButton.RegisterCallback<ClickEvent>(ev => Previous());
         //menuButton 
         menuButton = rootVisualElement.Q<Button>("menuButton");
-        menuButton.RegisterCallback<ClickEvent>(ev => menu());
+        menuButton.RegisterCallback<ClickEvent>(ev => Menu());
     }
 
-    //public void next()
-    //{
-    //    if (tourIndex >= (artWorks.Count - 1))
-    //    {
-    //        Debug.Log("End of art list reached");
-    //        return;
-    //    }
-    //    var playerTransform = player.GetComponent<Transform>();
-    //    tourIndex += 1;
-    //    playerTransform.position = artWorks[tourIndex].transform.position;
-    //}
-    //public void previous()
-    //{
-    //    if (tourIndex <= 0)
-    //    {
-    //      Debug.Log("Start of art list reached");
-    //        return;
-    //    }
-    //    var playerTransform = player.GetComponent<Transform>();
-    //    tourIndex -= 1;
-    //    playerTransform.position = artWorks[tourIndex].transform.position;
-    //}
-    public void setTourIndex(GameObject targetObject)
+    public void Next()
+    {
+        if (tourIndex >= (artWorks.Count - 1))
+        {
+            Debug.Log("End of art list reached");
+            return;
+        }
+        tourIndex += 1;
+        //player.transform.position = artWorks[tourIndex].transform.position;
+        var fps = player.GetComponent<fps>();
+        fps.ActivateMoveTo(artWorks[tourIndex].transform);
+    }
+    public void Previous()
+    {
+        if (tourIndex <= 0)
+        {
+            Debug.Log("Start of art list reached");
+            return;
+        }
+        tourIndex -= 1;
+        //player.transform.position = artWorks[tourIndex].transform.position;
+        var fps = player.GetComponent<fps>();
+        fps.ActivateMoveTo(artWorks[tourIndex].transform);
+    }
+
+    public void SetTourIndex(GameObject targetObject)
     {
         tourIndex = artWorks.IndexOf(targetObject);
     }
 
-    public void menu()
+    public void Menu()
     {
         SceneManager.LoadSceneAsync("menu");
         Debug.Log("Pointer down to menu.");
     }
 }
-
