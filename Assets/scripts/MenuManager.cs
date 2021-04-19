@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
     private Button marble;
     private Button tiles;
     private Button scifi;
+    private Button fiona;
     // private var playerMovement;
 
 
@@ -24,6 +25,9 @@ public class MenuManager : MonoBehaviour
         //menuButton 
         tiles = rootVisualElement.Q<Button>("Fliesenhalle");
         tiles.RegisterCallback<ClickEvent>(ev => TilesFunc());
+
+        fiona = rootVisualElement.Q<Button>("FionasRaum");
+        fiona.RegisterCallback<ClickEvent>(ev => FionasFunc());
     }
 
     public void MarbleFunc()
@@ -41,6 +45,12 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("tiles");
         Debug.Log("Pointer down to tiles.");
+    }
+
+    public void FionasFunc()
+    {
+        SceneManager.LoadSceneAsync("fionasRoom");
+        Debug.Log("Pointer down to Fionas Room.");
     }
 }
 

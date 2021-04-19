@@ -79,6 +79,11 @@ public class TourManager : MonoBehaviour
         tourIndex = artWorks.IndexOf(targetObject);
     }
 
+    public int GetTourIndex(GameObject targetObject)
+    {
+        return artWorks.IndexOf(targetObject);
+    }
+
     public void Menu()
     {
         SceneManager.LoadSceneAsync("menu");
