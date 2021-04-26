@@ -48,12 +48,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Holz Brettschichtholz
-    second: {fileID: 2100000, guid: 53e32f0f5216d428d8bcf2f46c300a22, type: 2}
+    second: {fileID: 2100000, guid: ba3b0d114204445ef87022cb9217f9d0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Holz Kiefer
-    second: {fileID: 2100000, guid: e68bb4b6f52d94b118cb9a5dc92fc8ec, type: 2}
+    second: {fileID: 2100000, guid: ba3b0d114204445ef87022cb9217f9d0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -63,12 +63,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Lack schwarz
-    second: {fileID: 2100000, guid: 405063bded3ab4f099a149ed5a8102fa, type: 2}
+    second: {fileID: 2100000, guid: 3ca405ec313bb489dbc2e980a370d650, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: "Lack wei\xDF"
-    second: {fileID: 2100000, guid: a0b03e6d85bc948db8972b3a66a1801d, type: 2}
+    second: {fileID: 2100000, guid: 3ca405ec313bb489dbc2e980a370d650, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -78,7 +78,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: MW Kalksandstein, 2DF
-    second: {fileID: 2100000, guid: 10bdbec4473a5475a8f86da337842f0c, type: 2}
+    second: {fileID: 2100000, guid: 4b1166dc1272f488b8e1f96c18dbedd9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

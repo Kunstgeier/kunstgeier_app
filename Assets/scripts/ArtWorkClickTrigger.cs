@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class ArtWorkClickTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -23,7 +18,20 @@ public class ArtWorkClickTrigger : MonoBehaviour
         Debug.Log("triggered Art trigger.");
         var fps = player.GetComponent<fps>();
 
+        //transform.localScale = transform.localScale * 1.2f;
+        //transform.localScale = transform.localScale / 1.2f;
+
         // snap to object
         fps.ActivateMoveTo(transform.parent.gameObject.transform.Find("snapTarget").gameObject.transform);
+    }
+    public void OnMouseDown()
+    {
+        Debug.Log("MouseEnter");
+        transform.localScale = transform.localScale * 1.2f;
+    }
+    public void OnMouseUp()
+    {
+        Debug.Log("MouseExit");
+        transform.localScale = transform.localScale / 1.2f;
     }
 }

@@ -1,12 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class fps : MonoBehaviour
 {
     // References
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private CharacterController characterController;
+
+    //NavMesh
+    [SerializeField] private NavMeshAgent navMeshAgent;
+
 
     // Player settings
     [SerializeField] private float cameraSensitivity;
@@ -26,7 +32,9 @@ public class fps : MonoBehaviour
     private Vector2 moveInput;
 
     //move to postion
-    private bool getsMoved = false;
+    //private bool getsMoved = false;
+    private bool getsRotated = false;
+
     private Transform moveToTarget;
 
 
@@ -42,6 +50,10 @@ public class fps : MonoBehaviour
 
         // calculate the movement input dead zone
         moveInputDeadZone = Mathf.Pow(Screen.height / moveInputDeadZone, 2);
+
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.updateRotation = true;
+        Debug.Log(navMeshAgent.destination.ToString());
     }
 
     // Update is called once per frame
@@ -50,8 +62,33 @@ public class fps : MonoBehaviour
         // Handles input
         GetTouchInput();
 
-        if(!getsMoved)
+        if (navMeshAgent.remainingDistance < 0.2f &&
+            navMeshAgent.remainingDistance > 0.01f )
         {
+            Debug.Log("Target almost reached");
+            navMeshAgent.ResetPath();
+            GameObject sceneUI = GameObject.Find("sceneUI");
+            var TourManager = sceneUI.GetComponent<TourManager>();
+            TourManager.SetTourIndex(moveToTarget.gameObject);
+            getsRotated = true;
+            return;
+        }
+        else if(getsRotated)
+        {
+            // Rotation Done ?
+            Debug.Log("Rotating");
+            if(transform.rotation == moveToTarget.rotation)//Math.Abs(transform.rotation.y - moveToTarget.rotation.y) < 0.05)
+            {
+                Debug.Log("Rotation done");
+                getsRotated = false;
+            }
+            transform.rotation = Quaternion.Lerp(transform.rotation, moveToTarget.rotation, 0.4f);
+
+        }
+        //free movement possible
+        else
+        {
+            Debug.Log("Free Movement");
             if (rightFingerId != -1)
             {
                 // Ony look around if the right finger is being tracked
@@ -65,10 +102,6 @@ public class fps : MonoBehaviour
                 //Debug.Log("Moving");
                 Move();
             }
-        }
-        else
-        { 
-            MoveTo();
         }
     }
 
@@ -169,29 +202,9 @@ public class fps : MonoBehaviour
 
     public void ActivateMoveTo(Transform target)
     {
-        getsMoved = true;
+        //getsMoved = true;
         moveToTarget = target;
+        navMeshAgent.destination = moveToTarget.position;
         Debug.Log(target.parent.name);
-    }
-
-    void MoveTo()
-    {
-        if ( Mathf.Abs(moveToTarget.position.x - transform.position.x) < 0.1f &&
-            Mathf.Abs(moveToTarget.position.z - transform.position.z) <0.1f )
-        {
-            GameObject sceneUI = GameObject.Find("sceneUI");
-            var TourManager = sceneUI.GetComponent<TourManager>();
-            TourManager.SetTourIndex(moveToTarget.gameObject);
-            getsMoved = false;
-            // moveToTarget.position = Vector3.zero;
-            Debug.Log("Target reached.");
-            return;
-        }
-        // Movement
-        Vector3 moveToVector = (moveToTarget.position - transform.position);
-        moveToVector = new Vector3(moveToVector.x, 0.0f, moveToVector.z);
-        characterController.Move(Time.deltaTime * moveToVector);
-        // Rotation
-        transform.rotation = Quaternion.Lerp(transform.rotation, moveToTarget.rotation, 0.1f);
     }
 }
