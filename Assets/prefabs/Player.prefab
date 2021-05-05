@@ -49,7 +49,7 @@ Camera:
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 11
+  m_FocalLength: 10.069196
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -58,7 +58,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 94.97911
+  field of view: 100
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 482086260739546664}
   characterController: {fileID: 4433083884053481669}
+  navMeshAgent: {fileID: 0}
   cameraSensitivity: 1
   moveSpeed: 3
   moveInputDeadZone: 20
