@@ -32,15 +32,49 @@ public class fps : MonoBehaviour
     private Vector2 moveInput;
 
     //move to postion
-    //private bool getsMoved = false;
+    private bool getsMoved = false;
     private bool getsRotated = false;
 
     private Transform moveToTarget;
+
+    //Desktop/Web controls
+    [SerializeField]
+    private bool useWasd = false;
+
+    // Original comment:
+    // Simple flycam I made, since I couldn't find any others made public.
+    // Made simple to use(drag and drop, done) for regular keyboard layout.
+    //Controls:
+    // WASD  : Directional movement
+    // Shift : Increase speed
+    // Space : Moves camera directly up per its local Y-axis
+
+    public float mainSpeed = 4.0f;   // Regular speed
+    public float shiftAdd = 2.0f;   // Amount to accelerate when shift is pressed
+    public float maxShift = 4.0f;  // Maximum speed when holding shift
+    public float camSens = 0.15f;   // Mouse sensitivity
+
+    //MOUSE ROTATION VARIABLES
+    public float speedH = 2.0f;
+    public float speedV = 2.0f;
+
+    private float yaw = 0.0f;
+    private float pitch = 0.0f;
+
+    // kind of in the middle of the screen, rather than at the top (play)
+    private Vector3 lastMouse = new Vector3(255, 255, 255);
+    private float totalRun = 1.0f;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        if (Application.platform == RuntimePlatform.WebGLPlayer) //Application.platform == RuntimePlatform.OSXEditor ||
+        {
+            Debug.Log("Using wasd steering.");
+            useWasd = true;
+        }
+
         // id = -1 means the finger is not being tracked
         leftFingerId = -1;
         rightFingerId = -1;
@@ -57,27 +91,35 @@ public class fps : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         // Handles input
         GetTouchInput();
 
-        if (navMeshAgent.remainingDistance < 0.2f &&
-            navMeshAgent.remainingDistance > 0.01f )
+        if (!navMeshAgent.pathPending && getsMoved)
         {
-            Debug.Log("Target almost reached");
-            navMeshAgent.ResetPath();
-            GameObject sceneUI = GameObject.Find("sceneUI");
-            var TourManager = sceneUI.GetComponent<TourManager>();
-            TourManager.SetTourIndex(moveToTarget.gameObject);
-            getsRotated = true;
-            return;
+            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+            {
+                if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
+                {
+                    Debug.Log("Target reached");
+                    navMeshAgent.ResetPath();
+                    GameObject sceneUI = GameObject.Find("sceneUI");
+                    var TourManager = sceneUI.GetComponent<TourManager>();
+                    TourManager.SetTourIndex(moveToTarget.gameObject);
+                    getsRotated = true;
+                    getsMoved = false;
+                    return;
+                }
+            }
         }
-        else if(getsRotated)
+       
+        
+        else if (getsRotated)
         {
             // Rotation Done ?
             Debug.Log("Rotating");
-            if(transform.rotation == moveToTarget.rotation)//Math.Abs(transform.rotation.y - moveToTarget.rotation.y) < 0.05)
+            if ( Mathf.Abs(Quaternion.Angle(transform.rotation, moveToTarget.rotation)) < 4f)
             {
                 Debug.Log("Rotation done");
                 getsRotated = false;
@@ -86,9 +128,13 @@ public class fps : MonoBehaviour
 
         }
         //free movement possible
+        else if (useWasd)
+        {
+            wasdMove();
+        }
         else
         {
-            Debug.Log("Free Movement");
+            //Debug.Log("Free Movement");
             if (rightFingerId != -1)
             {
                 // Ony look around if the right finger is being tracked
@@ -175,16 +221,80 @@ public class fps : MonoBehaviour
             }
         }
     }
+    //moves player on desktop with wasd and mouse
+    private void wasdMove()
+    {
+        yaw += speedH * Input.GetAxis("Mouse X");
+        pitch -= speedV * Input.GetAxis("Mouse Y");
+
+        transform.eulerAngles = new Vector3(0.0f, yaw, 0.0f);
+        // Mouse camera angle done.  
+
+        // Keyboard commands
+        Vector3 p = GetDesktopInput();
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            totalRun += Time.deltaTime;
+            p *= totalRun * shiftAdd;
+            p.x = Mathf.Clamp(p.x, -maxShift, maxShift);
+            p.y = Mathf.Clamp(p.y, -maxShift, maxShift);
+            p.z = Mathf.Clamp(p.z, -maxShift, maxShift);
+        }
+        else
+        {
+            totalRun = Mathf.Clamp(totalRun * 0.5f, 1f, 1000f);
+            p *= mainSpeed;
+        }
+
+        p *= Time.deltaTime;
+        //transform.Translate(p);
+        //Dont move if small dist
+        //if (moveInput.sqrMagnitude <= moveInputDeadZone) return;
+        characterController.Move(transform.right * p.x +
+                                    transform.forward * p.z +
+                                    new Vector3(0, -8, 0));
+    }
+    // Returns the basic values, if it's 0 than it's not active.
+    private Vector3 GetDesktopInput()
+    {
+        Vector3 p_Velocity = new Vector3();
+
+        // Forwards
+        if (Input.GetKey(KeyCode.W))
+            p_Velocity += new Vector3(0, 0, 1);
+
+        // Backwards
+        if (Input.GetKey(KeyCode.S))
+            p_Velocity += new Vector3(0, 0, -1);
+
+        // Left
+        if (Input.GetKey(KeyCode.A))
+            p_Velocity += new Vector3(-1, 0, 0);
+
+        // Right
+        if (Input.GetKey(KeyCode.D))
+            p_Velocity += new Vector3(1, 0, 0);
+
+        //// Up
+        //if (Input.GetKey(KeyCode.Space))
+        //    p_Velocity += new Vector3(0, 1, 0);
+
+        //// Down
+        //if (Input.GetKey(KeyCode.LeftControl))
+        //    p_Velocity += new Vector3(0, -1, 0);
+
+        return p_Velocity;
+    }
 
     void LookAround()
     {
 
         // vertical (pitch) rotation
-        cameraPitch = Mathf.Clamp(cameraPitch - lookInput.y, -90f, 90f);
+        cameraPitch = Mathf.Clamp(cameraPitch + lookInput.y, -90f, 90f);
         cameraTransform.localRotation = Quaternion.Euler(-cameraPitch, 0, 0);
 
         // horizontal (yaw) rotation
-        transform.Rotate(transform.up, -lookInput.x);
+        transform.Rotate(transform.up, lookInput.x);
     }
 
     void Move()
@@ -196,7 +306,9 @@ public class fps : MonoBehaviour
         // Multiply the normalized direction by the speed
         Vector2 movementDirection = moveInput.normalized * moveSpeed * Time.deltaTime;
         // Move relatively to the local transform's direction
-        characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
+        characterController.Move(transform.right * movementDirection.x +
+                                    transform.forward * movementDirection.y +
+                                    new Vector3(0, -8, 0));
     }
 
 
@@ -205,6 +317,7 @@ public class fps : MonoBehaviour
         //getsMoved = true;
         moveToTarget = target;
         navMeshAgent.destination = moveToTarget.position;
+        getsMoved = true;
         Debug.Log(target.parent.name);
     }
 }
