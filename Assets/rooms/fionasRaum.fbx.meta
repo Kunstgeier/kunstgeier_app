@@ -1,0 +1,252 @@
+fileFormatVersion: 2
+guid: 85be3234db3be4839a078641279a549f
+ModelImporter:
+  serializedVersion: 21100
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Beton, Sichtbeton 2
+    second: {fileID: 2100000, guid: 9f984a02e58fb455d8291baf8ca59d6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Farbe, gelb
+    second: {fileID: 2100000, guid: e3f91c1e0a0194632b952ff2b95fcb20, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Farbe, grau
+    second: {fileID: 2100000, guid: 1764fb5846d6046388da3c5434e69e4c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Farbe, wei\xDF"
+    second: {fileID: 2100000, guid: 9ef1b68f732ad4a3bbc48d20021a6695, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fensterrahmen
+    second: {fileID: 2100000, guid: 16bbecd0f4fee4b6a8cdd68dd261dc46, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fliesen, anthrazit
+    second: {fileID: 2100000, guid: e52aaaaa9bca244e08a5cd9973075e56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM8_builtInMatIlluminatio
+    second: {fileID: 2100000, guid: d5e26366faf354fe5a64549ff6baf40f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glas Normalglas
+    second: {fileID: 2100000, guid: bc41bbc313a68478a97660a4b35ca430, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Holz Brettschichtholz
+    second: {fileID: 2100000, guid: ba3b0d114204445ef87022cb9217f9d0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Holz Kiefer
+    second: {fileID: 2100000, guid: a288963b7d8b648d3b081941a783b13b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kunststoff PE, weiss
+    second: {fileID: 2100000, guid: 229c165ce58484546b457d351a2237f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lack schwarz
+    second: {fileID: 2100000, guid: 3939841ff45484ce2ba87dd728c11568, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Lack wei\xDF"
+    second: {fileID: 2100000, guid: 9eef8244622414c79a6f968dc2b4fafb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MW Kalksandstein, 2DF
+    second: {fileID: 2100000, guid: 4b1166dc1272f488b8e1f96c18dbedd9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metall Chrom_
+    second: {fileID: 2100000, guid: c95dc06c9cddb40b59a322d3e3662d64, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metall Stahl, verzinkt
+    second: {fileID: 2100000, guid: 80e7cc5a6530a484fafea7d054ef16a2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Metall Stehfalz
+    second: {fileID: 2100000, guid: f19be5d572a2c48419cab4a35cb1cd5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mineralwolle
+    second: {fileID: 2100000, guid: 64a81c3c8c6f04d538e4092f03858992, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Stadtplanung Modellk\xF6rper"
+    second: {fileID: 2100000, guid: a92c693b8039646f0928988127e84d2c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Unsichtbar
+    second: {fileID: 2100000, guid: ad88c9585a45e4dc9bfad978db7a840a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "Verputz, glatt, wei\xDF"
+    second: {fileID: 2100000, guid: f94bff42a482f4e55bb909414c6ff6ee, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 081a768e94fadd3f16185d2629cf80dd
+    second: {fileID: 2800000, guid: 05ca6fea59f794441850d7fe9e10d8a5, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 6480c498c21f9a9f59ab753dfe6ca3c3
+    second: {fileID: 2800000, guid: 47ba0d9d325304a7383e3c38a81e8deb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 64a32b2ca69da252391972d8518ead38
+    second: {fileID: 2800000, guid: 845796a2d2495480faca3f147ae23b99, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 77a2fd2a3bd96cb1fce5e551b4701a49
+    second: {fileID: 2800000, guid: 9c1c27382bdbf493b953507a604be5ed, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 81077c2a2477f0b2c97be7153414f28b
+    second: {fileID: 2800000, guid: 2277e56d903e94860a23def1b82729fb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: a0eb9fd282757c0570300a8db36c3735
+    second: {fileID: 2800000, guid: f73fa96cb1380482ab10d1f441e38b9f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: a15e303c9252038f35753e65c7720971
+    second: {fileID: 2800000, guid: e4544914c2fa943a09d84083f22d1e60, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cb87c33f95a16a633aeda25876df749b
+    second: {fileID: 2800000, guid: 4d45e5aecf7614a9193edcac2cc0d6c2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: f575d2bcd0e639feea4311aa56258bfb
+    second: {fileID: 2800000, guid: c20759819aeff470a914e4625a8992a1, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

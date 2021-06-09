@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="sceneControl.uss" />
+    <ui:VisualElement focusable="false" name="VisualElement" style="width: 100%; height: 110px; left: 0; top: 0; right: 0; bottom: 5%; opacity: 1; background-color: rgba(255, 255, 255, 0); align-items: center; justify-content: center; font-size: 16px; flex-direction: row-reverse; position: absolute; overflow: visible; flex-basis: auto;">
+        <ui:Button display-tooltip-when-elided="true" name="menuButton" enable-rich-text="true" class="button sceneControllButton" style="background-image: url(&apos;/Assets/ui/scene/menuIcon.png&apos;);" />
+        <ui:Button text="&#10;" name="nextButton" class="button sceneControllButton" style="background-image: url(&apos;/Assets/ui/scene/arrowForward.png&apos;);" />
+        <ui:Button display-tooltip-when-elided="true" name="previousButton" class="button sceneControllButton" style="background-image: url(&apos;/Assets/ui/scene/arrowBack.png&apos;);" />
+    </ui:VisualElement>
+</ui:UXML>

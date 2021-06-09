@@ -1,0 +1,51 @@
+$rooms = [
+    0 => [
+        "_id" => "1",
+        "_name" => "Marmor Saal",
+        "_gallery" => "Featured by the Geier",
+        "_assetBundlePath" => "https://drive.google.com/uc?export=download&id=1RAvZqvf2LCaHFSZ0P_N9hzBcf6ikkDEu",
+        "_location" => "In the internet"],
+    1 => [
+        "_id" => "2",
+        "_name" => "Raumschiff",
+        "_gallery" => "Featured by the Geier",
+        "_assetBundlePath" => "",
+        "_location" => "In the internet"],
+    2 => [
+        "_id" => "3",
+        "_name" => "Fliesenhalle",
+        "_gallery" => "Feauted by the Geier",
+        "_assetBundlePath" => "",
+        "_location" => "In the internet"],
+    3 => [
+        "_id" => "4",
+        "_name" => "Fionas Raum",
+        "_gallery" => "Featured by the Geier",
+        "_assetBundlePath" => "",
+        "_location" => "In the internet"],
+    4 => [
+        "_id" => "5",
+        "_name" => "White Hall",
+        "_gallery" => "Featured by the Geier",
+        "_assetBundlePath" => "",
+        "_location" => "In the internet"],
+    5 => [
+        "_id" => "6",
+        "_name" => "Galerie Classico",
+        "_gallery" => "Galerie Classico",
+        "_assetBundlePath" => "",
+        "_location" => "Berlin Steglitz"],
+    6 => [
+        "_id" => "7",
+        "_name" => "Marmor Saal",
+        "_gallery" => "Featured by the Geier",
+        "_assetBundlePath" => "",
+        "_location" => "In the internet"]
+  ];
+  
+  $output = json_encode($rooms);
+  
+  printf($output);
+  
+  
+  ?>

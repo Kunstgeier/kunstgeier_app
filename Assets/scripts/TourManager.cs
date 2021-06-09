@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class TourManager : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class TourManager : MonoBehaviour
     public GameObject artParent;
     private Button nextButton;
     private Button previousButton;
-    private int tourIndex;
+    private Button menuButton;
+    public int tourIndex;
     private GameObject player;
     // private var playerMovement;
 
@@ -24,7 +26,7 @@ public class TourManager : MonoBehaviour
          {
              foreach(Transform grandchild in child)
              {
-                if (grandchild.tag == "artCam")
+                if (grandchild.tag == "snapTarget")
                     {
                         artWorks.Add(grandchild.gameObject);
                     }
@@ -34,39 +36,57 @@ public class TourManager : MonoBehaviour
     }
 
 
-    private void OnEnable() 
+    private void OnEnable()
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         nextButton = rootVisualElement.Q<Button>("nextButton");
         previousButton = rootVisualElement.Q<Button>("previousButton");
 
-        nextButton.RegisterCallback<ClickEvent>(ev => next());
-        previousButton.RegisterCallback<ClickEvent>(ev => previous());
+        nextButton.RegisterCallback<ClickEvent>(ev => Next());
+        previousButton.RegisterCallback<ClickEvent>(ev => Previous());
+        //menuButton 
+        menuButton = rootVisualElement.Q<Button>("menuButton");
+        menuButton.RegisterCallback<ClickEvent>(ev => Menu());
     }
 
-    void next(){
-        if (tourIndex >= (artWorks.Count-1))
+    public void Next()
+    {
+        if (tourIndex >= (artWorks.Count - 1))
         {
             Debug.Log("End of art list reached");
             return;
         }
-        var playerMovement = player.GetComponent<PlayerMovement>();
         tourIndex += 1;
-        playerMovement.snapToObject(artWorks[tourIndex]);
+        //player.transform.position = artWorks[tourIndex].transform.position;
+        var fps = player.GetComponent<fps>();
+        fps.ActivateMoveTo(artWorks[tourIndex].transform);
     }
-    void previous(){
+    public void Previous()
+    {
         if (tourIndex <= 0)
         {
             Debug.Log("Start of art list reached");
             return;
         }
-        var playerMovement = player.GetComponent<PlayerMovement>();
         tourIndex -= 1;
-        playerMovement.snapToObject(artWorks[tourIndex]);
+        //player.transform.position = artWorks[tourIndex].transform.position;
+        var fps = player.GetComponent<fps>();
+        fps.ActivateMoveTo(artWorks[tourIndex].transform);
     }
-    public void setTourIndex(GameObject targetObject)
+
+    public void SetTourIndex(GameObject targetObject)
     {
         tourIndex = artWorks.IndexOf(targetObject);
     }
-}
 
+    public int GetTourIndex(GameObject targetObject)
+    {
+        return artWorks.IndexOf(targetObject);
+    }
+
+    public void Menu()
+    {
+        SceneManager.LoadSceneAsync("menu");
+        Debug.Log("Pointer down to menu.");
+    }
+}

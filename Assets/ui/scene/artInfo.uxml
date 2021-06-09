@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="ui/artInfoStyle.uss" />
+    <ui:VisualElement focusable="false" style="width: auto; height: auto; left: 0.5999985px; top: 3.199997px; right: -0.3999786px; bottom: 20.03999px; opacity: 1; background-color: rgba(75, 75, 75, 0.82); align-items: center; justify-content: flex-start; flex-direction: column; position: absolute; overflow: visible; flex-basis: auto; margin-left: 2%; margin-right: 2%; margin-top: 10%; margin-bottom: 2%; flex-wrap: wrap; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; background-image: url(&apos;/Assets/Materials/materials/yellow_concrete/Concrete_Wall_001_basecolor.jpg&apos;); -unity-background-scale-mode: stretch-to-fill; -unity-text-align: upper-left;">
+        <ui:Button display-tooltip-when-elided="true" name="exitButton" style="background-image: url(&apos;/Assets/ui/exitIcon.png#exitIcon&apos;); width: 70px; height: 70px; background-color: rgba(228, 228, 228, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; -unity-text-align: middle-center; align-items: flex-end; justify-content: flex-start; flex-direction: column; white-space: nowrap; position: relative; top: 0; right: 0; margin-bottom: 15px;" />
+        <ui:Label text="Artwork number 1" display-tooltip-when-elided="true" name="title" focusable="false" class="title" style="height: 54px;" />
+        <ui:Label text="2021&#10;" display-tooltip-when-elided="true" name="year" class="year" />
+        <ui:Label text="This is a very nice piece of Art created on a digital scratch pad and displayed in the Kunstgeier app." display-tooltip-when-elided="true" name="description" enable-rich-text="true" class="description" />
+        <ui:Button text="Instagram" display-tooltip-when-elided="true" name="instagramButton" enable-rich-text="false" class="button" style="align-items: stretch; justify-content: flex-start;" />
+        <ui:Button text="merken" display-tooltip-when-elided="true" name="orderButton" class="button" />
+    </ui:VisualElement>
+</ui:UXML>
