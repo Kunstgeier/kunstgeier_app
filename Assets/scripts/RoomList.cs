@@ -13,17 +13,14 @@ public class RoomList
 {
     public Rooms rooms;
 
-    //public static RoomList CreateFromJSON(string json)
-    //{
-    //    return JsonUtility.FromJson<RoomList>(json);
-    //}
-}
-[Serializable]
-public class Rooms
-{
-    public int count;
-    public Room[] objects;
+    public RoomList(int count, List<Room> roomsList)
+    {
+        rooms = new Rooms(count, roomsList);
+    }
+    public RoomList()
+    {
 
+    }
     //public static RoomList CreateFromJSON(string json)
     //{
     //    return JsonUtility.FromJson<RoomList>(json);

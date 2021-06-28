@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
 public class ArtInteractionController : MonoBehaviour
 {
@@ -13,16 +14,13 @@ public class ArtInteractionController : MonoBehaviour
 
     private TourManager tourManager;
     private int thisWorkIndex;
+
+    private ArtInfo _ArtInfo;
+    private ArtInfoList _ArtInfoList;
+
+    private Artists _Artists;
     // private var playerMovement;
 
-    private void Start()
-    {
-        //get art index of this table
-        tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
-        thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
-
-        CreateContent();
-    }
     // Start is called before the first frame update
     void Update()
     {
@@ -40,6 +38,15 @@ public class ArtInteractionController : MonoBehaviour
 
     private void OnEnable()
     {
+        //get art index of this table
+        tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
+        thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
+
+        //get Artinfo from json
+        //read json
+        // A LOT TO DOO HERE
+        CreateContent();
+
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         instagramButton = rootVisualElement.Q<Button>("instagramButton");
         orderButton = rootVisualElement.Q<Button>("orderButton");
@@ -53,11 +60,13 @@ public class ArtInteractionController : MonoBehaviour
 
     public void OpenInstagram()
     {
+        Application.OpenURL(_ArtInfo._artist._instagramLink);
         Debug.Log("Open Instagram is not implemented yet!");
     }
     public void AddToCart()
     {
-        Debug.Log("Add to cart is not implemented yet!");
+        Application.OpenURL(_ArtInfo._buyLink);
+        Debug.Log("Entered Shop.");
     }
 
 
@@ -70,7 +79,23 @@ public class ArtInteractionController : MonoBehaviour
 
     private void CreateContent()
     {
+        string jsonList = Resources.Load<TextAsset>("Scenes/artInfo").text;
+        var _ArtInfoList = JsonUtility.FromJson<ArtInfoList>(jsonList);
 
+        _ArtInfo = Array.Find(_ArtInfoList.artInfoList,
+                                artInfo => transform.parent.name.
+                                            EndsWith(artInfo._id.ToString()));
+
+        string jsonArtist = Resources.Load<TextAsset>("Scenes/artists").text;
+        _Artists = JsonUtility.FromJson<Artists>(jsonArtist);
+
+        _ArtInfo._artist = Array.Find(_Artists.artists,
+                                artist => artist._id == _ArtInfo._artistID);
+        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        rootVisualElement.Q<Label>("title").text = _ArtInfo._title;
+        rootVisualElement.Q<Label>("year").text = _ArtInfo._year.ToString();
+        rootVisualElement.Q<Label>("description").text = _ArtInfo._description;
+        rootVisualElement.Q<Label>("artist").text = _ArtInfo._artist._name;
     }
 }
 

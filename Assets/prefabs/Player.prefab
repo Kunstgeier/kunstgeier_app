@@ -257,7 +257,7 @@ MonoBehaviour:
   mainSpeed: 4
   shiftAdd: 2
   maxShift: 4
-  camSens: 0.15
+  camSens: 0.3
   speedH: 2
   speedV: 2
 --- !u!195 &9154223898417410005

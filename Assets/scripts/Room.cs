@@ -17,6 +17,7 @@ public class Room
     public string _assetBundlePath;
     public string _location;
     public bool _downloaded;
+    public AssetBundle _bundle;
 
 
     //use if not downloaded, probably coming in from server
@@ -29,8 +30,6 @@ public class Room
         _location = location;
         _downloaded = false;
         // more to come here
-
-
     }
 
     //use if already downloaded
