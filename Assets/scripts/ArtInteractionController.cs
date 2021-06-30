@@ -9,6 +9,8 @@ public class ArtInteractionController : MonoBehaviour
     private Button instagramButton;
     private Button orderButton;
     private Button closeInfoButton;
+    private Button heartButton;
+
     public int tourIndex;
     private GameObject player;
 
@@ -56,6 +58,10 @@ public class ArtInteractionController : MonoBehaviour
         //menuButton 
         closeInfoButton = rootVisualElement.Q<Button>("exitButton");
         closeInfoButton.RegisterCallback<ClickEvent>(ev => CloseArtInfo());
+
+        // heart button
+        heartButton = rootVisualElement.Q<Button>("heartButton");
+        heartButton.RegisterCallback<ClickEvent>(ev => addToWishlist());
     }
 
     public void OpenInstagram()

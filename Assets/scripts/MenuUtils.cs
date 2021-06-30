@@ -230,12 +230,19 @@ public class MenuUtils
     public void DeleteCache()
     {
         var tempRooms = GetLoadedSceneNames();
-        Caching.ClearCache();
-        foreach (Room room in tempRooms)
+        bool success = Caching.ClearCache();
+        if (success)
         {
-            room._downloaded = false;
+            foreach (Room room in tempRooms)
+            {
+                room._downloaded = false;
+            }
+            File.WriteAllText(Application.persistentDataPath + "/localRooms.json", JsonUtility.ToJson(new RoomList(tempRooms.Count, tempRooms)).ToString());
         }
-        File.WriteAllText(Application.persistentDataPath + "/localRooms.json", JsonUtility.ToJson(new RoomList(tempRooms.Count, tempRooms)).ToString());
+        else
+        {
+            Debug.Log("Cache not cleanable!!!");
+        }
     }
 }
 
