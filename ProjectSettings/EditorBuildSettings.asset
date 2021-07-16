@@ -17,13 +17,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/hidden.unity
     guid: 5fe43e7823ecd4310a4dd69a8b2627b6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Fionas Raum.unity
     guid: c57a8a7851e964cafbe5c98f84a1d946
   - enabled: 0
     path: Assets/Scenes/White Hall.unity
     guid: cd5c68f41e5ba4c0a94ae32afdacb44d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/settings.unity
     guid: 89250046224824cd6860c4775d316adf
   m_configObjects:
