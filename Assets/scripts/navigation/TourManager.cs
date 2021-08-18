@@ -14,30 +14,50 @@ public class TourManager : MonoBehaviour
     public int tourIndex;
     private GameObject player;
     // private var playerMovement;
+    APIService apiService;
+    string targetRoomModel;
+    string exibition;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public void StartTourManager()
     {
+
+        apiService = GameObject.Find("APIService").GetComponent<APIService>();
+        /////WHAAAAT ?? hier bin ich
+        /// download rooms in menu or in empty scene
+        /// get data across??
+        /// ref: menumanager
+        /// ref: APIService
+        /// SOLUTION: Safe Artworks list and Room object to json ie MenuManager.enterroom and reload here
+        //download image
+
+        //combine
+
+        //instantiate player prefab at spawn
+
+        //remove loading screen
+
+        // calculate navigation
         player = GameObject.FindWithTag("Player");
-        
+
         tourIndex = -1;
-        artParent = GameObject.Find("ArtWork");
-         foreach (Transform child in artParent.transform)
-         {
-             foreach(Transform grandchild in child)
-             {
-                if (grandchild.tag == "snapTarget")
+        artParent = GameObject.Find("artPosition");
+        foreach (Transform child in artParent.transform)
+        {
+            foreach (Transform grandchild in child)
+            {
+                foreach (Transform greatgrandchild in grandchild)
+                {
+                    if (greatgrandchild.tag == "snapTarget")
                     {
-                        artWorks.Add(grandchild.gameObject);
+                        artWorks.Add(greatgrandchild.gameObject);
                     }
-             }
-         }
-         Debug.Log("Size of artWorks list: " + artWorks.Count);
-    }
+                }
+            }
+        }
+        Debug.Log("Size of artWorks list: " + artWorks.Count);
+       
 
-
-    private void OnEnable()
-    {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         nextButton = rootVisualElement.Q<Button>("nextButton");
         previousButton = rootVisualElement.Q<Button>("previousButton");

@@ -1,26 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.IO; //for path class
+using System;
 
-using UnityEngine;
-
-public class ArtPiece : MonoBehaviour
+[Serializable]
+public class ArtPiece
 {
-
-    private string _name;
-    private Artist _artist;
-    private Gallery _gallery;
-    private string _description;
-    private string _imagePath;
-
-    // constructor
-    public ArtPiece(string name, Artist artist, Gallery gallery, string description, string imagePath)
-    {
-          _name = name;
-          _artist = artist;
-          _gallery = gallery;
-          _description = description;
-          _imagePath = imagePath;
-    }
-
+    public string _ID;
+    public string _name;
+    public string _available;
+    public string _buyLink;
+    public string _filePath;
+    public string _price;
+    public string _material;
+    public string _width;
+    public string _height;
+    public string _artistID;
+    public string _description;
+    public string _year;
+    public string _exhibitionID = null;
+    public string _roomPosition = null;
 }

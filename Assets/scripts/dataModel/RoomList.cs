@@ -11,11 +11,11 @@ using System.IO;
 [Serializable]
 public class RoomList
 {
-    public Rooms rooms;
+    public Exhibitions rooms;
 
-    public RoomList(int count, List<Room> roomsList)
+    public RoomList(int count, List<Exhibition> roomsList)
     {
-        rooms = new Rooms(roomsList);
+        rooms = new Exhibitions(roomsList);
     }
     public RoomList()
     {

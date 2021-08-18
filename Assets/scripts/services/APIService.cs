@@ -3,6 +3,12 @@ using UnityEditor;
 using Proyecto26;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Networking;
+using System.Collections;
+using UnityEngine.UIElements;
+using UnityEngine.AI;
+
+//using UnityEngine.UI;
 
 public class APIService : MonoBehaviour
 {
@@ -51,17 +57,18 @@ public class APIService : MonoBehaviour
         /// </summary>
         /// <typeparam name="T">the type we expect from the api.</typeparam>
         /// <typeparam name="route">the sub route of the API.</typeparam>
-    public void Get<T>(string route, Action<string> callback, Dictionary<string, string> paramDict = null)
+    public void Get<T>(string route, Action<string> callback, string id = null, Dictionary<string, string> paramDict = null)
     {
         if (paramDict == null) paramDict = new Dictionary<string, string>();
         // We can add default request headers for all requests
-        LogMessage("Token is:", GetToken());
+        //LogMessage("Token is:", GetToken());
         if(GetToken() != "")
         {
             RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
         }
 
         //edit URL for parameters
+        if (id != null) route = route.Replace("#", id);
         RequestHelper currentRequest = new RequestHelper
         {
             Uri = _baseURL + route,
@@ -69,8 +76,8 @@ public class APIService : MonoBehaviour
         };
         RestClient.Get(currentRequest)
             .Then(res => {
-            this.LogMessage("GetRequest got: ", JsonUtility.ToJson(res, true));
-            var parsed_return = JsonUtility.FromJson<APIReturnParser<T>>(res.Text);
+            Debug.Log("GetRequest got: " + JsonUtility.ToJson(res.Text, false));
+            //var parsed_return = JsonUtility.FromJson<APIReturnParser<T>>(res.Text);
             return res.Text;
         }).Then( res => callback(res));
     }
@@ -117,6 +124,110 @@ public class APIService : MonoBehaviour
     //    });
     //}
 
+    public IEnumerator GetButtonThumbnail(string link, UnityEngine.UIElements.VisualElement button)
+    {
+        Debug.Log("Gettexture at: " + link);
+        UnityWebRequest  www = UnityWebRequestTexture.GetTexture(link, true);
+        // Progress bar here !!
+
+        // Debug.Log("Download: " + www.downloadProgress);
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            button.Q<Button>("roomCard").style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
+            //button.style.unityBackgroundScaleMode = ScaleMode.ScaleAndCrop;
+            //button.style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
+        }
+    }
+
+    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece,Texture2D> callback)
+    {
+        Debug.Log("Get Artworkfile at: " + artpiece._filePath);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(artpiece._filePath, true);
+        //Progress bar here !!
+
+        //Debug.Log("Download: " + www.downloadProgress);
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("call callback now?: " + DownloadHandlerTexture.GetContent(www));
+            callback(artpiece, DownloadHandlerTexture.GetContent(www));
+            //button.style.unityBackgroundScaleMode = ScaleMode.ScaleAndCrop;
+            //button.style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
+        }
+    }
+
+    public IEnumerator GetRoomModel(Exhibition exhibition, Action<string> callback)
+    {
+        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(exhibition._roomModelLink, 1, 0);
+        //Progress bar here !!
+
+        Debug.Log("Download: " + www.downloadProgress);
+
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            //get asset bundle
+            AssetBundle assetBundle = DownloadHandlerAssetBundle.GetContent(www);
+            //load asset of room
+            GameObject r = assetBundle.LoadAllAssets<GameObject>()[0];
+
+            //NavMeshData nd = assetBundle.LoadAllAssets<NavMeshData>()[0];
+            //Debug.Log("length of loadallassets: " + assetBundle.LoadAllAssets<NavMeshData>().Length);
+
+            //instantiate the room now
+            Instantiate(r);
+
+            //NavMesh.AddNavMeshData(nd);
+
+            // whats with navigation Agent ??
+            if (callback != null)
+            {
+                GetArtWorksOfExhibition(exhibition, callback);
+            }
+        }
+
+        ////show popup that scene is donwloaded with open and close option
+        //// when other scene is open
+
+        //if (room._downloaded)
+        //{
+        //    ShowLoadingScreen("Load", transform);
+        //    SceneManager.LoadSceneAsync(room._name);
+        //}
+        //else
+        //{
+        //    room._downloaded = true;
+        //    Debug.Log("Scene Downloaded, Menu reloading.");
+        //    File.WriteAllText(Application.persistentDataPath + "/localRooms.json", JsonUtility.ToJson(new RoomList(_roomObjects.Count, _roomObjects)).ToString());
+        //    SceneManager.LoadSceneAsync("menu");
+        //}
+
+    }
+
+
+    public void GetArtWorksOfExhibition(Exhibition room, Action<string> callback)
+    {
+        Debug.Log("Get Artworks of Exhibition: " + room._name);
+        Get<ArtPieces>(Routes.GetArtworksFromRoom, callback, room._id);
+    }
     private string GetToken()
     {
         //decrypt here
@@ -318,10 +429,10 @@ public class APIService : MonoBehaviour
 
 public struct Routes
 {
-    public static string GetAllRooms = "rooms/getAll";
-    public static string GetRooms = "rooms/get";
-    public static string GetArtistFromRoom = "rooms/getArtist";
-    public static string GetArtworksFromRoom = "rooms/getArtworks";
+    public static string GetAllRooms = "exhibitions";
+    public static string GetRooms = "exhibitions/#";
+    public static string GetArtistFromRoom = "exhibitions/#/artists";
+    public static string GetArtworksFromRoom = "exhibitions/#/artworks";
     public static string Register = "auth/register";
     public static string Login = "auth/login";
     public static string CheckToken = "auth/checkToken";

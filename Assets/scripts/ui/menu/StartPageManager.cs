@@ -12,81 +12,43 @@ using System.IO;
 public class StartPageManager : MonoBehaviour
 {
     APIService apiService;
-    System.Action<string> displayRooms;
-    Rooms rooms;
+    //System.Action<string> displayExhibitions;
+    Exhibitions exhibitions;
+    MenuManager menuManager;
 
     // Start is called before the first frame update
     public void OnEnable()
     {
         Debug.Log("Start page enabled");
-        displayRooms = new System.Action<string>(DisplayRooms);
+        //displayExhibitions = new System.Action<string>(DisplayExhibitions);
         apiService = GameObject.Find("tabbar").GetComponent<APIService>();
+        menuManager = GameObject.Find("tabbar").GetComponent<MenuManager>();
+
         var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
-        ReloadRoomList();
+        ReloadExhibitionList();
     }
 
 
-    public void ReloadRoomList()
+    public void ReloadExhibitionList()
     {
-        Debug.Log("Reload rooms now.");
-        apiService.Get<Rooms>(Routes.GetAllRooms,  displayRooms);
+        Debug.Log("Reload Exhibitions now.");
+        apiService.Get<Exhibitions>(Routes.GetAllRooms, DisplayExhibitions);
     }
 
-    public void CreateMenuButtons(List<Room> rooms, Transform transform)
+    public VisualElement ModifyButton(VisualElement button, Exhibition exhibition)
     {
-        var menuButton = Resources.Load<VisualTreeAsset>("UI/menuButton");
-        var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
-        foreach (Room room in rooms)
-        {
-            VisualElement tempButton = ModifyButton(menuButton.CloneTree(), room);
-
-            rootVisualElement.Q<VisualElement>("unity-content-container").Add(tempButton);
-            //rootVisualElement.hierarchy.ElementAt(0).hierarchy.ElementAt(1).Add(tempButton);
-            tempButton.RegisterCallback<ClickEvent>(ev => EnterRoom(room, transform, tempButton));
-        }
-
-    }
-
-    public VisualElement ModifyButton(VisualElement button, Room room)
-    {
-        //if room is not downloaded, grey the background
-        //if (!room._downloaded)
+        //if exhibition is not downloaded, grey the background
+        //if (!exhibition._downloaded)
         //{
         //    button.hierarchy.ElementAt(0).hierarchy.ElementAt(0).style.backgroundColor = new Color(.9f, .9f, .9f);
         //}
-        button.Q<Label>("name").text = room._name;
-        button.Q<Label>("artist").text = room._id;
-
+        button.Q<Label>("name").text = exhibition._name;
+        button.Q<Label>("artist").text = exhibition._id;
+        if(exhibition._thumbnailLink != null)
+        {
+            apiService.StartCoroutine(apiService.GetButtonThumbnail(exhibition._thumbnailLink, button));
+        }
         return (button);
-    }
-
-    public void EnterRoom(Room room, Transform transform, VisualElement button)
-    {
-        //if (room._bundle && room._bundle.)
-        //{
-        //    //check if vundle exists
-        //    string[] paths = room._bundle.GetAllScenePaths();
-        //    SceneManager.LoadSceneAsync(paths[0]);
-        //    ShowLoadingScreen("Load");
-        //}
-
-        Debug.Log("Enter Room not possible right now.");
-        //if (room._downloaded)
-        //{
-        //    transform.gameObject.GetComponent<MenuManager>().StartCoroutine(GetAssetBundle(room, transform));
-        //    Debug.Log("Loading: " + room._name);
-        //}
-        //else
-        //{
-        //    Debug.Log("Downloading: " + room._name);
-        //    transform.gameObject.GetComponent<MenuManager>().StartCoroutine(GetAssetBundle(room, transform));
-        //    //change button
-        //    button.Q<Label>("name").text = "downloading";
-
-        //    //if download completed:
-        //    //update the room in the json and write
-        //    File.WriteAllText(Application.persistentDataPath + "/localRooms.json", JsonUtility.ToJson(new RoomList(_roomObjects.Count, _roomObjects)).ToString());
-        //}
     }
 
     public void ShowLoadingScreen(string type, Transform transform)
@@ -95,32 +57,34 @@ public class StartPageManager : MonoBehaviour
         Debug.Log("Show Loading Scene Screen");
     }
 
-    void DisplayRooms(string s)
+    void DisplayExhibitions(string s)
     {
-        Debug.Log("Callback function DisplayRooms called with string: " + s);
+        Debug.Log("Callback function DisplayExhibitions called with string: " + s);
         //Parsed object
-        APIReturnParser<Rooms> parsed = JsonUtility.FromJson<APIReturnParser<Rooms>>(s);
+        APIReturnParser<Exhibitions> parsed = JsonUtility.FromJson<APIReturnParser<Exhibitions>>(s);
         //error handling
         if (!parsed.error)
         {
-            //get rooms out of json
-            rooms = parsed.data;
+            //get exhibitions out of json
+            exhibitions = parsed.data;
+            Debug.Log(exhibitions._exhibitions[0]._name);
         }
         else
         {
-            Debug.Log("Could not get room list from server due to error: " + parsed.meta.msg);
+            Debug.Log("Could not get exhibition list from server due to error: " + parsed.meta.msg);
         }
-        var roomCard = Resources.Load<VisualTreeAsset>("UI/roomCard");
+        var exhibitionCard = Resources.Load<VisualTreeAsset>("UI/exhibitionCard");
+        //get start page ui
         var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
-        foreach(Room r in rooms._rooms)
+        foreach(Exhibition r in exhibitions._exhibitions)
         {
-            VisualElement tempButton = ModifyButton(roomCard.CloneTree().ElementAt(0), r);
+            Debug.Log(r._name);
+            VisualElement tempButton = ModifyButton(exhibitionCard.CloneTree().ElementAt(0), r);
 
             rootVisualElement.Q<VisualElement>("unity-content-container").Add(tempButton);
             //rootVisualElement.hierarchy.ElementAt(0).hierarchy.ElementAt(1).Add(tempButton);
-            tempButton.RegisterCallback<ClickEvent>(ev => EnterRoom(r, transform, tempButton));
+            tempButton.RegisterCallback<ClickEvent>(ev => menuManager.EnterExhibition(r));
         }
-
 
     }
 

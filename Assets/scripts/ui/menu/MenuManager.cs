@@ -58,19 +58,6 @@ public class MenuManager : MonoBehaviour
 
     }
 
-    //public void Update()
-    //{
-    //    if (!apiService.online)
-    //    {
-    //        //activate offline mode
-    //        OfflinePage.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        //inactivate offline mode
-    //        OfflinePage.SetActive(false);
-    //    }
-    //}
 
     public void SetStartPage()
     {
@@ -99,5 +86,20 @@ public class MenuManager : MonoBehaviour
         SearchPage.SetActive(false);
         SafedPage.SetActive(false);
         SettingsPage.SetActive(true);
+    }
+
+    // open Room
+    public void EnterExhibition(Exhibition exhibition)
+    {
+        ///safe room name or so to playerprefs or json?
+        ExhibitionToJson(exhibition);
+        ///enter a room ! load empty scene and then?
+        SceneManager.LoadScene("baseScene");
+        ///THEN DESERIALIZE AGAIN AND load cached room in scene...
+    }
+
+    private void ExhibitionToJson(Exhibition room)
+    {
+        File.WriteAllText(Application.persistentDataPath + "/RoomToOpen.json", JsonUtility.ToJson(room));
     }
 }
