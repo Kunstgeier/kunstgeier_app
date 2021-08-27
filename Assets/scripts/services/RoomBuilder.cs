@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine.AI;
+using System;
 
 public class RoomBuilder : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class RoomBuilder : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         this._artObjects = new List<GameObject>();
         Debug.Log("RoomBuilder started.");
         apiService = GameObject.Find("APIService").GetComponent<APIService>();
@@ -27,14 +29,7 @@ public class RoomBuilder : MonoBehaviour
         _exhibition = JsonUtility.FromJson<Exhibition>(File.ReadAllText(Application.persistentDataPath + "/RoomToOpen.json"));
         // download room object if not existing and instantiate
         // download artworks and instantiate as callback
-        StartCoroutine(apiService.GetRoomModel(_exhibition, DownloadAndPlaceArtworks));
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        apiService.GetArtWorksOfExhibition(_exhibition, DownloadAndPlaceArtworks);
     }
 
     public void DownloadAndPlaceArtworks(string artPieces)
@@ -43,43 +38,23 @@ public class RoomBuilder : MonoBehaviour
         ArtPieces artworks = JsonUtility.FromJson<APIReturnParser<ArtPieces>>(artPieces).data;
         Debug.Log("Artworks: " + artworks._artworks[0]._name);
         foreach (ArtPiece artpiece in artworks._artworks)
+        for(int i = 0; i < artworks._artworks.Length; i++)
         {
             Debug.Log("Download and place Artwork: " + artpiece._name);
-            StartCoroutine(apiService.GetArtPieceFile(artpiece, PlaceArtworks));
-        }
+            if(i == artworks._artworks.Length - 1)
+                {
+                    StartCoroutine(apiService.GetArtPieceFile(artpiece, PlaceArtworks, true));
+                }
+                StartCoroutine(apiService.GetArtPieceFile(artpiece, PlaceArtworks, false));
+            }
 
         // place our player at first pic
-
-
-        //hide everything else
-        // NAVMESH ????!?!?
-
-        //NavMeshHit closestHit;
-        //if (NavMesh.SamplePosition(_player.transform.position, out closestHit, 500, 1))
-        //{
-        //    _player.transform.position = closestHit.position;
-        //    
-        //}
-
-        Debug.Log(" Set Player active");
-
-        _player.SetActive(true);
-
-        Debug.Log("Player active");
-
-
-        //_player.transform.position = GameObject.Find(artworks._artworks[0]._roomPosition.ToString()).transform.position;
-
-
-        // NEVER CALLED..... WHY?
-
+        _player.transform.position = GameObject.Find("1").transform.position;
+        Debug.Log("Player moved to position one.");
         GameObject.Find("loadingScreen").SetActive(false);
-        _sceneUI.SetActive(true);
-        //hurrrray
-        Debug.Log("scene UI active?");
     }
 
-    public void PlaceArtworks(ArtPiece artpiece, Texture2D artwork)
+    public void PlaceArtworks(ArtPiece artpiece, Texture2D artwork, Boolean last)
     {
         // find the position to spawn the artpiece at.
         Debug.Log("Place artworks called.");
@@ -91,9 +66,9 @@ public class RoomBuilder : MonoBehaviour
                 var artworkObject = Instantiate(Resources.Load("Prefabs/art") as GameObject, positionObject.transform);
                 var spriteRenderer = artworkObject.transform.Find("art").GetComponent<SpriteRenderer>();
 
-                spriteRenderer.sprite = Sprite.Create(artwork , new Rect(0.0f, 0.0f, artwork.width, artwork.height), new Vector2(0.5f, 0.5f), 100.0f);
+                spriteRenderer.sprite = Sprite.Create(artwork, new Rect(0.0f, 0.0f, artwork.width, artwork.height), new Vector2(0.5f, 0.5f), 100.0f);
                 // scale up the sprite
-                spriteRenderer.size *= 10; 
+                spriteRenderer.size *= 10;
                 this._artObjects.Add(artworkObject);
                 //create artinfo here !!
             }
@@ -107,5 +82,12 @@ public class RoomBuilder : MonoBehaviour
         {
             Debug.Log("Artwork has no position and will be skipped.");
         }
+
+        //if all art objets are spawned
+        if(last)
+        {
+            _sceneUI.SetActive(true);
+        }
+
     }
 }

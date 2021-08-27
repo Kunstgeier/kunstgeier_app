@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour
     public GameObject SafedPage;
     public GameObject SettingsPage;
     public GameObject OfflinePage;
-
+    public GameObject loadingPage;
 
 
 
@@ -91,15 +91,30 @@ public class MenuManager : MonoBehaviour
     // open Room
     public void EnterExhibition(Exhibition exhibition)
     {
+        // show loading screen
+        ShowLoadingScreen("loading " + exhibition._name);
         ///safe room name or so to playerprefs or json?
         ExhibitionToJson(exhibition);
-        ///enter a room ! load empty scene and then?
-        SceneManager.LoadScene("baseScene");
-        ///THEN DESERIALIZE AGAIN AND load cached room in scene...
+        //download and open room scene assetbundle
+        apiService.GetRoomModel(exhibition);
     }
 
     private void ExhibitionToJson(Exhibition room)
     {
         File.WriteAllText(Application.persistentDataPath + "/RoomToOpen.json", JsonUtility.ToJson(room));
+    }
+
+
+    public void ShowLoadingScreen(string message = null )
+    {
+         loadingPage.SetActive(true);
+        if(message != null)
+        {
+            //change the loading message
+            var rootVisualElement = loadingPage.GetComponent<UIDocument>()
+                                        .rootVisualElement;
+            rootVisualElement.Q<Label>("message").text = message;
+        }
+         Debug.Log("Show Loading Scene Screen");
     }
 }

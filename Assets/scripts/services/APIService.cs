@@ -6,7 +6,10 @@ using System;
 using UnityEngine.Networking;
 using System.Collections;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 //using UnityEngine.UI;
 
@@ -15,6 +18,7 @@ public class APIService : MonoBehaviour
     [SerializeField]
     private bool logger;
     public bool online = true;
+    public List<AssetBundle> _loadedBundles;
     //private void Awake()
     //{
     //    DontDestroyOnLoad(this.gameObject);
@@ -146,7 +150,7 @@ public class APIService : MonoBehaviour
         }
     }
 
-    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece,Texture2D> callback)
+    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece,Texture2D, Boolean> callback, Boolean last = false)
     {
         Debug.Log("Get Artworkfile at: " + artpiece._filePath);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(artpiece._filePath, true);
@@ -163,63 +167,16 @@ public class APIService : MonoBehaviour
         else
         {
             Debug.Log("call callback now?: " + DownloadHandlerTexture.GetContent(www));
-            callback(artpiece, DownloadHandlerTexture.GetContent(www));
+            callback(artpiece, DownloadHandlerTexture.GetContent(www), last);
             //button.style.unityBackgroundScaleMode = ScaleMode.ScaleAndCrop;
             //button.style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
         }
     }
 
-    public IEnumerator GetRoomModel(Exhibition exhibition, Action<string> callback)
+    public void GetRoomModel(Exhibition exhibition)
     {
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(exhibition._roomModelLink, 1, 0);
-        //Progress bar here !!
-
-        Debug.Log("Download: " + www.downloadProgress);
-
-        yield return www.SendWebRequest();
-
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            //get asset bundle
-            AssetBundle assetBundle = DownloadHandlerAssetBundle.GetContent(www);
-            //load asset of room
-            GameObject r = assetBundle.LoadAllAssets<GameObject>()[0];
-
-            //NavMeshData nd = assetBundle.LoadAllAssets<NavMeshData>()[0];
-            //Debug.Log("length of loadallassets: " + assetBundle.LoadAllAssets<NavMeshData>().Length);
-
-            //instantiate the room now
-            Instantiate(r);
-
-            //NavMesh.AddNavMeshData(nd);
-
-            // whats with navigation Agent ??
-            if (callback != null)
-            {
-                GetArtWorksOfExhibition(exhibition, callback);
-            }
-        }
-
-        ////show popup that scene is donwloaded with open and close option
-        //// when other scene is open
-
-        //if (room._downloaded)
-        //{
-        //    ShowLoadingScreen("Load", transform);
-        //    SceneManager.LoadSceneAsync(room._name);
-        //}
-        //else
-        //{
-        //    room._downloaded = true;
-        //    Debug.Log("Scene Downloaded, Menu reloading.");
-        //    File.WriteAllText(Application.persistentDataPath + "/localRooms.json", JsonUtility.ToJson(new RoomList(_roomObjects.Count, _roomObjects)).ToString());
-        //    SceneManager.LoadSceneAsync("menu");
-        //}
-
+        Debug.Log("Attempting to load: " + exhibition._roomModelLink);
+        Addressables.LoadSceneAsync(exhibition._roomModelLink, LoadSceneMode.Single);
     }
 
 
@@ -267,164 +224,6 @@ public class APIService : MonoBehaviour
             Debug.Log("Error. Check internet connection!");
         }
     }
-
-
-    /// <summary>
-    /// General class to start an api call.
-    /// </summary>
-    /// <param name="route">route without basen url</param>
-    /// <param name="method">Get, post, put, delete</param>
-    /// <param name="body">body string as json.</param>
-    /// <returns></returns>
-    //private string MakeAPICall(string route, string method, string body)
-    //{
-    //    string ret = "";
-    //    string url = _baseURL + route;
-    //    int status= -1;
-
-    //    switch (method)
-    //    {
-    //        case "GET":
-    //            StartCoroutine(GetRequest(url, "", ret, status) => {
-    //                if(status == 0) {
-    //                    return ret;
-    //                }
-    //            });
-    //            break;
-    //        case "POST":
-    //            StartCoroutine(PostRequest(url, body, ret, status) => {
-    //                if(status == 0) {
-    //                    return ret;
-    //                }
-    //            });
-    //            break;
-    //        case "PUT":
-    //            StartCoroutine(PutRequest(url, body, ret, status) => {
-    //                if(status == 0) {
-    //                    return ret;
-    //                }
-    //            });
-    //            break;
-    //        default:
-    //            return "error";
-    //            break;
-    //    }
-    //}
-
-    ///// <summary>
-    ///// send Get Request to server.
-    ///// </summary>
-    ///// <param name="url">url to Call with base url.</param>
-    ///// <param name="body">body in json. if none, empty string</param>
-    ///// <param name="ret">the variable to safe the return string in.</param>
-    ///// <param name="status">status</param>
-    ///// <returns></returns>
-    //IEnumerator GetRequest(string url, string body, string ret, int status)
-    //{
-    //    // decrypt token and build url
-
-    //    url = url + "token=" + GetToken();
-    //    using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
-    //    {
-    //        // Request and wait for the desired page.
-    //        yield return webRequest.SendWebRequest();
-
-    //        string[] pages = url.Split('/');
-    //        int page = pages.Length - 1;
-
-    //        switch (webRequest.result)
-    //        {
-    //            case UnityWebRequest.Result.ConnectionError:
-    //            case UnityWebRequest.Result.DataProcessingError:
-    //                Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-    //                status = 1;
-    //                break;
-    //            case UnityWebRequest.Result.ProtocolError:
-    //                Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-    //                status = 2;
-    //                break;
-    //            case UnityWebRequest.Result.Success:
-    //                Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-    //                // set the return value
-    //                ret = webRequest.downloadHandler.text;
-    //                status = 0;
-    //                break;
-    //        }
-    //    }
-    //}
-
-    //IEnumerator PostRequest(string url, string body, string ret, int status)
-    //{
-    //    // decrypt token and build url
-
-    //    url = url + "token=" + GetToken();
-    //    using (UnityWebRequest webRequest = UnityWebRequest(url, UnityWebRequest.kHttpVerbPOST))
-    //    {
-    //        bytes[] bytes = System.Text.Encoding.UTF8.GetBytes(body);
-    //        UploadHandlerRaw uH = new UploadHandlerRaw(bytes);
-    //        webRequest.uploadHandler = uH;
-    //        // Request and wait for the desired page.
-    //        yield return webRequest.SendWebRequest();
-
-    //        string[] pages = url.Split('/');
-    //        int page = pages.Length - 1;
-
-    //        switch (webRequest.result)
-    //        {
-    //            case UnityWebRequest.Result.ConnectionError:
-    //            case UnityWebRequest.Result.DataProcessingError:
-    //                Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-    //                status = 1;
-    //                break;
-    //            case UnityWebRequest.Result.ProtocolError:
-    //                Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-    //                status = 2;
-    //                break;
-    //            case UnityWebRequest.Result.Success:
-    //                Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-    //                // set the return value
-    //                ret = webRequest.downloadHandler.text;
-    //                status = 0;
-    //                break;
-    //        }
-    //    }
-    //}
-
-    //IEnumerator PutRequest(string url, string body, string ret, int status)
-    //{
-    //    // decrypt token and build url
-
-    //    url = url + "token=" + GetToken();
-
-    //    bytes[] bytes = System.Text.Encoding.UTF8.GetBytes(body);
-    //    using (UnityWebRequest webRequest = UnityWebRequest.Put(url, bytes))
-    //    {
-    //        // Request and wait for the desired page.
-    //        yield return webRequest.SendWebRequest();
-
-    //        string[] pages = url.Split('/');
-    //        int page = pages.Length - 1;
-
-    //        switch (webRequest.result)
-    //        {
-    //            case UnityWebRequest.Result.ConnectionError:
-    //            case UnityWebRequest.Result.DataProcessingError:
-    //                Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-    //                status = 1;
-    //                break;
-    //            case UnityWebRequest.Result.ProtocolError:
-    //                Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-    //                status = 2;
-    //                break;
-    //            case UnityWebRequest.Result.Success:
-    //                Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
-    //                // set the return value
-    //                ret = webRequest.downloadHandler.text;
-    //                status = 0;
-    //                break;
-    //        }
-    //    }
-    //}
 }
 
 public struct Routes

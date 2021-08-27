@@ -27,6 +27,10 @@ public class StartPageManager : MonoBehaviour
         var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
         ReloadExhibitionList();
     }
+    public void Start()
+    {
+        Screen.orientation = ScreenOrientation.Portrait;
+    }
 
 
     public void ReloadExhibitionList()

@@ -202,7 +202,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 82d103b9d55e44679aff920b948a334c, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 5e01420f15ebb445c916a856fe9b766d, type: 3}
-  m_SortingOrder: 1
+  m_SortingOrder: 10
 --- !u!4 &168445153
 Transform:
   m_ObjectHideFlags: 0
@@ -795,6 +795,7 @@ MonoBehaviour:
   SafedPage: {fileID: 650318369}
   SettingsPage: {fileID: 769023352}
   OfflinePage: {fileID: 842069236}
+  loadingPage: {fileID: 168445150}
 --- !u!114 &1095778949474189016
 MonoBehaviour:
   m_ObjectHideFlags: 0

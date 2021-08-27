@@ -12,14 +12,14 @@ public class TourManager : MonoBehaviour
     private Button previousButton;
     private Button menuButton;
     public int tourIndex;
-    private GameObject player;
+    public GameObject player;
     // private var playerMovement;
     APIService apiService;
     string targetRoomModel;
     string exibition;
 
 
-    public void StartTourManager()
+    void Start()
     {
 
         apiService = GameObject.Find("APIService").GetComponent<APIService>();
@@ -38,23 +38,26 @@ public class TourManager : MonoBehaviour
         //remove loading screen
 
         // calculate navigation
-        player = GameObject.FindWithTag("Player");
+        player.SetActive(true);
 
         tourIndex = -1;
-        artParent = GameObject.Find("artPosition");
+        artParent = GameObject.Find("artPositions");
+        Debug.Log("Starting to grab artworks.");
         foreach (Transform child in artParent.transform)
         {
             foreach (Transform grandchild in child)
             {
                 foreach (Transform greatgrandchild in grandchild)
                 {
-                    if (greatgrandchild.tag == "snapTarget")
+                    if (greatgrandchild.name == "snapTarget")
                     {
                         artWorks.Add(greatgrandchild.gameObject);
+                        Debug.Log("Artwork added " + grandchild.transform.name);
                     }
                 }
             }
         }
+        //artWorks = new List<GameObject> { GameObject.FindGameObjectsWithTag("snapTarget"));
         Debug.Log("Size of artWorks list: " + artWorks.Count);
        
 
