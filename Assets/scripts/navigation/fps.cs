@@ -316,8 +316,9 @@ public class fps : MonoBehaviour
     {
         //getsMoved = true;
         moveToTarget = target;
-        navMeshAgent.destination = moveToTarget.position;
+        navMeshAgent.destination = moveToTarget.position + new Vector3(0f, 0.2f, 0f);
         getsMoved = true;
-        Debug.Log(target.parent.name);
+        Debug.Log(target.name);
+        Debug.Log("Target position: " + target.position);
     }
 }

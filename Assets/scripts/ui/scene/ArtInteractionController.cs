@@ -17,8 +17,7 @@ public class ArtInteractionController : MonoBehaviour
     private TourManager tourManager;
     private int thisWorkIndex;
 
-    private ArtInfo _ArtInfo;
-    private ArtInfoList _ArtInfoList;
+    private ArtPiece artPiece;
 
     private Artists _Artists;
     // private var playerMovement;
@@ -44,9 +43,11 @@ public class ArtInteractionController : MonoBehaviour
         tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
         thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
 
-        //get Artinfo from json
-        //read json
-        // A LOT TO DOO HERE
+        var roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
+        artPiece = roomBuilder.artworks._artworks[thisWorkIndex];
+
+        // Get artist information here for the links and so on
+
         CreateContent();
 
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
@@ -55,7 +56,7 @@ public class ArtInteractionController : MonoBehaviour
 
         instagramButton.RegisterCallback<ClickEvent>(ev => OpenInstagram());
         orderButton.RegisterCallback<ClickEvent>(ev => AddToCart());
-        //menuButton 
+        //exitButton 
         closeInfoButton = rootVisualElement.Q<Button>("exitButton");
         closeInfoButton.RegisterCallback<ClickEvent>(ev => CloseArtInfo());
 
@@ -66,12 +67,13 @@ public class ArtInteractionController : MonoBehaviour
 
     public void OpenInstagram()
     {
-        Application.OpenURL(_ArtInfo._artist._instagramLink);
+
+        Application.OpenURL(artPiece._buyLink);
         Debug.Log("Open Instagram is not implemented yet!");
     }
     public void AddToCart()
     {
-        Application.OpenURL(_ArtInfo._buyLink);
+        Application.OpenURL(artPiece._buyLink);
         Debug.Log("Entered Shop.");
     }
 
@@ -94,23 +96,11 @@ public class ArtInteractionController : MonoBehaviour
 
     private void CreateContent()
     {
-        string jsonList = Resources.Load<TextAsset>("Scenes/artInfo").text;
-        var _ArtInfoList = JsonUtility.FromJson<ArtInfoList>(jsonList);
-
-        _ArtInfo = Array.Find(_ArtInfoList.artInfoList,
-                                artInfo => transform.parent.name.
-                                            EndsWith(artInfo._id.ToString()));
-
-        string jsonArtist = Resources.Load<TextAsset>("Scenes/artists").text;
-        _Artists = JsonUtility.FromJson<Artists>(jsonArtist);
-
-        _ArtInfo._artist = Array.Find(_Artists.artists,
-                                artist => artist._id == _ArtInfo._artistID);
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        rootVisualElement.Q<Label>("title").text = _ArtInfo._title;
-        rootVisualElement.Q<Label>("year").text = _ArtInfo._year.ToString();
-        rootVisualElement.Q<Label>("description").text = _ArtInfo._description;
-        rootVisualElement.Q<Label>("artist").text = _ArtInfo._artist._name;
+        rootVisualElement.Q<Label>("title").text = artPiece._name;
+        rootVisualElement.Q<Label>("year").text = artPiece._year;
+        rootVisualElement.Q<Label>("description").text = artPiece._description;
+        rootVisualElement.Q<Label>("artist").text = artPiece._artistID;
     }
 }
 

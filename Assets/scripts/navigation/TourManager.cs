@@ -77,9 +77,13 @@ public class TourManager : MonoBehaviour
         if (tourIndex >= (artWorks.Count - 1))
         {
             Debug.Log("End of art list reached");
-            return;
+            //set to first picture
+            tourIndex = 0;
         }
-        tourIndex += 1;
+        else
+        {
+            tourIndex += 1;
+        }
         //player.transform.position = artWorks[tourIndex].transform.position;
         var fps = player.GetComponent<fps>();
         fps.ActivateMoveTo(artWorks[tourIndex].transform);
@@ -89,11 +93,16 @@ public class TourManager : MonoBehaviour
         if (tourIndex <= 0)
         {
             Debug.Log("Start of art list reached");
-            return;
+            //set to last picture
+            tourIndex = artWorks.Count - 1;
         }
-        tourIndex -= 1;
+        else
+        {
+            tourIndex -= 1;
+        }
         //player.transform.position = artWorks[tourIndex].transform.position;
         var fps = player.GetComponent<fps>();
+
         fps.ActivateMoveTo(artWorks[tourIndex].transform);
     }
 

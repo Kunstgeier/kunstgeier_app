@@ -8,7 +8,7 @@ using System;
 public class RoomBuilder : MonoBehaviour
 {
     Exhibition _exhibition;
-    ArtPieces _artPieces;
+    public ArtPieces artworks;
 
     List<GameObject> _artObjects;
     [SerializeField]
@@ -35,18 +35,22 @@ public class RoomBuilder : MonoBehaviour
     public void DownloadAndPlaceArtworks(string artPieces)
     {
         Debug.Log("Download and place artworks called with arg: " + artPieces);
-        ArtPieces artworks = JsonUtility.FromJson<APIReturnParser<ArtPieces>>(artPieces).data;
+        artworks = JsonUtility.FromJson<APIReturnParser<ArtPieces>>(artPieces).data;
         Debug.Log("Artworks: " + artworks._artworks[0]._name);
-        foreach (ArtPiece artpiece in artworks._artworks)
+
         for(int i = 0; i < artworks._artworks.Length; i++)
         {
-            Debug.Log("Download and place Artwork: " + artpiece._name);
+            Debug.Log("Download and place Artwork: " + artworks._artworks[i]._name);
             if(i == artworks._artworks.Length - 1)
-                {
-                    StartCoroutine(apiService.GetArtPieceFile(artpiece, PlaceArtworks, true));
-                }
-                StartCoroutine(apiService.GetArtPieceFile(artpiece, PlaceArtworks, false));
+            {
+                //last artpiece
+                StartCoroutine(apiService.GetArtPieceFile(artworks._artworks[i], PlaceArtworks, true));
             }
+            else
+            {
+                StartCoroutine(apiService.GetArtPieceFile(artworks._artworks[i], PlaceArtworks, false));
+            }
+        }
 
         // place our player at first pic
         _player.transform.position = GameObject.Find("1").transform.position;
