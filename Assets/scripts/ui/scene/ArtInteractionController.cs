@@ -12,7 +12,7 @@ public class ArtInteractionController : MonoBehaviour
     private Button heartButton;
 
     public int tourIndex;
-    private GameObject player;
+    private fps playerFPS;
 
     private TourManager tourManager;
     private int thisWorkIndex;
@@ -63,6 +63,10 @@ public class ArtInteractionController : MonoBehaviour
         // heart button
         heartButton = rootVisualElement.Q<Button>("heartButton");
         heartButton.RegisterCallback<ClickEvent>(ev => AddToWishlist());
+
+        playerFPS = GameObject.Find("Player").GetComponent<fps>();
+        playerFPS.enabled = false;
+
     }
 
     public void OpenInstagram()
@@ -82,6 +86,7 @@ public class ArtInteractionController : MonoBehaviour
     {
         Debug.Log("Close Info Button clicked");
         transform.gameObject.SetActive(false);
+        playerFPS.enabled = true;
         Debug.Log("Closed");
     }
 

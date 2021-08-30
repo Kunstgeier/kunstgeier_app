@@ -52,8 +52,13 @@ public class RoomBuilder : MonoBehaviour
             }
         }
 
+        
         // place our player at first pic
         _player.transform.position = GameObject.Find("1").transform.position;
+        //find some position on navmesh
+        NavMeshHit targetPoint;
+        NavMesh.SamplePosition(_player.transform.position, out targetPoint, 2f, NavMesh.AllAreas);
+        _player.transform.position = targetPoint.position;
         Debug.Log("Player moved to position one.");
         GameObject.Find("loadingScreen").SetActive(false);
     }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SunRotation : MonoBehaviour
 {
-
-    public float speed;
-    public Vector3 rotation;
+    [SerializeField]
+    private float speed;
+    private Vector3 rotation;
     // Start is called before the first frame update
     void Start()
     {

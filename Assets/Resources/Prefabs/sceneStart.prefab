@@ -71,7 +71,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6270658869450366949}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.774149, y: 22.086613, z: 101.55504}
+  m_LocalPosition: {x: -21.774149, y: 0, z: 101.55504}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6270658870460072910}
@@ -171,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9459210972efb4c4abbe23a5752eda72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  artworks:
+    _artworks: []
   _player: {fileID: 7674311107553136939}
   _sceneUI: {fileID: 2195869595523059192}
 --- !u!1001 &6270658868889268620
@@ -255,6 +257,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6270658869450366950}
     m_Modifications:
+    - target: {fileID: 4433083884053481665, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4433083884053481667, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -265,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4433083884053481667, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -21.065613
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4433083884053481667, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
       propertyPath: m_LocalPosition.z
@@ -313,7 +319,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9154223898417410005, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
       propertyPath: m_BaseOffset
-      value: 0
+      value: 1.16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}

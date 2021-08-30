@@ -55,8 +55,8 @@ public class fps : MonoBehaviour
     public float camSens = 0.15f;   // Mouse sensitivity
 
     //MOUSE ROTATION VARIABLES
-    public float speedH = 2.0f;
-    public float speedV = 2.0f;
+    public float speedH = 4.0f;
+    public float speedV = 4.0f;
 
     private float yaw = 0.0f;
     private float pitch = 0.0f;
@@ -316,8 +316,10 @@ public class fps : MonoBehaviour
     {
         //getsMoved = true;
         moveToTarget = target;
-        navMeshAgent.destination = moveToTarget.position + new Vector3(0f, 0.2f, 0f);
+        float distanceToArt = 0.5f;
+        navMeshAgent.destination = moveToTarget.position + new Vector3(0f, distanceToArt, 0f);
         getsMoved = true;
+        transform.localRotation = Quaternion.identity;
         Debug.Log(target.name);
         Debug.Log("Target position: " + target.position);
     }
