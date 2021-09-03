@@ -18,6 +18,8 @@ public class TourManager : MonoBehaviour
     string targetRoomModel;
     string exibition;
 
+    [SerializeField]
+    GameObject artistInfo;
 
     void Start()
     {
@@ -118,7 +120,8 @@ public class TourManager : MonoBehaviour
 
     public void Menu()
     {
-        SceneManager.LoadSceneAsync("menu");
-        Debug.Log("Pointer down to menu.");
+        artistInfo.SetActive(true);
+        artistInfo.GetComponent<LobbyController>().Activate();
+        Debug.Log("Lobby enter called.");
     }
 }

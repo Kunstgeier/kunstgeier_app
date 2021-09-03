@@ -14,6 +14,7 @@ public class Artist
     public string _name;
     public string _instagramLink;
     public string _location;
+    public string _description = null;
 
     //public Artist(string name, string gallery, string instagramLink, string location)
     //{

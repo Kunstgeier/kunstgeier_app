@@ -19,7 +19,7 @@ public class ArtInteractionController : MonoBehaviour
 
     private ArtPiece artPiece;
 
-    private Artists _Artists;
+    private Artist _artist;
     // private var playerMovement;
 
     // Start is called before the first frame update
@@ -47,6 +47,7 @@ public class ArtInteractionController : MonoBehaviour
         artPiece = roomBuilder.artworks._artworks[thisWorkIndex];
 
         // Get artist information here for the links and so on
+        _artist = Array.Find(roomBuilder._artists._artists, a => a._id.ToString() == artPiece._artistID);
 
         CreateContent();
 
@@ -66,13 +67,12 @@ public class ArtInteractionController : MonoBehaviour
 
         playerFPS = GameObject.Find("Player").GetComponent<fps>();
         playerFPS.enabled = false;
-
     }
 
     public void OpenInstagram()
     {
 
-        Application.OpenURL(artPiece._buyLink);
+        Application.OpenURL(_artist._instagramLink);
         Debug.Log("Open Instagram is not implemented yet!");
     }
     public void AddToCart()
@@ -105,7 +105,7 @@ public class ArtInteractionController : MonoBehaviour
         rootVisualElement.Q<Label>("title").text = artPiece._name;
         rootVisualElement.Q<Label>("year").text = artPiece._year;
         rootVisualElement.Q<Label>("description").text = artPiece._description;
-        rootVisualElement.Q<Label>("artist").text = artPiece._artistID;
+        rootVisualElement.Q<Label>("artist").text = _artist._name;
     }
 }
 

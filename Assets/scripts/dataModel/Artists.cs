@@ -10,5 +10,5 @@ using System;
 [Serializable]
 public class Artists
 {
-    public Artist[] artists;
+    public Artist[] _artists;
 }

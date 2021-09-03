@@ -185,6 +185,12 @@ public class APIService : MonoBehaviour
         Debug.Log("Get Artworks of Exhibition: " + room._name);
         Get<ArtPieces>(Routes.GetArtworksFromRoom, callback, room._id);
     }
+
+    public void GetArtistsOfExhibition(Exhibition exhibition, Action<string> callback)
+    {
+        Debug.Log("Get Artworks of Exhibition: " + exhibition._name);
+        Get<Artists>(Routes.GetArtistFromRoom, callback, exhibition._id);
+    }
     private string GetToken()
     {
         //decrypt here

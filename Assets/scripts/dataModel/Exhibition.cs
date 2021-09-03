@@ -8,6 +8,7 @@ public class Exhibition
     public string _roomID;
     public string _roomModelLink;
     public string _thumbnailLink;
+    public string _description = null;
 
 
 

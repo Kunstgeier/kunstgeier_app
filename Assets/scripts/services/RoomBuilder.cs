@@ -7,14 +7,17 @@ using System;
 
 public class RoomBuilder : MonoBehaviour
 {
-    Exhibition _exhibition;
+    public Exhibition _exhibition;
     public ArtPieces artworks;
+    public Artists _artists;
 
     List<GameObject> _artObjects;
     [SerializeField]
     GameObject _player;
     [SerializeField]
     GameObject _sceneUI;
+    [SerializeField]
+    GameObject artistInfo;
     //References
     APIService apiService;
 
@@ -30,6 +33,14 @@ public class RoomBuilder : MonoBehaviour
         // download room object if not existing and instantiate
         // download artworks and instantiate as callback
         apiService.GetArtWorksOfExhibition(_exhibition, DownloadAndPlaceArtworks);
+        //get artist information
+        apiService.GetArtistsOfExhibition(_exhibition, StoreArtists);
+    }
+
+    public void StoreArtists(string json)
+    {
+        _artists = JsonUtility.FromJson<APIReturnParser<Artists>>(json).data;
+        Debug.Log("Received arists:" + json);
     }
 
     public void DownloadAndPlaceArtworks(string artPieces)
@@ -60,7 +71,10 @@ public class RoomBuilder : MonoBehaviour
         NavMesh.SamplePosition(_player.transform.position, out targetPoint, 2f, NavMesh.AllAreas);
         _player.transform.position = targetPoint.position;
         Debug.Log("Player moved to position one.");
-        GameObject.Find("loadingScreen").SetActive(false);
+        _player.SetActive(true);
+        //activate Lobby functionality
+        artistInfo.SetActive(true);
+        artistInfo.GetComponent<LobbyController>().Activate();
     }
 
     public void PlaceArtworks(ArtPiece artpiece, Texture2D artwork, Boolean last)
