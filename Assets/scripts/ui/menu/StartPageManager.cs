@@ -19,6 +19,7 @@ public class StartPageManager : MonoBehaviour
     // Start is called before the first frame update
     public void OnEnable()
     {
+        LeanTween.alpha(this.gameObject, 0.1f, 2f);
         Debug.Log("Start page enabled");
         //displayExhibitions = new System.Action<string>(DisplayExhibitions);
         apiService = GameObject.Find("tabbar").GetComponent<APIService>();

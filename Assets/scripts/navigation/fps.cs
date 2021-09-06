@@ -290,7 +290,7 @@ public class fps : MonoBehaviour
     {
 
         // vertical (pitch) rotation
-        cameraPitch = Mathf.Clamp(cameraPitch + lookInput.y, -90f, 90f);
+        cameraPitch = Mathf.Clamp(cameraPitch + lookInput.y, -80f, 80f);
         cameraTransform.localRotation = Quaternion.Euler(-cameraPitch, 0, 0);
 
         // horizontal (yaw) rotation
@@ -319,8 +319,10 @@ public class fps : MonoBehaviour
         float distanceToArt = 0.5f;
         navMeshAgent.destination = moveToTarget.position + new Vector3(0f, distanceToArt, 0f);
         getsMoved = true;
-        transform.localRotation = Quaternion.identity;
-        Debug.Log(target.name);
-        Debug.Log("Target position: " + target.position);
+        // reset camera pitch
+        lookInput.y = 0;
+        cameraPitch = 0;
+        cameraTransform.localRotation = Quaternion.Euler(0, 0, 0);
+
     }
 }

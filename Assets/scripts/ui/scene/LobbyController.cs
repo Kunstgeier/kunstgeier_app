@@ -84,17 +84,17 @@ public class LobbyController : MonoBehaviour
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         rootVisualElement.Q<Label>("title").text = _exhibition._name;
         rootVisualElement.Q<Label>("year").text = "";
-        if (_exhibition._description != null)
+        if (_exhibition._description != null && _exhibition._description != "")
         {
             rootVisualElement.Q<Label>("description").text = _exhibition._description;
         }
-        else if (_artists._artists[0]._description != null)
+        else if (_artists._artists[0]._description != null && _artists._artists[0]._description != "")
         {
             rootVisualElement.Q<Label>("description").text = _artists._artists[0]._description;
         }
         else
         {
-            rootVisualElement.Q<Label>("description").text = "";
+            rootVisualElement.Q<Label>("description").text = "No description available.";
         }
         //remove dummy name
         rootVisualElement.Q<Label>("artist").text = "";

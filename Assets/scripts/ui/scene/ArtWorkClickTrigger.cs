@@ -32,7 +32,7 @@ public class ArtWorkClickTrigger : MonoBehaviour
 
 
 
-        StartCoroutine(ExampleCoroutine());
+        //StartCoroutine(ExampleCoroutine());
 
 
         // snap to object

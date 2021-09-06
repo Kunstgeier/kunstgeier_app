@@ -7,6 +7,10 @@ using System;
 
 public class RoomBuilder : MonoBehaviour
 {
+
+    // bools for download status
+    bool ArtDownloadedAndPlaced = false;
+    bool ArtistDownloaded = false;
     public Exhibition _exhibition;
     public ArtPieces artworks;
     public Artists _artists;
@@ -35,14 +39,33 @@ public class RoomBuilder : MonoBehaviour
         apiService.GetArtWorksOfExhibition(_exhibition, DownloadAndPlaceArtworks);
         //get artist information
         apiService.GetArtistsOfExhibition(_exhibition, StoreArtists);
+        //this coroutine waits until everything is set to start the scene
+        StartCoroutine(StartScene());
     }
 
     public void StoreArtists(string json)
     {
         _artists = JsonUtility.FromJson<APIReturnParser<Artists>>(json).data;
         Debug.Log("Received arists:" + json);
+        ArtistDownloaded = true;
     }
 
+    IEnumerator StartScene()
+    {
+        yield return new WaitUntil(() => ArtDownloadedAndPlaced && ArtistDownloaded);
+
+        // place our player at first pic
+        _player.transform.position = GameObject.Find("1").transform.position;
+        //find some position on navmesh
+        NavMeshHit targetPoint;
+        NavMesh.SamplePosition(_player.transform.position, out targetPoint, 2f, NavMesh.AllAreas);
+        _player.transform.position = targetPoint.position;
+        Debug.Log("Player moved to position one.");
+        _player.SetActive(true);
+        //activate Lobby functionality
+        artistInfo.SetActive(true);
+        artistInfo.GetComponent<LobbyController>().Activate();
+    }
     public void DownloadAndPlaceArtworks(string artPieces)
     {
         Debug.Log("Download and place artworks called with arg: " + artPieces);
@@ -62,19 +85,6 @@ public class RoomBuilder : MonoBehaviour
                 StartCoroutine(apiService.GetArtPieceFile(artworks._artworks[i], PlaceArtworks, false));
             }
         }
-
-        
-        // place our player at first pic
-        _player.transform.position = GameObject.Find("1").transform.position;
-        //find some position on navmesh
-        NavMeshHit targetPoint;
-        NavMesh.SamplePosition(_player.transform.position, out targetPoint, 2f, NavMesh.AllAreas);
-        _player.transform.position = targetPoint.position;
-        Debug.Log("Player moved to position one.");
-        _player.SetActive(true);
-        //activate Lobby functionality
-        artistInfo.SetActive(true);
-        artistInfo.GetComponent<LobbyController>().Activate();
     }
 
     public void PlaceArtworks(ArtPiece artpiece, Texture2D artwork, Boolean last)
@@ -110,6 +120,7 @@ public class RoomBuilder : MonoBehaviour
         if(last)
         {
             _sceneUI.SetActive(true);
+            ArtDownloadedAndPlaced = true;
         }
 
     }

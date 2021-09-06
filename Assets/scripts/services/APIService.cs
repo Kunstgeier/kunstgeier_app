@@ -234,12 +234,11 @@ public class APIService : MonoBehaviour
 
 public struct Routes
 {
-    public static string GetAllRooms = "exhibitions";
-    public static string GetRooms = "exhibitions/#";
-    public static string GetArtistFromRoom = "exhibitions/#/artists";
-    public static string GetArtworksFromRoom = "exhibitions/#/artworks";
-    public static string Register = "auth/register";
-    public static string Login = "auth/login";
-    public static string CheckToken = "auth/checkToken";
-    //public static string GetAllRooms = "rooms/getAll";
+    public static string GetAllRooms = "exhibitions.json";
+    public static string GetRooms = "exhibitions/#.json";
+    public static string GetArtistFromRoom = "exhibitions/#/artists.json";
+    public static string GetArtworksFromRoom = "exhibitions/#/artworks.json";
+    public static string Register = "auth/register.json";
+    public static string Login = "auth/login.json";
+    public static string CheckToken = "auth/checkToken.json";
 }
