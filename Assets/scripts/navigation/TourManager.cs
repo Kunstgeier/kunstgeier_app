@@ -61,7 +61,7 @@ public class TourManager : MonoBehaviour
         }
         //artWorks = new List<GameObject> { GameObject.FindGameObjectsWithTag("snapTarget"));
         Debug.Log("Size of artWorks list: " + artWorks.Count);
-       
+
 
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         nextButton = rootVisualElement.Q<Button>("nextButton");

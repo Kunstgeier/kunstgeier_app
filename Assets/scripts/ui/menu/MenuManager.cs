@@ -10,7 +10,7 @@ using System.Net;
 using System;
 using System.IO;
 using UnityEngine.UIElements.Experimental;
-
+using DG.Tweening;
 public class MenuManager : MonoBehaviour
 {
     //get list of all rooms from server
@@ -23,11 +23,18 @@ public class MenuManager : MonoBehaviour
     public GameObject OfflinePage;
     public GameObject loadingPage;
 
+    //visualelements
+    VisualElement tabBarRootVisualElement;
 
+    VisualElement loadingRootVisualElement;
 
+    //array of UIdocuments
+
+    private UIDocument[] uiDocuments;
     //check if Rooms are loaded
     private void Start()
     {
+        
         apiService = transform.GetComponent<APIService>();
         //repeatedly check online status
         //InvokeRepeating("apiService.IsOnline", 0f, 2f);
@@ -44,19 +51,31 @@ public class MenuManager : MonoBehaviour
 
         // settings button
 
-        var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
+        tabBarRootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
 
-        rootVisualElement.Q<Button>("settings").RegisterCallback<ClickEvent>(
+        //fade in menu and tabbar
+        DOTween.To(x => tabBarRootVisualElement.style.marginTop = x, 600, 0, .5f);
+        //DOTween.To(x => tabBarRootVisualElement.style.opacity = x, 600, 0, .5f);
+        //loading page stuff
+
+        loadingRootVisualElement = loadingPage.GetComponent<UIDocument>()
+                                        .rootVisualElement;
+
+        //callbacks for buttons
+        tabBarRootVisualElement.Q<Button>("settings").RegisterCallback<ClickEvent>(
             ev => SetSettingsPage());
 
-        rootVisualElement.Q<Button>("start").RegisterCallback<ClickEvent>(
+        tabBarRootVisualElement.Q<Button>("start").RegisterCallback<ClickEvent>(
             ev => SetStartPage());
-        rootVisualElement.Q<Button>("search").RegisterCallback<ClickEvent>(
+        tabBarRootVisualElement.Q<Button>("search").RegisterCallback<ClickEvent>(
             ev => SetSearchPage());
-        rootVisualElement.Q<Button>("safed").RegisterCallback<ClickEvent>(
+        tabBarRootVisualElement.Q<Button>("safed").RegisterCallback<ClickEvent>(
             ev => SetSafedPage());
         SetStartPage();
 
+        // populate uiDocuments
+
+        PopulateUIDocuments();
     }
 
 
@@ -66,6 +85,7 @@ public class MenuManager : MonoBehaviour
         SearchPage.SetActive(false);
         SafedPage.SetActive(false);
         SettingsPage.SetActive(false);
+        SetSortingOrder("start");
     }
     public void SetSearchPage()
     {
@@ -73,6 +93,7 @@ public class MenuManager : MonoBehaviour
         SearchPage.SetActive(true);
         SafedPage.SetActive(false);
         SettingsPage.SetActive(false);
+        SetSortingOrder("search");
     }
     public void SetSafedPage()
     {
@@ -80,6 +101,7 @@ public class MenuManager : MonoBehaviour
         SearchPage.SetActive(false);
         SafedPage.SetActive(true);
         SettingsPage.SetActive(false);
+        SetSortingOrder("safed");
     }
     public void SetSettingsPage()
     {
@@ -87,6 +109,7 @@ public class MenuManager : MonoBehaviour
         SearchPage.SetActive(false);
         SafedPage.SetActive(false);
         SettingsPage.SetActive(true);
+        SetSortingOrder("settings");
     }
 
     // open Room
@@ -108,14 +131,75 @@ public class MenuManager : MonoBehaviour
 
     public void ShowLoadingScreen(string message = null )
     {
-         loadingPage.SetActive(true);
-        if(message != null)
-        {
-            //change the loading message
-            var rootVisualElement = loadingPage.GetComponent<UIDocument>()
+        loadingPage.SetActive(true);
+        loadingRootVisualElement = loadingPage.GetComponent<UIDocument>()
                                         .rootVisualElement;
-            rootVisualElement.Q<Label>("message").text = message;
+
+        //loadingRootVisualElement.style.opacity = 0;
+
+        if (message != null)
+        {
+            //change loading screen message
+            loadingRootVisualElement.Q<Label>("message").text = message;
         }
-         Debug.Log("Show Loading Scene Screen");
+        // fade in loading screen
+        DOTween.To(x => loadingRootVisualElement.style.opacity = x, 0f, 1f, 0.5f);
+
+        Debug.Log("Show Loading Scene Screen");
+    }
+
+    private void PopulateUIDocuments()
+    {
+        uiDocuments = new UIDocument[] {
+                            StartPage.GetComponent<UIDocument>(),
+                            SearchPage.GetComponent<UIDocument>(),
+                            SafedPage.GetComponent<UIDocument>(),
+                            SettingsPage.GetComponent<UIDocument>(),
+                            OfflinePage.GetComponent<UIDocument>()
+                      };
+    }
+
+    private void SetSortingOrder(string page)
+    {
+        switch (page)
+        {
+            case "start":
+                StartPage.GetComponent<UIDocument>().sortingOrder = 3;
+                SettingsPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SafedPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SearchPage.GetComponent<UIDocument>().sortingOrder = 2;
+                OfflinePage.GetComponent<UIDocument>().sortingOrder = 2;
+                break;
+            case "search":
+                StartPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SettingsPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SafedPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SearchPage.GetComponent<UIDocument>().sortingOrder = 3;
+                OfflinePage.GetComponent<UIDocument>().sortingOrder = 2;
+                break;
+            case "safed":
+                StartPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SettingsPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SafedPage.GetComponent<UIDocument>().sortingOrder = 3;
+                SearchPage.GetComponent<UIDocument>().sortingOrder = 2;
+                OfflinePage.GetComponent<UIDocument>().sortingOrder = 2;
+                break;
+            case "settings":
+                StartPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SettingsPage.GetComponent<UIDocument>().sortingOrder = 3;
+                SafedPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SearchPage.GetComponent<UIDocument>().sortingOrder = 2;
+                OfflinePage.GetComponent<UIDocument>().sortingOrder = 2;
+                break;
+            case "offline":
+                StartPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SettingsPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SafedPage.GetComponent<UIDocument>().sortingOrder = 2;
+                SearchPage.GetComponent<UIDocument>().sortingOrder = 2;
+                OfflinePage.GetComponent<UIDocument>().sortingOrder = 3;
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ArtWorkClickTrigger : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class ArtWorkClickTrigger : MonoBehaviour
 
     public void OnMouseUpAsButton()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         Debug.Log("Picture clicked");
         GameObject player = GameObject.FindWithTag("Player");
         Debug.Log("triggered Art trigger.");

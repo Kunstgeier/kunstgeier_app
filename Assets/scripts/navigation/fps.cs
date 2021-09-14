@@ -52,7 +52,7 @@ public class fps : MonoBehaviour
     public float mainSpeed = 4.0f;   // Regular speed
     public float shiftAdd = 2.0f;   // Amount to accelerate when shift is pressed
     public float maxShift = 4.0f;  // Maximum speed when holding shift
-    public float camSens = 0.15f;   // Mouse sensitivity
+    public float camSens = 0.3f;   // Mouse sensitivity
 
     //MOUSE ROTATION VARIABLES
     public float speedH = 4.0f;
@@ -113,13 +113,13 @@ public class fps : MonoBehaviour
                 }
             }
         }
-       
-        
+
+
         else if (getsRotated)
         {
             // Rotation Done ?
             Debug.Log("Rotating");
-            if ( Mathf.Abs(Quaternion.Angle(transform.rotation, moveToTarget.rotation)) < 4f)
+            if (Mathf.Abs(Quaternion.Angle(transform.rotation, moveToTarget.rotation)) < 4f)
             {
                 Debug.Log("Rotation done");
                 getsRotated = false;

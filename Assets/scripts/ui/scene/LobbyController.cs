@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+
 
 
 public class LobbyController : MonoBehaviour
 {
+    VisualElement rootVisualElement;
     private Button instagramButton;
     private Button enterButton;
     private Button menuButton;
@@ -26,9 +29,10 @@ public class LobbyController : MonoBehaviour
 
         // Get artist information here for the links and so on
 
+        rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        rootVisualElement.style.opacity = 0;
         CreateContent();
 
-        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         instagramButton = rootVisualElement.Q<Button>("instagramButton");
         enterButton = rootVisualElement.Q<Button>("enterButton");
 
@@ -48,6 +52,11 @@ public class LobbyController : MonoBehaviour
         playerFPS = _player.GetComponent<fps>();
         playerFPS.enabled = false;
 
+        foreach (var item in GameObject.FindGameObjectsWithTag("artInfoButton"))
+        {
+            item.GetComponent<UIDocument>().enabled = false;
+        }
+
     }
 
     public void OpenInstagram()
@@ -59,15 +68,37 @@ public class LobbyController : MonoBehaviour
     public void EnterExhibition()
     {
         playerFPS.enabled = true;
-        transform.gameObject.SetActive(false);
+        // fade out
+        DOTween.To(x => rootVisualElement.style.opacity = x, 1, 0, 0.5f).From(true).OnComplete(() => transform.gameObject.SetActive(false));
+        //move down
+        DOTween.To(x => rootVisualElement.style.marginTop = x, 0, 400, 0.5f);
+        //transform.gameObject.SetActive(false);
         Debug.Log("Entered Exhibition.");
+
+        // activate art info button
+        foreach (var item in GameObject.FindGameObjectsWithTag("artInfoButton"))
+        {
+            item.GetComponent<BoxCollider>().enabled = false;
+            item.GetComponent<BoxCollider>().enabled = true;
+
+        }
     }
 
 
     public void ToMenu()
     {
-        SceneManager.LoadScene("menu");
+        //fade out
+        DOTween.To(x => rootVisualElement.style.opacity = x, 1, 0, 0.3f).From(true).OnComplete(() => SceneManager.LoadScene("menu"));
+        //move down
+        DOTween.To(x => rootVisualElement.style.marginTop = x, 0, 400, 0.5f);
+        DOTween.To(x => _player.transform.Find("playerCamera").GetComponent<Camera>().focalLength
+                            = x, _player.transform.Find("playerCamera")
+                                .GetComponent<Camera>().focalLength, 50, 1.5f)
+                                .From(true);
+
+        //_player.transform.Find("playerCamera").GetComponent<Camera>().focalLength
         Debug.Log("back to menu called");
+
     }
 
     private void AddToWishlist()
@@ -81,7 +112,7 @@ public class LobbyController : MonoBehaviour
 
     private void CreateContent()
     {
-        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        //var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
         rootVisualElement.Q<Label>("title").text = _exhibition._name;
         rootVisualElement.Q<Label>("year").text = "";
         if (_exhibition._description != null && _exhibition._description != "")
@@ -99,9 +130,12 @@ public class LobbyController : MonoBehaviour
         //remove dummy name
         rootVisualElement.Q<Label>("artist").text = "";
         foreach (var artist in _artists._artists)
-        { 
-               rootVisualElement.Q<Label>("artist").text += artist._name + "  ";
+        {
+            rootVisualElement.Q<Label>("artist").text += artist._name + "  ";
         }
-        
+        //fade in
+        DOTween.To(x => rootVisualElement.style.opacity = x, 0, 1, 0.5f).From(true);
+        //move up
+        DOTween.To(x => rootVisualElement.style.marginTop = x, 400, 0, 0.5f).From(true);
     }
 }

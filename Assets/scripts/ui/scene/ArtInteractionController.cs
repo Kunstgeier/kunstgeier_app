@@ -23,18 +23,18 @@ public class ArtInteractionController : MonoBehaviour
     // private var playerMovement;
 
     // Start is called before the first frame update
-    void Update()
-    {
-        //close artInfo if player to far away
-        if (thisWorkIndex != tourManager.tourIndex)
-        {
-            Debug.Log("This Work Index" + thisWorkIndex);
-            Debug.Log("Current Art Index" + tourManager.tourIndex);
+    //void Update()
+    //{
+    //    //close artInfo if player to far away
+    //    if (thisWorkIndex != tourManager.tourIndex)
+    //    {
+    //        Debug.Log("This Work Index" + thisWorkIndex);
+    //        Debug.Log("Current Art Index" + tourManager.tourIndex);
 
-            CloseArtInfo();
-        }
+    //        CloseArtInfo();
+    //    }
 
-    }
+    //}
 
 
     private void OnEnable()
@@ -71,7 +71,6 @@ public class ArtInteractionController : MonoBehaviour
 
     public void OpenInstagram()
     {
-
         Application.OpenURL(_artist._instagramLink);
         Debug.Log("Open Instagram is not implemented yet!");
     }
@@ -87,6 +86,10 @@ public class ArtInteractionController : MonoBehaviour
         Debug.Log("Close Info Button clicked");
         transform.gameObject.SetActive(false);
         playerFPS.enabled = true;
+
+        //reenable art button
+        transform.parent.Find("artInfoButton").GetComponent<InfoButtonClickTrigger>().OnTriggerEnter(GameObject.Find("Player").GetComponent<CapsuleCollider>());
+
         Debug.Log("Closed");
     }
 

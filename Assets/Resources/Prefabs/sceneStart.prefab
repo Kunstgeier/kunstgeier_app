@@ -243,7 +243,7 @@ MonoBehaviour:
   artworks:
     _artworks: []
   _artists:
-    artists: []
+    _artists: []
   _player: {fileID: 7674311107553136939}
   _sceneUI: {fileID: 2195869595523059192}
   artistInfo: {fileID: 3899513208884384940}
@@ -380,6 +380,18 @@ PrefabInstance:
     - target: {fileID: 4433083884053481667, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433083884053481668, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
+      propertyPath: speedH
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433083884053481668, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
+      propertyPath: camSens
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4433083884053481668, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
+      propertyPath: cameraSensitivity
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4433083884053481695, guid: a25ce1059ea4147d4a7e70d576c4e618, type: 3}
       propertyPath: m_Name

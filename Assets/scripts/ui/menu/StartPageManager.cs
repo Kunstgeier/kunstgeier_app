@@ -9,6 +9,8 @@ using UnityEngine.Networking;
 using System.Net;
 using System;
 using System.IO;
+using DG.Tweening;
+
 public class StartPageManager : MonoBehaviour
 {
     APIService apiService;
@@ -19,7 +21,6 @@ public class StartPageManager : MonoBehaviour
     // Start is called before the first frame update
     public void OnEnable()
     {
-        LeanTween.alpha(this.gameObject, 0.1f, 2f);
         Debug.Log("Start page enabled");
         //displayExhibitions = new System.Action<string>(DisplayExhibitions);
         apiService = GameObject.Find("tabbar").GetComponent<APIService>();
@@ -49,7 +50,7 @@ public class StartPageManager : MonoBehaviour
         //}
         button.Q<Label>("name").text = exhibition._name;
         button.Q<Label>("artist").text = exhibition._id;
-        if(exhibition._thumbnailLink != null)
+        if (exhibition._thumbnailLink != null)
         {
             apiService.StartCoroutine(apiService.GetButtonThumbnail(exhibition._thumbnailLink, button));
         }
@@ -81,17 +82,17 @@ public class StartPageManager : MonoBehaviour
         var exhibitionCard = Resources.Load<VisualTreeAsset>("UI/exhibitionCard");
         //get start page ui
         var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
-        foreach(Exhibition r in exhibitions._exhibitions)
+        foreach (Exhibition r in exhibitions._exhibitions)
         {
             Debug.Log(r._name);
             VisualElement tempButton = ModifyButton(exhibitionCard.CloneTree().ElementAt(0), r);
 
             rootVisualElement.Q<VisualElement>("unity-content-container").Add(tempButton);
+            //set opacity to zero
+            tempButton.style.opacity = 0;
             //rootVisualElement.hierarchy.ElementAt(0).hierarchy.ElementAt(1).Add(tempButton);
             tempButton.RegisterCallback<ClickEvent>(ev => menuManager.EnterExhibition(r));
         }
-
     }
 
 }
-

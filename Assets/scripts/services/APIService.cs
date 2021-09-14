@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using DG.Tweening;
 
 //using UnityEngine.UI;
 
@@ -36,7 +37,7 @@ public class APIService : MonoBehaviour
     //                                                  };
     //    Get<Rooms>("rooms/get", callbackTest<Rooms>,tempDict);
     //}
-  
+
 
     private readonly string _baseURL = "https://api.kunstgeier.de/staging/";
 
@@ -56,17 +57,17 @@ public class APIService : MonoBehaviour
         }
 
     }
-        /// <summary>
-        /// Get request
-        /// </summary>
-        /// <typeparam name="T">the type we expect from the api.</typeparam>
-        /// <typeparam name="route">the sub route of the API.</typeparam>
+    /// <summary>
+    /// Get request
+    /// </summary>
+    /// <typeparam name="T">the type we expect from the api.</typeparam>
+    /// <typeparam name="route">the sub route of the API.</typeparam>
     public void Get<T>(string route, Action<string> callback, string id = null, Dictionary<string, string> paramDict = null)
     {
         if (paramDict == null) paramDict = new Dictionary<string, string>();
         // We can add default request headers for all requests
         //LogMessage("Token is:", GetToken());
-        if(GetToken() != "")
+        if (GetToken() != "")
         {
             RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
         }
@@ -80,10 +81,10 @@ public class APIService : MonoBehaviour
         };
         RestClient.Get(currentRequest)
             .Then(res => {
-            Debug.Log("GetRequest got: " + JsonUtility.ToJson(res.Text, false));
-            //var parsed_return = JsonUtility.FromJson<APIReturnParser<T>>(res.Text);
-            return res.Text;
-        }).Then( res => callback(res));
+                Debug.Log("GetRequest got: " + JsonUtility.ToJson(res.Text, false));
+                //var parsed_return = JsonUtility.FromJson<APIReturnParser<T>>(res.Text);
+                return res.Text;
+            }).Then(res => callback(res));
     }
 
     /// <summary>
@@ -97,7 +98,7 @@ public class APIService : MonoBehaviour
         RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
 
         // need a way of stripping the underscores in front of variables
-        RestClient.Post(_baseURL + route , CargoToJson(body))
+        RestClient.Post(_baseURL + route, CargoToJson(body))
         .Then(res => this.LogMessage("Success", JsonUtility.ToJson(res, true)))
         .Catch(err => this.LogMessage("Error", err.Message));
     }
@@ -131,7 +132,7 @@ public class APIService : MonoBehaviour
     public IEnumerator GetButtonThumbnail(string link, UnityEngine.UIElements.VisualElement button)
     {
         Debug.Log("Gettexture at: " + link);
-        UnityWebRequest  www = UnityWebRequestTexture.GetTexture(link, true);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(link, true);
         // Progress bar here !!
 
         // Debug.Log("Download: " + www.downloadProgress);
@@ -147,10 +148,15 @@ public class APIService : MonoBehaviour
             button.Q<Button>("roomCard").style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
             //button.style.unityBackgroundScaleMode = ScaleMode.ScaleAndCrop;
             //button.style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
+
+            //fade in background image
+            DOTween.To(x => button.style.opacity = x, 0, 1, 0.5f);
+
+
         }
     }
 
-    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece,Texture2D, Boolean> callback, Boolean last = false)
+    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece, Texture2D, Boolean> callback, Boolean last = false)
     {
         Debug.Log("Get Artworkfile at: " + artpiece._filePath);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(artpiece._filePath, true);
@@ -207,7 +213,7 @@ public class APIService : MonoBehaviour
 
     public string CargoToJson<T>(T cargo)
     {
-        
+
         string ret = JsonUtility.ToJson(cargo);
         return ret;
     }
