@@ -179,10 +179,24 @@ public class APIService : MonoBehaviour
         }
     }
 
-    public void GetRoomModel(Exhibition exhibition)
+    public IEnumerator GetRoomModel(Exhibition exhibition)
     {
+        // Reference to load UI
+        UIDocument loadUI = GameObject.Find("loadUI").GetComponent<UIDocument>();
+        Label progressLabel = loadUI.rootVisualElement.Q<Label>("progress");
         Debug.Log("Attempting to load: " + exhibition._roomModelLink);
-        Addressables.LoadSceneAsync(exhibition._roomModelLink, LoadSceneMode.Single);
+        var downloadScene = Addressables.LoadSceneAsync(exhibition._roomModelLink, LoadSceneMode.Single);
+        // downloadScene.Completed += someFunktion();
+
+        while (!downloadScene.IsDone)
+        {
+            var status = downloadScene.GetDownloadStatus();
+            var progress = status.Percent * 100;
+            progressLabel.text = ((int)(progress)).ToString() + "%";
+            Debug.Log("Downloadstatus: " + progress.ToString() +"%");
+            yield return null;
+        }
+        Debug.Log("Download completed.");
     }
 
 

@@ -120,7 +120,7 @@ public class MenuManager : MonoBehaviour
         ///safe room name or so to playerprefs or json?
         ExhibitionToJson(exhibition);
         //download and open room scene assetbundle
-        apiService.GetRoomModel(exhibition);
+        StartCoroutine(apiService.GetRoomModel(exhibition));
     }
 
     private void ExhibitionToJson(Exhibition room)

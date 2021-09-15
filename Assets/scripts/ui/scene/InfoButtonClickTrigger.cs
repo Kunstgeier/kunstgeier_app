@@ -17,7 +17,7 @@ public class InfoButtonClickTrigger : MonoBehaviour
     int thisWorkIndex;
 
     // Start is called before the first frame update
-    void OnEnable()
+    void Start()
     {
         roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
     }

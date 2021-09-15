@@ -28,6 +28,7 @@ public class RoomBuilder : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         this._artObjects = new List<GameObject>();
         Debug.Log("RoomBuilder started.");
         apiService = GameObject.Find("APIService").GetComponent<APIService>();
@@ -60,11 +61,11 @@ public class RoomBuilder : MonoBehaviour
         NavMesh.SamplePosition(_player.transform.position, out targetPoint, 2f, NavMesh.AllAreas);
         _player.transform.position = targetPoint.position;
         Debug.Log("Player moved to position one.");
-        _player.SetActive(true);
-        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        
         //activate Lobby functionality
         artistInfo.SetActive(true);
         artistInfo.GetComponent<LobbyController>().Activate();
+        _player.SetActive(true);
     }
     public void DownloadAndPlaceArtworks(string artPieces)
     {
