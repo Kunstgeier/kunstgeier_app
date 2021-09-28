@@ -28,6 +28,7 @@ public class StartPageManager : MonoBehaviour
 
         var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
         ReloadExhibitionList();
+        Debug.Log(PlayerPrefs.GetString("username"));
     }
     public void Start()
     {

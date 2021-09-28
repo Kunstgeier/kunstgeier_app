@@ -20,23 +20,7 @@ public class APIService : MonoBehaviour
     private bool logger;
     public bool online = true;
     public List<AssetBundle> _loadedBundles;
-    //private void Awake()
-    //{
-    //    DontDestroyOnLoad(this.gameObject);
-    //}
-
-    //public void Start()
-    //{
-    //    LogMessage("Application started", "now trying to connect to server.");
-    //    LogMessage("", "");
-    //    Get<Rooms>("rooms/getAll", callbackTest<Rooms>);
-
-    //    // get with params
-    //    var tempDict = new Dictionary<string, string> {
-    //                                                        { "id","2" }
-    //                                                  };
-    //    Get<Rooms>("rooms/get", callbackTest<Rooms>,tempDict);
-    //}
+    
 
 
     private readonly string _baseURL = "https://api.kunstgeier.de/staging/";
@@ -82,7 +66,6 @@ public class APIService : MonoBehaviour
         RestClient.Get(currentRequest)
             .Then(res => {
                 Debug.Log("GetRequest got: " + JsonUtility.ToJson(res.Text, false));
-                //var parsed_return = JsonUtility.FromJson<APIReturnParser<T>>(res.Text);
                 return res.Text;
             }).Then(res => callback(res));
     }
@@ -93,41 +76,61 @@ public class APIService : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="route"></param>
     /// <param name="body">the request body as dictionary.</param>
-    public void Post(string route, Dictionary<string, string> body)
+    public void Post<T>(string route, T postObject, Action<string> callback) 
     {
-        RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
+        Debug.Log("Post called.");
+        //if (paramDict == null) paramDict = new Dictionary<string, string>();
+        // We can add default request headers for all requests
+        //LogMessage("Token is:", GetToken());
 
-        // need a way of stripping the underscores in front of variables
-        RestClient.Post(_baseURL + route, CargoToJson(body))
-        .Then(res => this.LogMessage("Success", JsonUtility.ToJson(res, true)))
-        .Catch(err => this.LogMessage("Error", err.Message));
+        if (GetToken() != "" && !route.Contains("checkToken"))
+        {
+            RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
+        }
+
+        Debug.Log(JsonUtility.ToJson(postObject));
+        //edit URL for parameters
+        RequestHelper currentRequest = new RequestHelper
+        {
+            Uri = _baseURL + route,
+            Body = postObject
+        };
+        Debug.Log(currentRequest.Uri);
+        Debug.Log(currentRequest.Body);
+
+        RestClient.Post(currentRequest)
+            .Then(res => {
+                Debug.Log("PostRequest got: " + JsonUtility.ToJson(res.Text, false));
+                callback(res.Text);
+            });
     }
 
-    public void Put(string route, Dictionary<string, string> body)
+    
+    public void Put<T>(string route, T putObject, Action<string> callback = null) 
     {
-        RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
+        Debug.Log("Put called.");
 
-        RestClient.Put(_baseURL + route, CargoToJson(body))
-            .Then(res => this.LogMessage("Success", JsonUtility.ToJson(res, true)))
-            .Catch(err => this.LogMessage("Error", err.Message));
+        //if (paramDict == null) paramDict = new Dictionary<string, string>();
+        // We can add default request headers for all requests
+        //LogMessage("Token is:", GetToken());
+        if (GetToken() != "")
+        {
+            RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
+        }
+
+        //edit URL for parameters
+        RequestHelper currentRequest = new RequestHelper
+        {
+            Uri = _baseURL + route,
+            Body = putObject
+        };
+        RestClient.Put(currentRequest)
+            .Then(res => {
+                Debug.Log("PutRequest put: " + JsonUtility.ToJson(res.Text, false));
+                return res.Text;
+            })
+            .Then(res => callback(res));
     }
-
-    //public void Delete(string route, Dictionary<string, string> body)
-    //{
-    //    RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
-
-
-    //    RestClient.Delete(_baseURL + route, (err, res) => {
-    //        if (err != null)
-    //        {
-    //            this.LogMessage("Error", err.Message);
-    //        }
-    //        else
-    //        {
-    //            this.LogMessage("Success", "Status: " + res.StatusCode.ToString());
-    //        }
-    //    });
-    //}
 
     public IEnumerator GetButtonThumbnail(string link, UnityEngine.UIElements.VisualElement button)
     {
@@ -146,8 +149,6 @@ public class APIService : MonoBehaviour
         else
         {
             button.Q<Button>("roomCard").style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
-            //button.style.unityBackgroundScaleMode = ScaleMode.ScaleAndCrop;
-            //button.style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
 
             //fade in background image
             DOTween.To(x => button.style.opacity = x, 0, 1, 0.5f);
@@ -174,8 +175,6 @@ public class APIService : MonoBehaviour
         {
             Debug.Log("call callback now?: " + DownloadHandlerTexture.GetContent(www));
             callback(artpiece, DownloadHandlerTexture.GetContent(www), last);
-            //button.style.unityBackgroundScaleMode = ScaleMode.ScaleAndCrop;
-            //button.style.backgroundImage = Background.FromTexture2D(DownloadHandlerTexture.GetContent(www));
         }
     }
 
@@ -186,7 +185,6 @@ public class APIService : MonoBehaviour
         Label progressLabel = loadUI.rootVisualElement.Q<Label>("progress");
         Debug.Log("Attempting to load: " + exhibition._roomModelLink);
         var downloadScene = Addressables.LoadSceneAsync(exhibition._roomModelLink, LoadSceneMode.Single);
-        // downloadScene.Completed += someFunktion();
 
         while (!downloadScene.IsDone)
         {
@@ -211,25 +209,47 @@ public class APIService : MonoBehaviour
         Debug.Log("Get Artworks of Exhibition: " + exhibition._name);
         Get<Artists>(Routes.GetArtistFromRoom, callback, exhibition._id);
     }
-    private string GetToken()
+
+    public void CheckToken(string token, Action<string> callback)
+    {
+        Debug.Log("Going to check token.");
+        var cargo = new TokenObject(token);
+        Post<TokenObject>(Routes.CheckToken, cargo, callback);
+    }
+
+    public void CheckUser(string username, Action<string> callback)
+    {
+        var cargo = new CheckUser(username);
+        Post<CheckUser>(Routes.CheckUser, cargo, callback);
+    }
+
+    public void LoginUser(string email, string password, Action<string> callback)
+    {
+        Debug.Log("attempting to log in: " + email);
+        var cargo = new LoginUser(email, password);
+        Post<LoginUser>(Routes.Login, cargo, callback);
+    }
+
+    public void RegisterUser(string email, string password, string username, Action<string> callback)
+    {
+        Debug.Log("attempting to Register: " + email);
+        var cargo = new RegisterUser(username, password, email);
+        Put<RegisterUser>(Routes.Register, cargo, callback);
+    }
+
+    public string GetToken()
     {
         //decrypt here
         string token = PlayerPrefs.GetString("token");
         return token;
     }
 
-    private void SetToken(string token)
+    public void SetToken(string token)
     {
         // encrypt here 
         // safe token to playerPrefs
-        PlayerPrefs.SetString("token", token);
-    }
-
-    public string CargoToJson<T>(T cargo)
-    {
-
-        string ret = JsonUtility.ToJson(cargo);
-        return ret;
+        PlayerPrefs.SetString("token",
+                               token);//.Replace(":", (char)34 + ":" + (char)34)) ;
     }
 
     public void callbackTest<T>(string response)
@@ -261,4 +281,7 @@ public struct Routes
     public static string Register = "auth/register.json";
     public static string Login = "auth/login.json";
     public static string CheckToken = "auth/checkToken.json";
+    public static string CheckUser = "auth/checkUser.json";
+    public static string CheckEmail = "auth/checkEmail.json";
+
 }

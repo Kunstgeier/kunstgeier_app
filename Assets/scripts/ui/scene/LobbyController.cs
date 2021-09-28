@@ -52,6 +52,7 @@ public class LobbyController : MonoBehaviour
         playerFPS = _player.GetComponent<fps>();
         playerFPS.enabled = false;
 
+        //close all artInfoButtons
         foreach (var item in GameObject.FindGameObjectsWithTag("artInfoButton"))
         {
             item.GetComponent<UIDocument>().enabled = false;

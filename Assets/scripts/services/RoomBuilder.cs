@@ -54,17 +54,20 @@ public class RoomBuilder : MonoBehaviour
     {
         yield return new WaitUntil(() => ArtDownloadedAndPlaced && ArtistDownloaded);
 
+        //activate Lobby functionality
+        artistInfo.SetActive(true);
+        artistInfo.GetComponent<LobbyController>().Activate();
+
+
         // place our player at first pic
+        _player.GetComponent<fps>().enabled = false;
         _player.transform.position = GameObject.Find("1").transform.position;
         //find some position on navmesh
         NavMeshHit targetPoint;
         NavMesh.SamplePosition(_player.transform.position, out targetPoint, 2f, NavMesh.AllAreas);
         _player.transform.position = targetPoint.position;
         Debug.Log("Player moved to position one.");
-        
-        //activate Lobby functionality
-        artistInfo.SetActive(true);
-        artistInfo.GetComponent<LobbyController>().Activate();
+       
         _player.SetActive(true);
     }
     public void DownloadAndPlaceArtworks(string artPieces)

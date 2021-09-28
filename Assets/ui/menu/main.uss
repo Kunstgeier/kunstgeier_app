@@ -38,7 +38,7 @@
     -unity-background-scale-mode: scale-to-fit;
     -unity-background-image-tint-color: rgb(180, 180, 180);
     height: 5%;
-    width: 80%;
+    width: 90%;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
@@ -54,6 +54,8 @@
     flex-shrink: 0;
     color: rgb(180, 180, 180);
     font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .roomCard {
@@ -91,4 +93,56 @@
     height: 100%;
     align-items: center;
     justify-content: flex-start;
+}
+
+.textField {
+}
+
+#unity-text-input {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    align-items: center;
+    justify-content: space-around;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.textButton:active {
+    background-color: rgb(0, 0, 0);
+}
+
+.authFooter {
+    height: 60%;
+    margin-top: 0;
+    width: 100%;
+    -unity-text-align: upper-center;
+    font-size: 30px;
+    background-color: rgba(46, 46, 46, 255);
+    color: rgba(180, 180, 180, 255);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.authFooter:active {
+    background-color: rgba(0, 0, 0, 255);
+}
+
+.buttonLabelTop {
+    width: 80%;
+    height: 5%;
+    margin-top: 20px;
+    margin-bottom: 0;
+    font-size: 30px;
+    color: rgba(180, 180, 180, 255);
+    -unity-text-align: middle-left;
 }

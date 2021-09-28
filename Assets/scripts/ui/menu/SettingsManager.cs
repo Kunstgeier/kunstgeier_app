@@ -13,14 +13,20 @@ public class SettingsManager : MonoBehaviour
 {
     VisualElement rootVisualElement;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
 
         // refactor Menu class to not be a monobehavior 
         //var menuManager = new MenuUtils();
+        rootVisualElement.Q<Button>("usernameDisplay").text = "Angemeldet als " + PlayerPrefs.GetString("username");
+        rootVisualElement.Q<Label>("labelExample").text = "Email: " + PlayerPrefs.GetString("email");
+
+
 
         rootVisualElement.Q<Button>("clearCache").RegisterCallback<ClickEvent>(ev => DeleteCache());
+        rootVisualElement.Q<Button>("logout").RegisterCallback<ClickEvent>(ev => Logout());
+
     }
 
     private void DeleteCache()
@@ -36,6 +42,16 @@ public class SettingsManager : MonoBehaviour
             rootVisualElement.Q<Button>("clearCache").text = "Bereinigung fehlgeschlagen.";
             Debug.Log("Cache NOT cleaned");
         }
+    }
+
+    private void Logout()
+    {
+        Debug.Log("Logout called from settings.");
+        PlayerPrefs.DeleteKey ("token");
+        PlayerPrefs.DeleteKey("username");
+        PlayerPrefs.DeleteKey("email");
+        PlayerPrefs.DeleteKey("userID");
+        SceneManager.LoadScene("auth");
     }
 
 }

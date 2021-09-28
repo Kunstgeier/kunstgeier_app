@@ -65,7 +65,7 @@ public class InfoButtonClickTrigger : MonoBehaviour
         {
             //deactivate
             artInfo.SetActive(false);
-            Debug.Log("Activated");
+            Debug.Log("Deactivated");
         }
         else
         {
