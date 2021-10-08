@@ -125,8 +125,8 @@
     width: 100%;
     -unity-text-align: upper-center;
     font-size: 30px;
-    background-color: rgba(46, 46, 46, 255);
-    color: rgba(180, 180, 180, 255);
+    background-color: rgb(46, 46, 46);
+    color: rgb(180, 180, 180);
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
@@ -134,7 +134,7 @@
 }
 
 .authFooter:active {
-    background-color: rgba(0, 0, 0, 255);
+    background-color: rgb(0, 0, 0);
 }
 
 .buttonLabelTop {
@@ -143,6 +143,6 @@
     margin-top: 20px;
     margin-bottom: 0;
     font-size: 30px;
-    color: rgba(180, 180, 180, 255);
+    color: rgb(180, 180, 180);
     -unity-text-align: middle-left;
 }

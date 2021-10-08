@@ -15,7 +15,7 @@ public class RoomBuilder : MonoBehaviour
     public ArtPieces artworks;
     public Artists _artists;
 
-    List<GameObject> _artObjects;
+    public List<GameObject> _artObjects;
     [SerializeField]
     GameObject _player;
     [SerializeField]
@@ -105,7 +105,7 @@ public class RoomBuilder : MonoBehaviour
 
                 spriteRenderer.sprite = Sprite.Create(artwork, new Rect(0.0f, 0.0f, artwork.width, artwork.height), new Vector2(0.5f, 0.5f), 100.0f);
                 // scale up the sprite
-                spriteRenderer.size *= 10;
+                spriteRenderer.size *= 80;
                 this._artObjects.Add(artworkObject);
                 //create artinfo here !!
             }

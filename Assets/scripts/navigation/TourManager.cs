@@ -45,21 +45,22 @@ public class TourManager : MonoBehaviour
         tourIndex = -1;
         artParent = GameObject.Find("artPositions");
         Debug.Log("Starting to grab artworks.");
-        foreach (Transform child in artParent.transform)
-        {
-            foreach (Transform grandchild in child)
-            {
-                foreach (Transform greatgrandchild in grandchild)
-                {
-                    if (greatgrandchild.name == "snapTarget")
-                    {
-                        artWorks.Add(greatgrandchild.gameObject);
-                        Debug.Log("Artwork added " + grandchild.transform.name);
-                    }
-                }
-            }
-        }
-        //artWorks = new List<GameObject> { GameObject.FindGameObjectsWithTag("snapTarget"));
+        //foreach (Transform child in artParent.transform)
+        //{ //all position
+        //    foreach (Transform grandchild in child)
+        //    { //all childs of position (only those used)
+        //        foreach (Transform greatgrandchild in grandchild)
+        //        {
+        //            if (greatgrandchild.name == "snapTarget")
+        //            {
+        //                artWorks.Add(greatgrandchild.gameObject);
+        //                Debug.Log("Artwork added " + grandchild.transform.name);
+        //            }
+        //        }
+        //    }
+        //}
+        //artWorks = new List<GameObject> { };
+        artWorks.AddRange(GameObject.FindGameObjectsWithTag("snapTarget"));
         Debug.Log("Size of artWorks list: " + artWorks.Count);
 
 

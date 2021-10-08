@@ -10,12 +10,16 @@ public class ArtInteractionController : MonoBehaviour
     private Button orderButton;
     private Button closeInfoButton;
     private Button heartButton;
+    private Button fullscreenButton;
 
     public int tourIndex;
     private fps playerFPS;
 
     private TourManager tourManager;
     private int thisWorkIndex;
+    private RoomBuilder roomBuilder;
+    [SerializeField]
+    private GameObject fullscreenView;
 
     private ArtPiece artPiece;
 
@@ -43,7 +47,7 @@ public class ArtInteractionController : MonoBehaviour
         tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
         thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
 
-        var roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
+        roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
         artPiece = roomBuilder.artworks._artworks[thisWorkIndex];
 
         // Get artist information here for the links and so on
@@ -65,6 +69,10 @@ public class ArtInteractionController : MonoBehaviour
         heartButton = rootVisualElement.Q<Button>("heartButton");
         heartButton.RegisterCallback<ClickEvent>(ev => AddToWishlist());
 
+        // fullscreen button
+        fullscreenButton = rootVisualElement.Q<Button>("fullscreenButton");
+        fullscreenButton.RegisterCallback<ClickEvent>(ev => ShowFullscreen());
+
         playerFPS = GameObject.Find("Player").GetComponent<fps>();
         playerFPS.enabled = false;
     }
@@ -83,6 +91,8 @@ public class ArtInteractionController : MonoBehaviour
 
     public void CloseArtInfo()
     {
+        fullscreenView.SetActive(false);
+
         Debug.Log("Close Info Button clicked");
         transform.gameObject.SetActive(false);
         playerFPS.enabled = true;
@@ -102,6 +112,14 @@ public class ArtInteractionController : MonoBehaviour
         // heart menu
     }
 
+    public void ShowFullscreen()
+    {
+        fullscreenView.GetComponent<UnityEngine.UI.Image>().sprite = roomBuilder._artObjects[thisWorkIndex].transform.Find("art").GetComponent<SpriteRenderer>().sprite;
+        fullscreenView.SetActive(true);
+        
+        Debug.Log("Show fullscreen called.");
+    }
+
     private void CreateContent()
     {
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
@@ -109,6 +127,7 @@ public class ArtInteractionController : MonoBehaviour
         rootVisualElement.Q<Label>("year").text = artPiece._year;
         rootVisualElement.Q<Label>("description").text = artPiece._description;
         rootVisualElement.Q<Label>("artist").text = _artist._name;
+        rootVisualElement.Q<VisualElement>("artwork").style.backgroundImage =  Background.FromSprite(roomBuilder._artObjects[thisWorkIndex].transform.Find("art").GetComponent<SpriteRenderer>().sprite);
     }
 }
 

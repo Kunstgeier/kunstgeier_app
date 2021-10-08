@@ -64,19 +64,21 @@ public class APIService : MonoBehaviour
             Params = paramDict
         };
         RestClient.Get(currentRequest)
-            .Then(res => {
+            .Then(res =>
+            {
                 Debug.Log("GetRequest got: " + JsonUtility.ToJson(res.Text, false));
-                return res.Text;
-            }).Then(res => callback(res));
+                callback(res.Text);
+            })
+            .Catch(error => callback("GET error: " + error.ToString()));
     }
 
-    /// <summary>
-    /// Post request
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="route"></param>
-    /// <param name="body">the request body as dictionary.</param>
-    public void Post<T>(string route, T postObject, Action<string> callback) 
+        /// <summary>
+        /// Post request
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="route"></param>
+        /// <param name="body">the request body as dictionary.</param>
+        public void Post<T>(string route, T postObject, Action<string> callback) 
     {
         Debug.Log("Post called.");
         //if (paramDict == null) paramDict = new Dictionary<string, string>();
@@ -102,7 +104,8 @@ public class APIService : MonoBehaviour
             .Then(res => {
                 Debug.Log("PostRequest got: " + JsonUtility.ToJson(res.Text, false));
                 callback(res.Text);
-            });
+            })
+            .Catch(error => callback("POST error: " + error.ToString()));
     }
 
     
@@ -113,10 +116,12 @@ public class APIService : MonoBehaviour
         //if (paramDict == null) paramDict = new Dictionary<string, string>();
         // We can add default request headers for all requests
         //LogMessage("Token is:", GetToken());
-        if (GetToken() != "")
+        if (GetToken() != "" && !route.Contains("register"))
         {
             RestClient.DefaultRequestHeaders["Authorization"] = GetToken();
         }
+        Debug.Log(JsonUtility.ToJson(putObject));
+
 
         //edit URL for parameters
         RequestHelper currentRequest = new RequestHelper
@@ -124,12 +129,16 @@ public class APIService : MonoBehaviour
             Uri = _baseURL + route,
             Body = putObject
         };
+        Debug.Log(currentRequest.Uri);
+        Debug.Log(currentRequest.Body);
+
         RestClient.Put(currentRequest)
             .Then(res => {
                 Debug.Log("PutRequest put: " + JsonUtility.ToJson(res.Text, false));
-                return res.Text;
+                callback(res.Text);
+
             })
-            .Then(res => callback(res));
+            .Catch(error => callback("PUT error: "+error.ToString()));
     }
 
     public IEnumerator GetButtonThumbnail(string link, UnityEngine.UIElements.VisualElement button)
@@ -240,7 +249,7 @@ public class APIService : MonoBehaviour
     public string GetToken()
     {
         //decrypt here
-        string token = PlayerPrefs.GetString("token");
+        string token = PlayerPrefs.GetString("token", "");
         return token;
     }
 
@@ -250,16 +259,6 @@ public class APIService : MonoBehaviour
         // safe token to playerPrefs
         PlayerPrefs.SetString("token",
                                token);//.Replace(":", (char)34 + ":" + (char)34)) ;
-    }
-
-    public void callbackTest<T>(string response)
-    {
-        //rerender menu
-        LogMessage("Callback response", response);
-        //safe data
-        var parsedResponse = JsonUtility.FromJson<APIReturnParser<T>>(response);
-        LogMessage("Parsed resonse meta msg: ", parsedResponse.meta.msg);
-        //
     }
 
     public void IsOnline()

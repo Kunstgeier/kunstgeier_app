@@ -19,8 +19,8 @@ public class SettingsManager : MonoBehaviour
 
         // refactor Menu class to not be a monobehavior 
         //var menuManager = new MenuUtils();
-        rootVisualElement.Q<Button>("usernameDisplay").text = "Angemeldet als " + PlayerPrefs.GetString("username");
-        rootVisualElement.Q<Label>("labelExample").text = "Email: " + PlayerPrefs.GetString("email");
+        rootVisualElement.Q<Button>("usernameDisplay").text = "Angemeldet als " + PlayerPrefs.GetString("username", "not found");
+        rootVisualElement.Q<Label>("labelExample").text = "Email: " + PlayerPrefs.GetString("email", "not found");
 
 
 

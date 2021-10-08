@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using System;
 
 public class LoginPageManager : MonoBehaviour
 {
@@ -17,7 +18,10 @@ public class LoginPageManager : MonoBehaviour
 
     private void OnEnable()
     {
+
+        TouchScreenKeyboard.hideInput = true;
         authManager = GameObject.Find("UI").GetComponent<AuthManager>();
+        authManager.Loading = true;
         apiService = GameObject.Find("UI").GetComponent<APIService>();
 
         loginRootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
@@ -32,9 +36,17 @@ public class LoginPageManager : MonoBehaviour
         loginRootVisualElement.Q<Button>("loginButton").RegisterCallback<ClickEvent>(
             ev => PrepareLogin());
 
+        loginRootVisualElement.Q<TextField>("usernameOrEmail").doubleClickSelectsWord = true;
+        loginRootVisualElement.Q<TextField>("password").doubleClickSelectsWord = true;
+        loginRootVisualElement.Q<TextField>("usernameOrEmail").focusable = true;
+        loginRootVisualElement.Q<TextField>("password").focusable = true;
+
+        Debug.Log(loginRootVisualElement.Q<TextField>("usernameOrEmail").cursorColor);
+        authManager.Loading = false;
     }
     private void PrepareLogin()
     {
+        authManager.Loading = true;
         var usernameOrEmail = loginRootVisualElement.Q<TextField>("usernameOrEmail").value;
         var password = loginRootVisualElement.Q<TextField>("password").value;
 
@@ -52,17 +64,24 @@ public class LoginPageManager : MonoBehaviour
 
     public void LoginCallback(string response)
     {
-        var auth = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response).data;
-        if (auth._auth.msg == "Authentication was good")
+        try
         {
-            apiService.SetToken(auth._auth.token);
-            //safe user data
-            authManager.OpenMenu(response);
+            var auth = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response).data;
+            if (auth._auth.msg == "Authentication was good")
+            {
+                apiService.SetToken(auth._auth.token);
+                //safe user data
+                authManager.OpenMenu(response);
+                return;
+            }
         }
-        else
+        catch(Exception e)
         {
-            Debug.Log("Login failed due to unknown reason.");
-            ToRegisterPage();
+            Debug.Log(e.ToString());
         }
+
+        Debug.Log("Login failed due to unknown reason.");
+        Debug.Log(response);
+        ToRegisterPage();
     }
 }

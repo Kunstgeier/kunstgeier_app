@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using System;
 
 public class RegisterPageManager : MonoBehaviour
 {
@@ -15,10 +16,13 @@ public class RegisterPageManager : MonoBehaviour
 
     AuthManager authManager;
 
-
     private void OnEnable()
     {
+        TouchScreenKeyboard.hideInput = true;
+
         authManager = GameObject.Find("UI").GetComponent<AuthManager>();
+        authManager.Loading = true;
+
         apiService = GameObject.Find("UI").GetComponent<APIService>();
 
         registerRootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
@@ -32,11 +36,15 @@ public class RegisterPageManager : MonoBehaviour
 
         registerRootVisualElement.Q<Button>("registerButton").RegisterCallback<ClickEvent>(
             ev => PrepareRegister());
+
+        authManager.Loading = false;
         
     }
 
+
     private void PrepareRegister()
     {
+        authManager.Loading = true;
         var username = registerRootVisualElement.Q<TextField>("username").value;
         var email = registerRootVisualElement.Q<TextField>("email").value;
         var password1 = registerRootVisualElement.Q<TextField>("password1").value;
@@ -52,7 +60,7 @@ public class RegisterPageManager : MonoBehaviour
         transform.gameObject.SetActive(false);
     }
 
-    public void checkUser(string username)
+    public void CheckUser(string username)
     {
         apiService.CheckUser(username, FeedbackUserCheckResult);
     }
@@ -64,21 +72,29 @@ public class RegisterPageManager : MonoBehaviour
 
     public void RegisterCallback(string response)
     {
-        var auth = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response).data._auth;
-        if(auth.msg == "Registration was successful")
+        try
         {
-            apiService.SetToken(auth.token);
-            //safe user data
-            authManager.OpenMenu(response);
-        }
-        else if(auth.msg == "Sorry, that username already exists!")
-        {
-            ToLoginPage();
-        }
-        else
-        {
-            Debug.Log("Registration failed due to unknown reason.");
+            var auth = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response).data._auth;
+            if (auth.msg == "Registration was successful")
+            {
+                apiService.SetToken(auth.token);
+                //safe user data
+                authManager.OpenMenu(response);
+            }
+            else if (auth.msg == "Sorry, that username already exists!")
+            {
+                ToLoginPage();
+            }
             return;
         }
+        catch(Exception e)
+        {
+            Debug.Log(e.ToString());
+        }
+
+        Debug.Log("Registration failed due to unknown reason.");
+        Debug.Log(response);
+        authManager.Loading = false;
+        return;
     }
 }

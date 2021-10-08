@@ -17,9 +17,4 @@ public class RegisterUser
         this.password = password;
         this.email = email;
     }
-
-    public string ToJson()
-    {
-        return JsonUtility.ToJson(this);
-    }
 }
