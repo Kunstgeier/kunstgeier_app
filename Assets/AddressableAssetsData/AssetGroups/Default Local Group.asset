@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6ce8a54935f21492c8a0cec1816c429a
+  m_SerializeEntries:
+  - m_GUID: c57a8a7851e964cafbe5c98f84a1d946
+    m_Address: rooms/fionasroom.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 102900000, guid: c57a8a7851e964cafbe5c98f84a1d946, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: c57a8a7851e964cafbe5c98f84a1d946, type: 3}
+  - m_GUID: cd5c68f41e5ba4c0a94ae32afdacb44d
+    m_Address: rooms/whitewallhall.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 102900000, guid: cd5c68f41e5ba4c0a94ae32afdacb44d, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: cd5c68f41e5ba4c0a94ae32afdacb44d, type: 3}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d2abb548c30104b3daeae9abb6fff9fc, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 36acd8951484e44f192a3df3daffc325, type: 2}
+    - {fileID: 11400000, guid: 9f43418d2f5c94e80bd2c3858fb55311, type: 2}

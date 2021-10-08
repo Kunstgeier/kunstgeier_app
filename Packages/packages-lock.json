@@ -7,6 +7,25 @@
       "dependencies": {},
       "hash": "61de17f4dbb51a46aec89bc22e33db7b11b52bbf"
     },
+    "com.unity.addressables": {
+      "version": "1.16.19",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.scriptablebuildpipeline": "1.15.2",
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.assetbundlebrowser": {
+      "version": "https://github.com/Unity-Technologies/AssetBundles-Browser.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b7c279278d1a343c6957c9f15b45173d3211f01c"
+    },
     "com.unity.cinemachine": {
       "version": "2.7.3",
       "depth": 0,
@@ -108,6 +127,13 @@
         "com.unity.shadergraph": "11.0.0"
       }
     },
+    "com.unity.scriptablebuildpipeline": {
+      "version": "1.15.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.searcher": {
       "version": "4.3.2",
       "depth": 2,
@@ -186,6 +212,21 @@
       "dependencies": {
         "com.unity.modules.uielementsnative": "1.0.0",
         "com.unity.textcore": "1.0.0-preview.2"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.visualscripting": {
+      "version": "1.5.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.ai": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

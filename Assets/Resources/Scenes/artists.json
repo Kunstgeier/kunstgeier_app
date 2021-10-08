@@ -1,0 +1,22 @@
+{
+    "artists": [
+        {
+            "_id":"1",
+            "_name":"Ingo Ohrt",
+            "_instagramLink":"https://www.instagram.com/ioioyoh/",
+            "_location":"Berlin"
+        },
+        {
+            "_id":"2",
+            "_name":"Sebastian Merk",
+            "_instagramLink":"https://www.instagram.com/sebastian.merk.art/",
+            "_location":"Hamburg"
+        },
+        {
+            "_id":"3",
+            "_name":"Leon Ferren Schumacher",
+            "_instagramLink":"https://www.instagram.com/leonferren/",
+            "_location":"Hamburg"
+        }
+    ]
+}

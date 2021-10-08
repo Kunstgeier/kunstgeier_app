@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="/Assets/ui/menu/main.uss" />
+    <ui:VisualElement name="bottomBar" style="position: absolute; top: 80%; height: 15%; width: 100%; align-items: center; justify-content: space-around; -unity-text-align: upper-left;">
+        <ui:Button text="Art Work Name || Artist Name" display-tooltip-when-elided="true" name="artInfo" class="button" style="bottom: 0; position: relative; align-items: center; justify-content: space-around; flex-direction: row; left: 0; background-image: none; width: auto; height: 80%; background-color: rgb(255, 255, 255); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; font-size: 40px;" />
+    </ui:VisualElement>
+</ui:UXML>

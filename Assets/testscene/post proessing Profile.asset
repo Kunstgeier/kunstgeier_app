@@ -116,15 +116,15 @@ MonoBehaviour:
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.05
+    m_Value: 0.19
     min: 0
   scatter:
     m_OverrideState: 1
-    m_Value: 0.408
+    m_Value: 0.218
     min: 0
     max: 1
   clamp:
@@ -171,7 +171,7 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.31
+    m_Value: 0.857
     min: 0
     max: 1
   response:
@@ -194,11 +194,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   m_AdvancedMode: 0
   lift:
     m_OverrideState: 1
-    m_Value: {x: 0.99561375, y: 0.9912278, z: 1, w: 0.020408163}
+    m_Value: {x: 0.8543529, y: 0.7695135, z: 1, w: 0.5381431}
   gamma:
     m_OverrideState: 1
     m_Value: {x: 0.96806955, y: 1, z: 0.99151427, w: -0.08163264}
@@ -643,12 +643,12 @@ MonoBehaviour:
   m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
-    m_Value: -8
+    m_Value: -11
     min: -100
     max: 100
   tint:
     m_OverrideState: 0
-    m_Value: 91
+    m_Value: -16
     min: -100
     max: 100
 --- !u!114 &6672480775037722798
@@ -686,11 +686,11 @@ MonoBehaviour:
     m_Value: 0
   focusDistance:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 6.64
     min: 0.1
   aperture:
-    m_OverrideState: 0
-    m_Value: 5.6
+    m_OverrideState: 1
+    m_Value: 1
     min: 1
     max: 32
   focalLength:

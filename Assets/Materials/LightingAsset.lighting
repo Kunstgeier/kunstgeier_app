@@ -9,7 +9,7 @@ LightingSettings:
   m_Name: LightingAsset
   serializedVersion: 3
   m_GIWorkflowMode: 1
-  m_EnableBakedLightmaps: 1
+  m_EnableBakedLightmaps: 0
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
   m_BounceScale: 1
@@ -23,7 +23,7 @@ LightingSettings:
   m_TextureCompression: 1
   m_AO: 1
   m_AOMaxDistance: 1
-  m_CompAOExponent: 1.53
+  m_CompAOExponent: 1.74
   m_CompAOExponentDirect: 1.53
   m_ExtractAO: 0
   m_MixedBakeMode: 2
