@@ -14,6 +14,8 @@ public class AuthManager : MonoBehaviour
 
     [SerializeField]
     private GameObject loadingScreen;
+    [SerializeField]
+    private GameObject msgScreen;
 
     APIService apiService;
 
@@ -57,13 +59,13 @@ public class AuthManager : MonoBehaviour
                     PlayerPrefs.SetString("userID", user.ID);
                     SceneManager.LoadScene("menu");
                 }
-                else if (authResult.error == false)
+                else if (authResult.error == null)
                 {
                     SceneManager.LoadScene("menu");
                 }
                 else
                 {
-                    Debug.Log(authResult.error.ToString());
+                    Debug.Log(authResult.error.message);
                     loginPage.SetActive(true);
                 }
                 return;
@@ -101,6 +103,19 @@ public class AuthManager : MonoBehaviour
             }
 
         }
+    }
+
+    public void DisplayAuthMessage(string msg = null)
+    {
+        if(msg == null || msg == "")
+        {
+            return;
+        }
+        msgScreen.SetActive(true);
+        var rootVisualElement = msgScreen.GetComponent<UIDocument>()
+                                            .rootVisualElement;
+        rootVisualElement.Q<Label>("msg").text = msg;
+        Loading = false;
     }
 }
 

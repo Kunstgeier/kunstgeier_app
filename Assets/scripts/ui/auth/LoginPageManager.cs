@@ -50,7 +50,16 @@ public class LoginPageManager : MonoBehaviour
         var usernameOrEmail = loginRootVisualElement.Q<TextField>("usernameOrEmail").value;
         var password = loginRootVisualElement.Q<TextField>("password").value;
 
-        Debug.Log(usernameOrEmail + " with " + password);
+        if (usernameOrEmail == null || usernameOrEmail == "")
+        {
+            authManager.DisplayAuthMessage("Bitte einen Username oder eine Email eingeben.");
+            return;
+        }
+        else if (password == null || password == "")
+        {
+            authManager.DisplayAuthMessage(" Bitte dein Passwort eingeben.");
+            return;
+        }
 
         apiService.LoginUser(usernameOrEmail, password, LoginCallback);
     }
@@ -64,14 +73,22 @@ public class LoginPageManager : MonoBehaviour
 
     public void LoginCallback(string response)
     {
+        Debug.Log("Raw login Auth response: "+response);
         try
         {
-            var auth = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response).data;
-            if (auth._auth.msg == "Authentication was good")
+            var parsed = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response);
+            if (parsed.data._auth.msg == "Authentication was good")
             {
-                apiService.SetToken(auth._auth.token);
+                apiService.SetToken(parsed.data._auth.token);
                 //safe user data
                 authManager.OpenMenu(response);
+                return;
+            }
+            if(parsed.error != null)
+            {
+                authManager.DisplayAuthMessage(parsed.error.message);
+                authManager.Loading = false;
+
                 return;
             }
         }
@@ -80,7 +97,7 @@ public class LoginPageManager : MonoBehaviour
             Debug.Log(e.ToString());
         }
 
-        Debug.Log("Login failed due to unknown reason.");
+        authManager.DisplayAuthMessage("Login fehlgeschlagen.");
         Debug.Log(response);
         ToRegisterPage();
     }

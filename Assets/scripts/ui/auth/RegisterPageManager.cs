@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using System;
+using System.Text.RegularExpressions;
 
 public class RegisterPageManager : MonoBehaviour
 {
@@ -50,8 +51,34 @@ public class RegisterPageManager : MonoBehaviour
         var password1 = registerRootVisualElement.Q<TextField>("password1").value;
         var password2 = registerRootVisualElement.Q<TextField>("password2").value;
 
-        Debug.Log(password1 + "=?" + password2);
+        string MatchEmailPattern =
+            @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+            + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+              + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+            + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
 
+        if (username == null || username == "")
+        {
+            authManager.DisplayAuthMessage("Bitte einen Username eingeben.");
+            return;
+        }
+        else if (!Regex.IsMatch(email, MatchEmailPattern))
+        {
+            authManager.DisplayAuthMessage("Bitte eine valide Email eingeben.");
+            return;
+        }
+        else if(password1 == "" || password2 == "")
+        {
+            authManager.DisplayAuthMessage("Bitte beide Passwörter eingeben.");
+            return;
+
+        }
+        else if (password1 != password2)
+        {
+            authManager.DisplayAuthMessage("Passwörter stimmen nicht überein.");
+            return;
+        }
+        
         apiService.RegisterUser(email, password1, username, RegisterCallback);
     }
     public void ToLoginPage()
@@ -74,16 +101,21 @@ public class RegisterPageManager : MonoBehaviour
     {
         try
         {
-            var auth = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response).data._auth;
+            var parsed = JsonUtility.FromJson<APIReturnParser<AuthReturnParser>>(response);
+
+            var auth = parsed.data._auth;
+
             if (auth.msg == "Registration was successful")
             {
                 apiService.SetToken(auth.token);
                 //safe user data
                 authManager.OpenMenu(response);
             }
-            else if (auth.msg == "Sorry, that username already exists!")
+            else if (parsed.error != null )
             {
-                ToLoginPage();
+                authManager.DisplayAuthMessage(parsed.error.message);
+                authManager.Loading = false;
+                return;
             }
             return;
         }
@@ -93,6 +125,8 @@ public class RegisterPageManager : MonoBehaviour
         }
 
         Debug.Log("Registration failed due to unknown reason.");
+        authManager.DisplayAuthMessage("Registrierung fehlgeschlagen.");
+
         Debug.Log(response);
         authManager.Loading = false;
         return;

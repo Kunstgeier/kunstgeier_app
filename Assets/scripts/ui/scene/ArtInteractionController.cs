@@ -41,12 +41,12 @@ public class ArtInteractionController : MonoBehaviour
     //}
 
 
-    private void OnEnable()
+    public void ActivateInfoPage(int index)
     {
+        this.gameObject.SetActive(true);
         //get art index of this table
         tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
-        thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
-
+        thisWorkIndex = index;
         roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
         artPiece = roomBuilder.artworks._artworks[thisWorkIndex];
 

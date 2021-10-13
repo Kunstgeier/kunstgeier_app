@@ -70,7 +70,7 @@ public class StartPageManager : MonoBehaviour
         //Parsed object
         APIReturnParser<Exhibitions> parsed = JsonUtility.FromJson<APIReturnParser<Exhibitions>>(s);
         //error handling
-        if (!parsed.error)
+        if (parsed.error != null)
         {
             //get exhibitions out of json
             exhibitions = parsed.data;
@@ -78,7 +78,7 @@ public class StartPageManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Could not get exhibition list from server due to error: " + parsed.meta.msg);
+            Debug.Log("Could not get exhibition list from server due to error: " + parsed.error.message);
         }
         var exhibitionCard = Resources.Load<VisualTreeAsset>("UI/exhibitionCard");
         //get start page ui
