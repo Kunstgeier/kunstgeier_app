@@ -11,8 +11,10 @@ public class RoomBuilder : MonoBehaviour
     // bools for download status
     bool ArtDownloadedAndPlaced = false;
     bool ArtistDownloaded = false;
+    uint downloadedArtCounter = 0;
+
     public Exhibition _exhibition;
-    public ArtPieces artworks;
+    public ArtPieces artworks;  
     public Artists _artists;
 
     public List<GameObject> _artObjects;
@@ -54,6 +56,7 @@ public class RoomBuilder : MonoBehaviour
     {
         yield return new WaitUntil(() => ArtDownloadedAndPlaced && ArtistDownloaded);
 
+        _sceneUI.SetActive(true);
         //activate Lobby functionality
         artistInfo.SetActive(true);
         artistInfo.GetComponent<LobbyController>().Activate();
@@ -76,22 +79,18 @@ public class RoomBuilder : MonoBehaviour
         artworks = JsonUtility.FromJson<APIReturnParser<ArtPieces>>(artPieces).data;
         Debug.Log("Artworks: " + artworks._artworks[0]._name);
 
+        //set size of artobjects
+        _artObjects = new List<GameObject>(new GameObject[artworks._artworks.Length]);
+
+
         for (int i = 0; i < artworks._artworks.Length; i++)
         {
             Debug.Log("Download and place Artwork: " + artworks._artworks[i]._name);
-            if (i == artworks._artworks.Length - 1)
-            {
-                //last artpiece
-                StartCoroutine(apiService.GetArtPieceFile(artworks._artworks[i], PlaceArtworks, true));
-            }
-            else
-            {
-                StartCoroutine(apiService.GetArtPieceFile(artworks._artworks[i], PlaceArtworks, false));
-            }
+            StartCoroutine(apiService.GetArtPieceFile(artworks._artworks[i], PlaceArtworks));
         }
     }
 
-    public void PlaceArtworks(ArtPiece artpiece, Texture2D artwork, Boolean last)
+    public void PlaceArtworks(ArtPiece artpiece, Texture2D artwork)
     {
         // find the position to spawn the artpiece at.
         Debug.Log("Place artworks called.");
@@ -100,19 +99,30 @@ public class RoomBuilder : MonoBehaviour
             var positionObject = GameObject.Find(artpiece._roomPosition);
             if (positionObject != null)
             {
+                //this work's index
+                int index = Array.IndexOf(artworks._artworks, artpiece);
                 var artworkObject = Instantiate(Resources.Load("Prefabs/art") as GameObject, positionObject.transform);
                 var spriteRenderer = artworkObject.transform.Find("art").GetComponent<SpriteRenderer>();
 
-                spriteRenderer.sprite = Sprite.Create(artwork, new Rect(0.0f, 0.0f, artwork.width, artwork.height), new Vector2(0.5f, 0.5f), 100.0f);
-                // scale up the sprite
-                spriteRenderer.size *= 80;
-                this._artObjects.Add(artworkObject);
+                // activate art info button with correct index
+                artworkObject.transform.Find("artInfoButton").
+                    GetComponent<InfoButtonClickTrigger>().
+                    ActivateInfoButton(index);
+
+                //                                                                                                                              this is the DPI like faktor
+                spriteRenderer.sprite = Sprite.Create(artwork, new Rect(0.0f, 0.0f, artwork.width, artwork.height), new Vector2(0.5f, 0.5f), 250.0f);
+                // scale up the sprite (usually scale with width/heigth)
+                //spriteRenderer.size *= 10; 
+                //safe art object at the correspoinding index !
+                this._artObjects[index] = artworkObject;
                 //create artinfo here !!
             }
             else
             {
                 Debug.Log("No matching position object found for:" + artpiece._roomPosition);
             }
+            //increment downloaded art counter
+            downloadedArtCounter++;
 
         }
         else
@@ -120,10 +130,10 @@ public class RoomBuilder : MonoBehaviour
             Debug.Log("Artwork has no position and will be skipped.");
         }
 
-        //if all art objets are spawned
-        if (last)
+        
+        //if all art objets are spawned/ downlaoded
+        if (downloadedArtCounter == artworks._artworks.Length)
         {
-            _sceneUI.SetActive(true);
             ArtDownloadedAndPlaced = true;
         }
 

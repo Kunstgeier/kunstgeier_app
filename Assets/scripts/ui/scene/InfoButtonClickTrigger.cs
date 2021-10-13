@@ -9,7 +9,7 @@ public class InfoButtonClickTrigger : MonoBehaviour
 {
     VisualElement rootVisualElement;
     Button artInfoButton;
-    TourManager tourManager;
+    //TourManager tourManager;
     RoomBuilder roomBuilder;
     //ArtPiece artPiece;
     //Artist _artist;
@@ -17,9 +17,10 @@ public class InfoButtonClickTrigger : MonoBehaviour
     int thisWorkIndex;
 
     // Start is called before the first frame update
-    void Start()
+    public void ActivateInfoButton(int artIndex)
     {
         roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
+        thisWorkIndex = artIndex;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -29,7 +30,7 @@ public class InfoButtonClickTrigger : MonoBehaviour
         {
             try
             {
-                tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
+                //tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
 
                 transform.gameObject.GetComponent<UIDocument>().enabled = true;
 
@@ -37,9 +38,9 @@ public class InfoButtonClickTrigger : MonoBehaviour
                 DOTween.To(x => rootVisualElement.style.opacity = x, 0, 1, 0.3f);
 
                 artInfoButton = rootVisualElement.Q<Button>("artInfo");
-                artInfoButton.RegisterCallback<ClickEvent>(ev => ShowArtInfo());
+                artInfoButton.RegisterCallback<ClickEvent>(ev => ShowArtInfo(thisWorkIndex));
 
-                thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
+                //thisWorkIndex = tourManager.GetTourIndex(transform.parent.gameObject.transform.Find("snapTarget").gameObject);
                 Debug.Log("Art Index: " + thisWorkIndex);
 
                 // Get artist information here for the links and so on
@@ -64,7 +65,7 @@ public class InfoButtonClickTrigger : MonoBehaviour
         }
     }
 
-    public void ShowArtInfo()
+    public void ShowArtInfo(int index)
     {
         Debug.Log("Info Button clicked");
         GameObject artInfo = transform.parent.gameObject.transform.Find("artInfo").gameObject;
@@ -78,7 +79,8 @@ public class InfoButtonClickTrigger : MonoBehaviour
         else
         {
             //activate
-            artInfo.SetActive(true);
+            artInfo.GetComponent<ArtInteractionController>()
+                .ActivateInfoPage(index);
             Debug.Log("Activated");
         }
         //hide the button

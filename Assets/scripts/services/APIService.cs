@@ -23,7 +23,7 @@ public class APIService : MonoBehaviour
     
 
 
-    private readonly string _baseURL = "https://api.kunstgeier.de/staging/";
+    private readonly string _baseURL = "https://api.kunstgeier.de/dev/";
 
     private void LogMessage(string title, string message)
     {
@@ -69,7 +69,10 @@ public class APIService : MonoBehaviour
                 Debug.Log("GetRequest got: " + JsonUtility.ToJson(res.Text, false));
                 callback(res.Text);
             })
-            .Catch(error => callback("GET error: " + error.ToString()));
+            .Catch(err => {
+                var error = err as RequestException;
+                callback(error.Response);
+            });
     }
 
         /// <summary>
@@ -105,7 +108,10 @@ public class APIService : MonoBehaviour
                 Debug.Log("PostRequest got: " + JsonUtility.ToJson(res.Text, false));
                 callback(res.Text);
             })
-            .Catch(error => callback("POST error: " + error.ToString()));
+            .Catch(err => {
+                var error = err as RequestException;
+                callback(error.Response);
+            });
     }
 
     
@@ -138,7 +144,10 @@ public class APIService : MonoBehaviour
                 callback(res.Text);
 
             })
-            .Catch(error => callback("PUT error: "+error.ToString()));
+            .Catch(err => {
+                var error = err as RequestException;
+                callback(error.Response);
+                });
     }
 
     public IEnumerator GetButtonThumbnail(string link, UnityEngine.UIElements.VisualElement button)
@@ -166,7 +175,7 @@ public class APIService : MonoBehaviour
         }
     }
 
-    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece, Texture2D, Boolean> callback, Boolean last = false)
+    public IEnumerator GetArtPieceFile(ArtPiece artpiece, Action<ArtPiece, Texture2D> callback)
     {
         Debug.Log("Get Artworkfile at: " + artpiece._filePath);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(artpiece._filePath, true);
@@ -183,7 +192,7 @@ public class APIService : MonoBehaviour
         else
         {
             Debug.Log("call callback now?: " + DownloadHandlerTexture.GetContent(www));
-            callback(artpiece, DownloadHandlerTexture.GetContent(www), last);
+            callback(artpiece, DownloadHandlerTexture.GetContent(www));
         }
     }
 

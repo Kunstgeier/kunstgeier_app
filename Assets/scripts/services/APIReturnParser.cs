@@ -6,6 +6,6 @@ using System;
 public class APIReturnParser<T>
 {
     public T data;
-    public bool error;
+    public ErrorObject error;
     public MetaObject meta;
 }

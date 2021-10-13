@@ -96,6 +96,9 @@
 }
 
 .textField {
+    font-size: 30px;
+    -unity-text-align: middle-left;
+    background-color: rgba(255, 255, 255, 0.51);
 }
 
 #unity-text-input {
@@ -113,6 +116,8 @@
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    background-color: rgba(46, 46, 46, 255);
+    color: rgba(197, 197, 197, 255);
 }
 
 .textButton:active {
@@ -120,8 +125,8 @@
 }
 
 .authFooter {
-    height: 60%;
-    margin-top: 0;
+    height: 100%;
+    margin-top: 20px;
     width: 100%;
     -unity-text-align: upper-center;
     font-size: 30px;

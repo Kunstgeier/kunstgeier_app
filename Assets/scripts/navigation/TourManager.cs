@@ -40,7 +40,7 @@ public class TourManager : MonoBehaviour
         //remove loading screen
 
         // calculate navigation
-        player.SetActive(true);
+        //player.SetActive(true);
 
         tourIndex = -1;
         artParent = GameObject.Find("artPositions");
