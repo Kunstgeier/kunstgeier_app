@@ -10,9 +10,14 @@ public class MsgScreenController : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        var rootVisualElement = transform.GetComponent<UIDocument>().rootVisualElement;
+        var rootVisualElement = transform.GetComponent<UIDocument>()
+                                         .rootVisualElement;
         rootVisualElement.Q<Button>("okButton").RegisterCallback<ClickEvent>(
-            ev => transform.gameObject.SetActive(false));
+            ev =>
+            {
+                DOTween.To(x => rootVisualElement.style.opacity = x, 1, 0, .5f)
+                    .OnComplete(() => transform.gameObject.SetActive(false));
+            });
         DOTween.To(x => rootVisualElement.style.opacity = x, 0, 1, .5f);
 
     }
