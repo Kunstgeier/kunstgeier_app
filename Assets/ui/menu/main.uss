@@ -99,6 +99,7 @@
     font-size: 30px;
     -unity-text-align: middle-left;
     background-color: rgba(255, 255, 255, 0.51);
+    cursor: url('/Assets/40+ Simple Icons - Free/SomeFrame_Simple_Icons_UI.png');
 }
 
 #unity-text-input {
@@ -118,6 +119,7 @@
     border-bottom-right-radius: 5px;
     background-color: rgba(46, 46, 46, 255);
     color: rgba(197, 197, 197, 255);
+    cursor: url('/Assets/40+ Simple Icons - Free/SomeFrame_Simple_Icons_UI.png');
 }
 
 .textButton:active {

@@ -19,8 +19,6 @@ public class RegisterPageManager : MonoBehaviour
 
     private void OnEnable()
     {
-        TouchScreenKeyboard.hideInput = true;
-
         authManager = GameObject.Find("UI").GetComponent<AuthManager>();
         authManager.Loading = true;
 
@@ -50,6 +48,11 @@ public class RegisterPageManager : MonoBehaviour
         var email = registerRootVisualElement.Q<TextField>("email").value;
         var password1 = registerRootVisualElement.Q<TextField>("password1").value;
         var password2 = registerRootVisualElement.Q<TextField>("password2").value;
+
+        //registerRootVisualElement.Q<TextField>("username").Blur();
+        //registerRootVisualElement.Q<TextField>("email").Blur();
+        //registerRootVisualElement.Q<TextField>("password1").Blur();
+        //registerRootVisualElement.Q<TextField>("password2").Blur();
 
         string MatchEmailPattern =
             @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"

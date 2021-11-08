@@ -68,21 +68,23 @@ public class InfoButtonClickTrigger : MonoBehaviour
     public void ShowArtInfo(int index)
     {
         Debug.Log("Info Button clicked");
-        GameObject artInfo = transform.parent.gameObject.transform.Find("artInfo").gameObject;
+        GameObject artInfoController = transform.parent.gameObject.transform.Find("artInfoController").gameObject;
         Debug.Log("triggered info Button.");
-        if (artInfo.activeSelf)
-        {
-            //deactivate
-            artInfo.SetActive(false);
-            Debug.Log("Deactivated");
-        }
-        else
-        {
-            //activate
-            artInfo.GetComponent<ArtInteractionController>()
-                .ActivateInfoPage(index);
-            Debug.Log("Activated");
-        }
+
+        artInfoController.GetComponent<ArtInteractionController>().ActivateInfoPage(index);
+        //if (artInfoController.activeSelf)
+        //{
+        //    //deactivate
+        //    artInfoController.SetActive(false);
+        //    Debug.Log("Deactivated");
+        //}
+        //else
+        //{
+        //    //activate
+        //    artInfoController.GetComponent<ArtInteractionController>()
+        //        .ActivateInfoPage(index);
+        //    Debug.Log("Activated");
+        //}
         //hide the button
         transform.GetComponent<UIDocument>().enabled = false;
     }

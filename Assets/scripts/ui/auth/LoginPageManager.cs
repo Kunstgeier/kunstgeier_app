@@ -18,8 +18,6 @@ public class LoginPageManager : MonoBehaviour
 
     private void OnEnable()
     {
-
-        TouchScreenKeyboard.hideInput = true;
         authManager = GameObject.Find("UI").GetComponent<AuthManager>();
         authManager.Loading = true;
         apiService = GameObject.Find("UI").GetComponent<APIService>();
@@ -36,10 +34,13 @@ public class LoginPageManager : MonoBehaviour
         loginRootVisualElement.Q<Button>("loginButton").RegisterCallback<ClickEvent>(
             ev => PrepareLogin());
 
-        loginRootVisualElement.Q<TextField>("usernameOrEmail").doubleClickSelectsWord = true;
-        loginRootVisualElement.Q<TextField>("password").doubleClickSelectsWord = true;
-        loginRootVisualElement.Q<TextField>("usernameOrEmail").focusable = true;
-        loginRootVisualElement.Q<TextField>("password").focusable = true;
+        //loginRootVisualElement.Q<TextField>("usernameOrEmail").focusable = true;
+        //loginRootVisualElement.Q<TextField>("password").doubleClickSelectsWord = true;
+        //loginRootVisualElement.Q<TextField>("usernameOrEmail").focusable = true;
+        //loginRootVisualElement.Q<TextField>("password").focusable = true;
+
+        
+
 
         Debug.Log(loginRootVisualElement.Q<TextField>("usernameOrEmail").cursorColor);
         authManager.Loading = false;
@@ -49,6 +50,11 @@ public class LoginPageManager : MonoBehaviour
         authManager.Loading = true;
         var usernameOrEmail = loginRootVisualElement.Q<TextField>("usernameOrEmail").value;
         var password = loginRootVisualElement.Q<TextField>("password").value;
+
+        //loginRootVisualElement.Q<TextField>("usernameOrEmail").Blur();
+        ////loginRootVisualElement.Q<TextField>("password").doubleClickSelectsWord = true;
+        ////loginRootVisualElement.Q<TextField>("usernameOrEmail").doubleClickSelectsWord = true;
+        //loginRootVisualElement.Q<TextField>("password").Blur();
 
         if (usernameOrEmail == null || usernameOrEmail == "")
         {

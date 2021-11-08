@@ -59,7 +59,7 @@
     -unity-font-style: bold;
 }
 
-.button:active {
+.button:hover {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 10px;
@@ -78,39 +78,4 @@
     margin-bottom: 20px;
     color: rgb(255, 255, 255);
     font-size: 14px;
-}
-
-.exitIconButton {
-    background-image: url('/Assets/ui/scene/exitIcon.png#exitIcon');
-    width: 70px;
-    height: 70px;
-    background-color: rgba(228, 228, 228, 0);
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    -unity-text-align: middle-center;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    white-space: nowrap;
-    position: relative;
-    top: 0;
-    right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-right: 0;
-    margin-top: 0;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.exitIconButton:active {
-    background-color: rgba(38, 38, 38, 0.71);
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
 }

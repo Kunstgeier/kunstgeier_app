@@ -18,12 +18,13 @@ public class LobbyController : MonoBehaviour
     Exhibition _exhibition;
     [SerializeField]
     GameObject _player;
+    RoomBuilder roomBuilder;
 
     fps playerFPS;
 
     public void Activate()
     {
-        var roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
+        roomBuilder = GameObject.Find("RoomBuilder").GetComponent<RoomBuilder>();
         _artists = roomBuilder._artists;
         _exhibition = roomBuilder._exhibition;
 
@@ -114,8 +115,13 @@ public class LobbyController : MonoBehaviour
     private void CreateContent()
     {
         //var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+
+        // artist image
+        rootVisualElement.Q<VisualElement>("artistImage").style.backgroundImage = Background.FromSprite(roomBuilder._artObjects[0].transform.Find("art").GetComponent<SpriteRenderer>().sprite);
+
+        //text elements
         rootVisualElement.Q<Label>("title").text = _exhibition._name;
-        rootVisualElement.Q<Label>("year").text = "";
+        //rootVisualElement.Q<Label>("year").text = "";
         if (_exhibition._description != null && _exhibition._description != "")
         {
             rootVisualElement.Q<Label>("description").text = _exhibition._description;

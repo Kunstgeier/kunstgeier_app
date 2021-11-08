@@ -79,3 +79,9 @@
     color: rgb(255, 255, 255);
     font-size: 14px;
 }
+
+#unity-content-container {
+    height: 200%;
+    width: 200%;
+    -unity-background-scale-mode: scale-and-crop;
+}
