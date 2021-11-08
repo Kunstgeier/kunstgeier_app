@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
+
+
 
 public class ObjectScaling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -12,10 +15,20 @@ public class ObjectScaling : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     private void Start()
     {
         _currentScale = transform.localScale.x;
+        StartCoroutine(ResetCollider());
+    }
+
+    IEnumerator ResetCollider()
+    {
+        Destroy(this.gameObject.GetComponent("BoxCollider"));
+        yield return 0;
+        this.gameObject.AddComponent<BoxCollider>();
+        Debug.Log("Collider renewed.");
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("scaling received anything.");
         if (Input.touchCount == 1)
         {
             _isDragging = true;
@@ -56,6 +69,11 @@ public class ObjectScaling : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
                 }
 
                 _temp = distance;
+            }
+        else if(Input.touchCount == 1)
+            {
+                //Panning
+
             }
     }
 }

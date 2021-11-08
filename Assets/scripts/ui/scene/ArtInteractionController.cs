@@ -19,11 +19,16 @@ public class ArtInteractionController : MonoBehaviour
     private int thisWorkIndex;
     private RoomBuilder roomBuilder;
     [SerializeField]
+    private GameObject artInfo;
+    [SerializeField]
     private GameObject fullscreenView;
 
     private ArtPiece artPiece;
 
     private Artist _artist;
+
+    [SerializeField]
+    float zoomFactor;
     // private var playerMovement;
 
     // Start is called before the first frame update
@@ -41,9 +46,10 @@ public class ArtInteractionController : MonoBehaviour
     //}
 
 
+
     public void ActivateInfoPage(int index)
     {
-        this.gameObject.SetActive(true);
+        artInfo.gameObject.SetActive(true);
         //get art index of this table
         tourManager = GameObject.Find("sceneUI").GetComponent<TourManager>();
         thisWorkIndex = index;
@@ -55,7 +61,7 @@ public class ArtInteractionController : MonoBehaviour
 
         CreateContent();
 
-        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        var rootVisualElement = artInfo.GetComponent<UIDocument>().rootVisualElement;
         instagramButton = rootVisualElement.Q<Button>("instagramButton");
         orderButton = rootVisualElement.Q<Button>("orderButton");
 
@@ -94,7 +100,7 @@ public class ArtInteractionController : MonoBehaviour
         fullscreenView.SetActive(false);
 
         Debug.Log("Close Info Button clicked");
-        transform.gameObject.SetActive(false);
+        artInfo.gameObject.SetActive(false);
         playerFPS.enabled = true;
 
         //reenable art button
@@ -114,15 +120,32 @@ public class ArtInteractionController : MonoBehaviour
 
     public void ShowFullscreen()
     {
-        fullscreenView.GetComponent<UnityEngine.UI.Image>().sprite = roomBuilder._artObjects[thisWorkIndex].transform.Find("art").GetComponent<SpriteRenderer>().sprite;
+        // activate fs view
         fullscreenView.SetActive(true);
+        var rootVisualElementFS = fullscreenView.GetComponent<UIDocument>()
+                .rootVisualElement;
+        //add the image to the fullscreen view
+        rootVisualElementFS.Q<VisualElement>("unity-content-container").style.backgroundImage =
+            Background.FromSprite(roomBuilder._artObjects[thisWorkIndex]
+                                             .transform
+                                             .Find("art")
+                                             .GetComponent<SpriteRenderer>()
+                                             .sprite);
+        //add the callback to the close button
+        rootVisualElementFS.Q<Button>("close").RegisterCallback<ClickEvent>(
+                ev => fullscreenView.SetActive(false)
+            );
+
+
+        rootVisualElementFS.Q<VisualElement>("unity-content-container").style.width = Screen.width * zoomFactor;
+        rootVisualElementFS.Q<VisualElement>("unity-content-container").style.height = Screen.height * zoomFactor;
         
         Debug.Log("Show fullscreen called.");
     }
 
     private void CreateContent()
     {
-        var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        var rootVisualElement = artInfo.GetComponent<UIDocument>().rootVisualElement;
         rootVisualElement.Q<Label>("title").text = artPiece._name;
         rootVisualElement.Q<Label>("year").text = artPiece._year;
         rootVisualElement.Q<Label>("description").text = artPiece._description;

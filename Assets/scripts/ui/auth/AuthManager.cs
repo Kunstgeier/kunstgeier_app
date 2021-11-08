@@ -16,7 +16,7 @@ public class AuthManager : MonoBehaviour
     private GameObject loadingScreen;
     [SerializeField]
     private GameObject msgScreen;
-
+    
     APIService apiService;
 
     private bool loading = true;
@@ -24,6 +24,8 @@ public class AuthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //TouchScreenKeyboard.hideInput = true;
+
         apiService = transform.GetComponent<APIService>();
 
         string token = apiService.GetToken();
@@ -59,7 +61,7 @@ public class AuthManager : MonoBehaviour
                     PlayerPrefs.SetString("userID", user.ID);
                     SceneManager.LoadScene("menu");
                 }
-                else if (authResult.error == null)
+                else if (authResult.meta.msg == "success")
                 {
                     SceneManager.LoadScene("menu");
                 }

@@ -252,7 +252,7 @@ public class APIService : MonoBehaviour
     {
         Debug.Log("attempting to Register: " + email);
         var cargo = new RegisterUser(username, password, email);
-        Put<RegisterUser>(Routes.Register, cargo, callback);
+        Post<RegisterUser>(Routes.Register, cargo, callback);
     }
 
     public string GetToken()
@@ -291,5 +291,4 @@ public struct Routes
     public static string CheckToken = "auth/checkToken.json";
     public static string CheckUser = "auth/checkUser.json";
     public static string CheckEmail = "auth/checkEmail.json";
-
 }
